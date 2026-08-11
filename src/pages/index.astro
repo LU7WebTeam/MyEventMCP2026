@@ -218,7 +218,7 @@ const marqueeClients = [...clients, ...clients];
         </div>
         <div class="container portfolio-grid" id="portfolio">
           {portfolio.map((item, index) => <article class={`portfolio-card portfolio-card--${index % 3}`}>
-            <div class="portfolio-card__trigger" data-portfolio-index={index} aria-label={`Watch ${item.event} portfolio video`}>
+            <div class="portfolio-card__trigger" role="button" tabindex="0" data-lightbox-type="video" data-lightbox-group="portfolio" data-lightbox-video={item.video} data-lightbox-alt={item.event} data-lightbox-caption={`${item.client} — ${item.event}`} aria-label={`Watch ${item.event} portfolio video`}>
               <div class="portfolio-card__image"><img src={item.image} alt={`${item.event} video preview`} /><span class="play-button">▶</span></div>
             </div>
             <div class="portfolio-card__meta"><span>{item.client}</span><strong>{item.event}</strong><i>↗</i></div>
@@ -229,8 +229,7 @@ const marqueeClients = [...clients, ...clients];
       <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
         <div class="container gallery-heading"><div><p class="eyebrow">Behind the scenes</p><h2 id="gallery-title">The craft <em>in motion.</em></h2></div><p>Every clean cut, considered angle and seamless handover starts long before the audience arrives.</p></div>
         <div class="container gallery-grid">
-          {gallery.map((item, index) => <button class={`gallery-item gallery-item--${index % 3}`} type="button" data-lightbox-type="image" data-lightbox-src={item.src} data-lightbox-alt={item.alt} data-lightbox-caption={item.alt}><img src={item.src} alt={item.alt} loading="lazy" /><span>View image ↗</span></button>)}
-          {portfolio.map((item, index) => <button class={`gallery-item gallery-item--${(gallery.length + index) % 3}`} type="button" data-lightbox-type="video" data-lightbox-video={item.video} data-lightbox-alt={item.event} data-lightbox-caption={`${item.client} — ${item.event}`}><img src={item.image} alt={`${item.event} video preview`} loading="lazy" /><span class="play-button">▶</span></button>)}
+          {gallery.map((item, index) => <button class={`gallery-item gallery-item--${index % 3}`} type="button" data-lightbox-type="image" data-lightbox-group="gallery" data-lightbox-src={item.src} data-lightbox-alt={item.alt} data-lightbox-caption={item.alt}><img src={item.src} alt={item.alt} loading="lazy" /><span>View image ↗</span></button>)}
         </div>
       </section>
 
@@ -271,22 +270,22 @@ const marqueeClients = [...clients, ...clients];
   const lightboxCaption = lightbox?.querySelector('[data-lightbox-caption]');
   const lightboxCounter = lightbox?.querySelector('[data-lightbox-counter]');
 
-  const items = [];
+  const allItems = [];
+  const groupCounts = {};
   document.querySelectorAll('[data-lightbox-type]').forEach((el) => {
-    items.push({
-      type: el.getAttribute('data-lightbox-type'),
-      src: el.getAttribute('data-lightbox-src') || '',
-      video: el.getAttribute('data-lightbox-video') || '',
-      alt: el.getAttribute('data-lightbox-alt') || '',
-      caption: el.getAttribute('data-lightbox-caption') || el.getAttribute('data-lightbox-alt') || '',
-    });
+    const group = el.getAttribute('data-lightbox-group') || 'default';
+    groupCounts[group] = (groupCounts[group] || 0);
+    const indexInGroup = groupCounts[group]++;
+    allItems.push({ el, type: el.getAttribute('data-lightbox-type'), group, indexInGroup, src: el.getAttribute('data-lightbox-src') || '', video: el.getAttribute('data-lightbox-video') || '', alt: el.getAttribute('data-lightbox-alt') || '', caption: el.getAttribute('data-lightbox-caption') || el.getAttribute('data-lightbox-alt') || '' });
   });
 
+  let groupItems = [];
   let currentIndex = 0;
+  let currentGroup = '';
 
   const renderLightbox = () => {
-    if (!items.length || !lightboxImage || !lightboxVideoWrap || !lightboxCaption || !lightboxCounter) return;
-    const item = items[currentIndex];
+    if (!groupItems.length || !lightboxImage || !lightboxVideoWrap || !lightboxCaption || !lightboxCounter) return;
+    const item = groupItems[currentIndex];
     const isVideo = item.type === 'video';
     lightboxImage.style.display = isVideo ? 'none' : '';
     lightboxVideoWrap.style.display = isVideo ? '' : 'none';
@@ -304,12 +303,15 @@ const marqueeClients = [...clients, ...clients];
       lightboxImage.setAttribute('alt', item.alt);
     }
     lightboxCaption.textContent = item.caption;
-    lightboxCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+    lightboxCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(groupItems.length).padStart(2, '0')}`;
   };
 
-  const openLightbox = (index) => {
+  const openLightbox = (indexInGroup, group) => {
     if (!lightbox) return;
-    currentIndex = (index + items.length) % items.length;
+    currentGroup = group;
+    groupItems = allItems.filter((it) => it.group === group);
+    if (!groupItems.length) return;
+    currentIndex = (indexInGroup + groupItems.length) % groupItems.length;
     renderLightbox();
     lightbox.classList.add('is-open');
     lightbox.setAttribute('aria-hidden', 'false');
@@ -325,26 +327,22 @@ const marqueeClients = [...clients, ...clients];
     lightboxVideoWrap.setAttribute('aria-hidden', 'true');
   };
 
-  document.querySelectorAll('[data-lightbox-type]').forEach((el, i) => {
-    el.addEventListener('click', () => openLightbox(i));
-    el.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openLightbox(i); }
+  allItems.forEach((item) => {
+    const handler = () => openLightbox(item.indexInGroup, item.group);
+    item.el.addEventListener('click', handler);
+    item.el.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); handler(); }
     });
   });
-  const galleryImageCount = document.querySelectorAll('.gallery-grid [data-lightbox-type="image"]').length;
-  document.querySelectorAll('[data-portfolio-index]').forEach((el) => {
-    const idx = galleryImageCount + parseInt(el.getAttribute('data-portfolio-index') || '0', 10);
-    el.addEventListener('click', () => openLightbox(idx));
-  });
   document.querySelector('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
-  document.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => openLightbox(currentIndex - 1));
-  document.querySelector('[data-lightbox-next]')?.addEventListener('click', () => openLightbox(currentIndex + 1));
+  document.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => openLightbox(currentIndex - 1, currentGroup));
+  document.querySelector('[data-lightbox-next]')?.addEventListener('click', () => openLightbox(currentIndex + 1, currentGroup));
   lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') { closeLightbox(); setMenu(false); }
     if (lightbox?.classList.contains('is-open')) {
-      if (event.key === 'ArrowLeft') openLightbox(currentIndex - 1);
-      if (event.key === 'ArrowRight') openLightbox(currentIndex + 1);
+      if (event.key === 'ArrowLeft') openLightbox(currentIndex - 1, currentGroup);
+      if (event.key === 'ArrowRight') openLightbox(currentIndex + 1, currentGroup);
     }
   });
   let touchStartX = 0;
@@ -352,7 +350,7 @@ const marqueeClients = [...clients, ...clients];
   lightbox?.addEventListener('touchend', (e) => {
     if (!lightbox.classList.contains('is-open')) return;
     const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) openLightbox(currentIndex + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 50) openLightbox(currentIndex + (dx < 0 ? 1 : -1), currentGroup);
   }, { passive: true });
 
   document.querySelector('.quote-form')?.addEventListener('submit', (event) => {
