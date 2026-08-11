@@ -35,6 +35,6 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USERNAME }}
           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
           protocol: ftp
-          port: ${{ secrets.CPANEL_PORT }}
+          port: ${{ secrets.CPANEL_FTP_PORT || 21 }}
           local-dir: ./dist/
           server-dir: ${{ secrets.CPANEL_FTP_REMOTE_DIR || secrets.CPANEL_TARGET }}
