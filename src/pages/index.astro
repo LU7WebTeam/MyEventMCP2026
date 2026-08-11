@@ -1,0 +1,361 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const imageBase = 'https://myeventmcp.com/wp-content/uploads';
+
+const clients = [
+  { name: 'Bank Negara Malaysia', src: `${imageBase}/2024/04/BNM.webp` },
+  { name: 'FIMMAC', src: `${imageBase}/2024/04/FIMMAC-Logo-1.png` },
+  { name: 'Malaysian Institute of Accountants', src: `${imageBase}/2024/04/mia.webp` },
+  { name: 'Khazanah Nasional', src: `${imageBase}/2024/12/Khazanah_Nasional_logo.svg.png` },
+  { name: 'PETRONAS', src: `${imageBase}/2024/04/petronas.webp` },
+  { name: 'KWSP', src: `${imageBase}/2024/04/Artboard-2@4x-1.webp` },
+  { name: 'Bursa Malaysia', src: `${imageBase}/2024/04/bursa-logo-white-1.webp` },
+  { name: 'ASUS', src: `${imageBase}/2024/04/asus-01.webp` },
+  { name: 'Cyberview', src: `${imageBase}/2024/04/Cyberview-1.png` },
+];
+
+const packages = [
+  {
+    number: '01',
+    name: 'Silver MCP',
+    eyebrow: 'Essential coverage',
+    price: 'RM1,800',
+    setup: '1 static camera / 2 crews',
+    description: 'A focused, single-angle setup for events with one clear focal point.',
+    tone: 'light',
+    href: '#quote',
+  },
+  {
+    number: '02',
+    name: 'Gold MCP',
+    eyebrow: 'Enhanced coverage',
+    price: 'RM2,800',
+    setup: '2 static cameras / 3 crews',
+    description: 'A more dynamic view that keeps the stage and audience in the story.',
+    tone: 'red',
+    href: '#quote',
+  },
+  {
+    number: '03',
+    name: 'Diamond MCP',
+    eyebrow: 'Premium coverage',
+    price: 'RM5,500',
+    setup: '3 static cameras / 4 crews',
+    description: 'Complete multi-angle coverage for larger, higher-stakes productions.',
+    tone: 'navy',
+    href: '#quote',
+  },
+  {
+    number: '04',
+    name: 'PTZ RoboCam',
+    eyebrow: 'Remote-controlled coverage',
+    price: 'RM4,500',
+    setup: '3 PTZ cameras / 3 crews',
+    description: 'Flexible pan, tilt and zoom coverage from a compact production footprint.',
+    tone: 'gold',
+    href: '#quote',
+  },
+];
+
+const features = [
+  ['01', 'Last-minute event heroes', 'Need coverage fast? We optimise time and resources without compromising the live feed.'],
+  ['02', 'A crew that knows the room', 'Professional videographers manage multiple cameras, sound and switching as one team.'],
+  ['03', 'Built around your event', 'Choose a package, mix and match services, or brief us on a completely custom setup.'],
+  ['04', 'Delivery you can count on', 'Reliable systems and experienced operators keep your production moving on time.'],
+];
+
+const portfolio = [
+  { event: 'Sasana Symposium 2023', client: 'Bank Negara Malaysia', video: 'VzNjiXNHwOk', image: `${imageBase}/2024/03/Media-2.webp` },
+  { event: 'FIMMAC 2023', client: 'FIMM', video: '3MuD-53D_Xc', image: `${imageBase}/2024/03/Media-1.webp` },
+  { event: 'ICIEF 2024', client: 'IIUM', video: '-yxZWAMYnLA', image: `${imageBase}/2024/03/Media.webp` },
+  { event: 'Karnival Celik Kewangan 2023', client: 'Bank Negara Malaysia', video: 'PSpocEUDQTY', image: `${imageBase}/2025/01/DSC09768-scaled.jpg` },
+  { event: 'BELANJAWANKU 2023', client: 'KWSP / EPF', video: '7Q31LR1-Ox8', image: `${imageBase}/2025/01/DSC02241-scaled.jpg` },
+  { event: 'World Bank Conference 2023', client: 'Suruhanjaya Sekuriti Malaysia', video: 'fd-uTjOTve0', image: `${imageBase}/2025/01/DSC00768-scaled.jpg` },
+];
+
+const gallery = [
+  { src: `${imageBase}/2025/01/20241115_101711-scaled.jpg`, alt: 'Camera crew setting up equipment for a live event.' },
+  { src: `${imageBase}/2025/01/DSC02235-scaled.jpg`, alt: 'Behind-the-scenes of a multi-camera production setup.' },
+  { src: `${imageBase}/2025/01/IMG_5279-scaled.jpg`, alt: 'Camera crew setting up equipment for a live event.' },
+  { src: `${imageBase}/2025/01/DSC09768-scaled.jpg`, alt: 'Close-up of a high-end camera used in event coverage.' },
+  { src: `${imageBase}/2025/01/DSC02241-scaled.jpg`, alt: 'Event production team monitoring video feeds.' },
+  { src: `${imageBase}/2025/01/DSC00768-scaled.jpg`, alt: 'Cameraman adjusting focus during a recording session.' },
+];
+
+const marqueeClients = [...clients, ...clients];
+---
+
+<BaseLayout>
+  <div class="site-shell">
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="MyEventMCP home">
+          <img src={`${imageBase}/2024/04/MyEventMCP-Logo-2.webp`} alt="MyEventMCP" />
+        </a>
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="#about">About</a>
+          <a href="#packages">Packages</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="header-right">
+          <a class="button button--small header-cta" href="#quote">Get a quote <span aria-hidden="true">↗</span></a>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+            <span></span><span></span>
+            <span class="sr-only">Open navigation</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
+      <div class="mobile-menu__top">
+        <span class="mono-label">MENU / 01</span>
+        <button class="menu-close" type="button" data-menu-close aria-label="Close navigation">×</button>
+      </div>
+      <nav aria-label="Mobile navigation">
+        <a href="#about">About</a>
+        <a href="#packages">Packages</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#faq">FAQ</a>
+        <a class="button" href="#quote">Get a quote <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+
+    <main id="top">
+      <section class="hero section-dark" aria-labelledby="hero-title">
+        <div class="hero__bg"><img src="https://myeventmcp.com/wp-content/uploads/2024/12/man-filming-with-professional-camera-2.jpg" alt="" aria-hidden="true" /></div>
+        <div class="hero__overlay"></div>
+        <div class="hero__grain"></div>
+        <div class="container hero__inner">
+          <div class="hero__copy">
+            <p class="eyebrow eyebrow--light">Multi-camera production / Malaysia</p>
+            <h1 id="hero-title">Every angle covered.<br /><em>Every moment</em> delivered.</h1>
+            <p class="hero__lead">Professional event coverage that keeps your audience in the room, your message in focus and your production moving.</p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="#quote">Get a quote <span aria-hidden="true">↗</span></a>
+              <a class="text-link text-link--light" href="#packages">Explore packages <span aria-hidden="true">↓</span></a>
+            </div>
+            <div class="hero__meta">
+              <span><b>01</b> Based in Kuala Lumpur</span>
+              <span><b>02</b> Serving Malaysia-wide</span>
+              <span><b>03</b> Established in 2014</span>
+            </div>
+          </div>
+          <div class="hero__visual" aria-label="MyEventMCP event production in action">
+            <div class="hero__image hero__image--main"><img src={`${imageBase}/2025/01/DSC02241-scaled.jpg`} alt="Event production team monitoring multiple video feeds." /></div>
+            <div class="hero__image hero__image--float"><img src={`${imageBase}/2025/01/20241115_101711-scaled.jpg`} alt="Camera crew setting up equipment for a live event." /></div>
+            <div class="hero__stamp"><span>LIVE</span><strong>FEED</strong><i>↗</i></div>
+            <div class="hero__number">01<span>/</span>05</div>
+          </div>
+        </div>
+        <div class="hero__scroll mono-label">Scroll to explore <span>↓</span></div>
+      </section>
+
+      <section class="client-strip" aria-label="Trusted clients">
+        <div class="container client-strip__label"><p class="eyebrow">Trusted by leading organisations</p><span class="line"></span></div>
+        <div class="marquee" data-marquee>
+          <div class="marquee__track">
+            {marqueeClients.map((client) => <div class="client-tile"><img src={client.src} alt={client.name} /></div>)}
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-intro" id="about" aria-labelledby="about-title">
+        <div class="container intro-grid">
+          <div class="section-heading">
+            <p class="eyebrow">About MyEventMCP</p>
+            <h2 id="about-title">Production that feels <em>effortless</em> on screen.</h2>
+          </div>
+          <div class="intro-copy">
+            <p class="intro-copy__lead">Since 2014, we have helped events across Malaysia look and feel their best through thoughtful multi-camera production.</p>
+            <p>From intimate seminars to high-stakes conferences, our crew combines strategic camera placement, dynamic shot composition and real-time switching to capture what matters.</p>
+            <a class="text-link" href="#quote">Talk to our team <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="container image-ribbon">
+          <div class="image-ribbon__item image-ribbon__item--wide"><img src={`${imageBase}/2025/01/DSC02235-scaled.jpg`} alt="Behind the scenes of a multi-camera production setup." /></div>
+          <div class="image-ribbon__item image-ribbon__item--tall"><img src={`${imageBase}/2025/01/DSC09768-scaled.jpg`} alt="Close-up of a professional event camera." /></div>
+          <div class="image-ribbon__item image-ribbon__item--wide"><img src={`${imageBase}/2025/01/20241115_102814_PIM-scaled.jpg`} alt="Live streaming setup with multiple camera angles." /></div>
+        </div>
+      </section>
+
+      <section class="section section-dark section-packages" id="packages" aria-labelledby="packages-title">
+        <div class="container">
+          <div class="section-heading section-heading--split section-heading--light">
+            <div><p class="eyebrow eyebrow--light">Find your setup</p><h2 id="packages-title">Coverage that fits<br /><em>the moment.</em></h2></div>
+            <p>Start with a proven package or build a customised solution around your venue, audience and production goals.</p>
+          </div>
+          <div class="package-grid">
+            {packages.map((item) => <article class={`package-card package-card--${item.tone}`}>
+              <div class="package-card__top"><span class="mono-label">{item.number} / 04</span><span class="package-card__dot"></span></div>
+              <p class="eyebrow">{item.eyebrow}</p>
+              <h3>{item.name}</h3>
+              <p class="package-card__description">{item.description}</p>
+              <div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}<small>/day</small></strong><span class="package-card__setup">{item.setup}</span></div><a class="circle-arrow" href={item.href} aria-label={`Get a quote for ${item.name}`}>↗</a></div>
+            </article>)}
+          </div>
+          <div class="custom-bar"><div><span class="eyebrow eyebrow--light">Need something specific?</span><h3>Mix and match. Make it yours.</h3></div><a class="button button--gold" href="#quote">Customised solution <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </section>
+
+      <section class="section section-features" aria-labelledby="features-title">
+        <div class="container feature-layout">
+          <div class="feature-intro"><p class="eyebrow">Why MyEventMCP</p><h2 id="features-title">The calm behind the <em>action.</em></h2><p>Great event coverage is not just about more cameras. It is about a crew that anticipates the moment and makes the complex feel simple.</p><a class="button button--dark" href="#quote">Plan your event <span aria-hidden="true">↗</span></a></div>
+          <div class="feature-list">
+            {features.map((feature) => <article class="feature-item"><span class="feature-item__number">{feature[0]}</span><div><h3>{feature[1]}</h3><p>{feature[2]}</p></div><span class="feature-item__arrow">↗</span></article>)}
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-proof section-dark" aria-labelledby="proof-title">
+        <div class="container proof-grid">
+          <div><p class="eyebrow eyebrow--light">The work speaks</p><h2 id="proof-title">From first cue<br />to <em>final frame.</em></h2></div>
+          <div class="proof-copy"><p>See how we bring important conversations, launches and gatherings to life with a production approach built around clarity, pace and precision.</p><a class="text-link text-link--light" href="#portfolio">View our portfolio <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="container portfolio-grid" id="portfolio">
+          {portfolio.map((item, index) => <article class={`portfolio-card portfolio-card--${index % 3}`}>
+            <div class="portfolio-card__trigger" role="button" tabindex="0" data-lightbox-type="video" data-lightbox-video={item.video} data-lightbox-alt={item.event} data-lightbox-caption={`${item.client} — ${item.event}`} aria-label={`Watch ${item.event} portfolio video`}>
+              <div class="portfolio-card__image"><img src={item.image} alt={`${item.event} video preview`} /><span class="play-button">▶</span></div>
+            </div>
+            <div class="portfolio-card__meta"><span>{item.client}</span><strong>{item.event}</strong><i>↗</i></div>
+          </article>)}
+        </div>
+      </section>
+
+      <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
+        <div class="container gallery-heading"><div><p class="eyebrow">Behind the scenes</p><h2 id="gallery-title">The craft <em>in motion.</em></h2></div><p>Every clean cut, considered angle and seamless handover starts long before the audience arrives.</p></div>
+        <div class="container gallery-grid">{gallery.map((item, index) => <button class={`gallery-item gallery-item--${index % 3}`} type="button" data-lightbox-type="image" data-lightbox-src={item.src} data-lightbox-alt={item.alt}><img src={item.src} alt={item.alt} loading="lazy" /><span>View image ↗</span></button>)}</div>
+      </section>
+
+      <section class="section faq-section" id="faq" aria-labelledby="faq-title">
+        <div class="container faq-layout"><div><p class="eyebrow">Before we roll</p><h2 id="faq-title">Good to <em>know.</em></h2><p class="faq-intro">A few answers before we get into the details of your event.</p></div><div class="faq-list"><details open><summary>Which package is right for my event?<span>+</span></summary><p>It depends on the size, format and visual rhythm of your event. Silver suits a single focal point, Gold adds a second perspective, and Diamond is built for fuller multi-angle coverage. We can recommend a setup after a quick brief.</p></details><details><summary>Do you provide livestreaming?<span>+</span></summary><p>Yes. Livestreaming is available as an add-on for platforms including YouTube and Facebook, subject to the event's connectivity and technical requirements.</p></details><details><summary>Do you cover events outside Kuala Lumpur?<span>+</span></summary><p>Yes. We serve events across Malaysia. Additional transportation and accommodation costs may apply outside Kuala Lumpur and Selangor.</p></details><details><summary>Can you support a last-minute event?<span>+</span></summary><p>We are experienced in supporting urgent requests, subject to crew, equipment and date availability. Contact us as soon as possible for a fast assessment.</p></details></div></div>
+      </section>
+
+      <section class="quote-section" id="quote" aria-labelledby="quote-title">
+        <div class="quote-section__backdrop"><img src={`${imageBase}/2025/01/DSC00768-scaled.jpg`} alt="Cameraman adjusting focus during a recording session." /></div>
+        <div class="container quote-layout"><div class="quote-copy"><p class="eyebrow eyebrow--light">Let's make it happen</p><h2 id="quote-title">Your event is the headline.<br /><em>Let's frame it right.</em></h2><p>Tell us what you are planning and our team will help you find the right coverage solution.</p><a class="whatsapp-link" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>WhatsApp us</span><strong>+60 11 3307 8724 ↗</strong></a></div><form class="quote-form" action="#" method="post"><div class="form-heading"><span class="mono-label">QUOTE / 01</span><p>Start with the basics.</p></div><label>Name<input type="text" name="name" placeholder="Your name" required /></label><label>Email<input type="email" name="email" placeholder="you@company.com" required /></label><div class="form-row"><label>Event date<input type="date" name="date" required /></label><label>Event type<select name="event-type" required><option value="">Select one</option><option>Conference</option><option>Corporate gathering</option><option>Seminar</option><option>Annual dinner</option><option>Launch</option><option>Other</option></select></label></div><label>Tell us about the event<textarea name="message" rows="3" placeholder="Location, audience size, what you need..."></textarea></label><button class="button button--primary" type="submit">Request a quote <span aria-hidden="true">↗</span></button><p class="form-note">We will use your details only to respond to this enquiry.</p></form></div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-top"><div><a class="brand brand--footer" href="#top"><img src={`${imageBase}/2024/04/MyEventMCP-Logo-2.webp`} alt="MyEventMCP" /></a><p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p></div><div class="footer-links"><div><span class="eyebrow">Explore</span><a href="#about">About us</a><a href="#packages">Packages</a><a href="#portfolio">Portfolio</a></div><div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div></div></div><div class="container footer-bottom"><span>Â© 2026 MyEventMCP by Video Production KL Sdn Bhd</span><span>Made for moments that matter <b>↗</b></span></div></footer>
+    <a class="whatsapp-fab" href="https://wa.me/601133078724" target="_blank" rel="noreferrer" aria-label="Chat with MyEventMCP on WhatsApp">◔</a>
+    <div class="lightbox" data-lightbox aria-hidden="true"><button type="button" class="lightbox__close" data-lightbox-close aria-label="Close">×</button><button type="button" class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous">‹</button><button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next">›</button><div class="lightbox__stage"><img data-lightbox-media-image alt="" /><div class="lightbox__video" data-lightbox-video-wrap aria-hidden="true"></div></div><p class="lightbox__caption" data-lightbox-caption></p><span class="lightbox__counter" data-lightbox-counter></span></div>
+  </div>
+</BaseLayout>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const menu = document.querySelector('[data-mobile-menu]');
+  const menuToggle = document.querySelector('[data-menu-toggle]');
+  const menuClose = document.querySelector('[data-menu-close]');
+  const setMenu = (open) => {
+    menu?.classList.toggle('is-open', open);
+    menuToggle?.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('menu-open', open);
+  };
+  menuToggle?.addEventListener('click', () => setMenu(true));
+  menuClose?.addEventListener('click', () => setMenu(false));
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+  window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
+
+  const lightbox = document.querySelector('[data-lightbox]');
+  const lightboxImage = lightbox?.querySelector('[data-lightbox-media-image]');
+  const lightboxVideoWrap = lightbox?.querySelector('[data-lightbox-video-wrap]');
+  const lightboxCaption = lightbox?.querySelector('[data-lightbox-caption]');
+  const lightboxCounter = lightbox?.querySelector('[data-lightbox-counter]');
+
+  const items = [];
+  document.querySelectorAll('[data-lightbox-type]').forEach((el) => {
+    items.push({
+      type: el.getAttribute('data-lightbox-type'),
+      src: el.getAttribute('data-lightbox-src') || '',
+      video: el.getAttribute('data-lightbox-video') || '',
+      alt: el.getAttribute('data-lightbox-alt') || '',
+      caption: el.getAttribute('data-lightbox-caption') || el.getAttribute('data-lightbox-alt') || '',
+    });
+  });
+
+  let currentIndex = 0;
+
+  const renderLightbox = () => {
+    if (!items.length || !lightboxImage || !lightboxVideoWrap || !lightboxCaption || !lightboxCounter) return;
+    const item = items[currentIndex];
+    const isVideo = item.type === 'video';
+    lightboxImage.style.display = isVideo ? 'none' : '';
+    lightboxVideoWrap.style.display = isVideo ? '' : 'none';
+    lightboxVideoWrap.setAttribute('aria-hidden', String(!isVideo));
+    if (isVideo) {
+      lightboxImage.removeAttribute('src');
+      lightboxImage.style.display = 'none';
+      lightboxVideoWrap.style.background = `#000 url('https://img.youtube.com/vi/${item.video}/hqdefault.jpg') center/cover no-repeat`;
+      lightboxVideoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.video}?autoplay=1" title="${item.alt}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    } else {
+      lightboxVideoWrap.innerHTML = '';
+      lightboxVideoWrap.style.background = '';
+      lightboxImage.style.display = '';
+      lightboxImage.setAttribute('src', item.src);
+      lightboxImage.setAttribute('alt', item.alt);
+    }
+    lightboxCaption.textContent = item.caption;
+    lightboxCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+  };
+
+  const openLightbox = (index) => {
+    if (!lightbox) return;
+    currentIndex = (index + items.length) % items.length;
+    renderLightbox();
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lightbox-open');
+  };
+
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lightbox-open');
+    lightboxVideoWrap.innerHTML = '';
+    lightboxVideoWrap.setAttribute('aria-hidden', 'true');
+  };
+
+  document.querySelectorAll('[data-lightbox-type]').forEach((el, i) => {
+    el.addEventListener('click', () => openLightbox(i));
+    el.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openLightbox(i); }
+    });
+  });
+  document.querySelector('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
+  document.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => openLightbox(currentIndex - 1));
+  document.querySelector('[data-lightbox-next]')?.addEventListener('click', () => openLightbox(currentIndex + 1));
+  lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') { closeLightbox(); setMenu(false); }
+    if (lightbox?.classList.contains('is-open')) {
+      if (event.key === 'ArrowLeft') openLightbox(currentIndex - 1);
+      if (event.key === 'ArrowRight') openLightbox(currentIndex + 1);
+    }
+  });
+  let touchStartX = 0;
+  lightbox?.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  lightbox?.addEventListener('touchend', (e) => {
+    if (!lightbox.classList.contains('is-open')) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) openLightbox(currentIndex + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  document.querySelector('.quote-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const button = form.querySelector('button');
+    button.textContent = 'Thanks - we will be in touch';
+    button.setAttribute('disabled', 'true');
+  });
+</script>
+
+<style>
+  @import url('/src/styles/global.css');
+</style>
