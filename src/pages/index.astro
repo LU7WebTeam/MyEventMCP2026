@@ -218,7 +218,7 @@ const marqueeClients = [...clients, ...clients];
         </div>
         <div class="container portfolio-grid" id="portfolio">
           {portfolio.map((item, index) => <article class={`portfolio-card portfolio-card--${index % 3}`}>
-            <div class="portfolio-card__trigger" role="button" tabindex="0" data-lightbox-type="video" data-lightbox-video={item.video} data-lightbox-alt={item.event} data-lightbox-caption={`${item.client} — ${item.event}`} aria-label={`Watch ${item.event} portfolio video`}>
+            <div class="portfolio-card__trigger" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})" style="cursor:pointer" aria-label={`Watch ${item.event} portfolio video`}>
               <div class="portfolio-card__image"><img src={item.image} alt={`${item.event} video preview`} /><span class="play-button">▶</span></div>
             </div>
             <div class="portfolio-card__meta"><span>{item.client}</span><strong>{item.event}</strong><i>↗</i></div>
@@ -228,7 +228,10 @@ const marqueeClients = [...clients, ...clients];
 
       <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
         <div class="container gallery-heading"><div><p class="eyebrow">Behind the scenes</p><h2 id="gallery-title">The craft <em>in motion.</em></h2></div><p>Every clean cut, considered angle and seamless handover starts long before the audience arrives.</p></div>
-        <div class="container gallery-grid">{gallery.map((item, index) => <button class={`gallery-item gallery-item--${index % 3}`} type="button" data-lightbox-type="image" data-lightbox-src={item.src} data-lightbox-alt={item.alt}><img src={item.src} alt={item.alt} loading="lazy" /><span>View image ↗</span></button>)}</div>
+        <div class="container gallery-grid">
+          {gallery.map((item, index) => <button class={`gallery-item gallery-item--${index % 3}`} type="button" data-lightbox-type="image" data-lightbox-src={item.src} data-lightbox-alt={item.alt} data-lightbox-caption={item.alt}><img src={item.src} alt={item.alt} loading="lazy" /><span>View image ↗</span></button>)}
+          {portfolio.map((item, index) => <button class={`gallery-item gallery-item--${(gallery.length + index) % 3}`} type="button" data-lightbox-type="video" data-lightbox-video={item.video} data-lightbox-alt={item.event} data-lightbox-caption={`${item.client} — ${item.event}`}><img src={item.image} alt={`${item.event} video preview`} loading="lazy" /><span class="play-button">▶</span></button>)}
+        </div>
       </section>
 
       <section class="section faq-section" id="faq" aria-labelledby="faq-title">
