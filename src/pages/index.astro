@@ -218,7 +218,7 @@ const marqueeClients = [...clients, ...clients];
         </div>
         <div class="container portfolio-grid" id="portfolio">
           {portfolio.map((item, index) => <article class={`portfolio-card portfolio-card--${index % 3}`}>
-            <div class="portfolio-card__trigger" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})" style="cursor:pointer" aria-label={`Watch ${item.event} portfolio video`}>
+            <div class="portfolio-card__trigger" data-portfolio-index={index} aria-label={`Watch ${item.event} portfolio video`}>
               <div class="portfolio-card__image"><img src={item.image} alt={`${item.event} video preview`} /><span class="play-button">▶</span></div>
             </div>
             <div class="portfolio-card__meta"><span>{item.client}</span><strong>{item.event}</strong><i>↗</i></div>
@@ -330,6 +330,11 @@ const marqueeClients = [...clients, ...clients];
     el.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openLightbox(i); }
     });
+  });
+  const galleryImageCount = document.querySelectorAll('.gallery-grid [data-lightbox-type="image"]').length;
+  document.querySelectorAll('[data-portfolio-index]').forEach((el) => {
+    const idx = galleryImageCount + parseInt(el.getAttribute('data-portfolio-index') || '0', 10);
+    el.addEventListener('click', () => openLightbox(idx));
   });
   document.querySelector('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
   document.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => openLightbox(currentIndex - 1));
