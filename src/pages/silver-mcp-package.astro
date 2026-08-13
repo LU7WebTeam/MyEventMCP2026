@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const imageBase = 'https://myeventmcp.com/wp-content/uploads';
+
+const inclusions = [
+  ['01', 'ATEM mini pro switcher', '4 HDMI inputs, 1 HDMI output and 1 audio input'],
+  ['02', 'Canon XF605 static camera', 'Professional camera mounted on a tripod'],
+  ['03', 'Production crew', 'Two experienced crew members on site'],
+  ['04', 'Monitor and cabling', 'A clean, reliable setup for the live feed'],
+  ['05', 'One-day event coverage', '1–8 hours of event coverage'],
+  ['06', 'Rehearsal and setup', 'Completed on the same day as the event'],
+  ['07', 'Full event recording', 'Soft-copy delivery after the event'],
+];
+
+const gallery = [
+  { src: `${imageBase}/2025/01/DSC02235-scaled.jpg`, alt: 'Behind the scenes of a multi-camera production setup.' },
+  { src: `${imageBase}/2025/01/DSC09768-scaled.jpg`, alt: 'Close-up of a professional event camera.' },
+  { src: `${imageBase}/2025/01/20241115_101711-scaled.jpg`, alt: 'Camera crew setting up equipment for a live event.' },
+];
+
+const addons = [
+  ['Audio Equipments', '2 hall speakers, monitors, subwoofers, mixer, wireless mics and audio crew', 'RM3,000'],
+  ['Event Laptop', 'Capture card, presentation slides and operator', 'RM500'],
+  ['Additional MCP Camera', 'Canon XF605, operator and cables', 'RM800'],
+  ['Livestreaming', 'Vmix software, laptop and YouTube / Facebook setup', 'RM2,500'],
+  ['Event Highlights', 'Videographer and video editing', 'RM3,500'],
+  ['Zoom Webinar', 'Operator, laptop and Zoom Webinar for up to 499 pax', 'RM2,000'],
+  ['Event Photography', 'Up to 100 edited photos and photographer', 'RM2,500'],
+  ['Internet Connection', 'Up to 100 Mbps high-speed connection, location dependent', 'RM1,500'],
+];
+
+const related = [
+  { eyebrow: 'Enhanced coverage', name: 'Gold MCP', description: 'A more dynamic view that keeps the stage and audience in the story.', price: 'RM2,800', setup: '2 static cameras / 3 crews', tone: 'red', href: '/gold-mcp-package/' },
+  { eyebrow: 'Premium coverage', name: 'Diamond MCP', description: 'Complete multi-angle coverage for larger, higher-stakes productions.', price: 'RM5,500', setup: '3 static cameras / 4 crews', tone: 'navy', href: '/diamond-mcp-package/' },
+  { eyebrow: 'Remote-controlled coverage', name: 'PTZ RoboCam', description: 'Flexible pan, tilt and zoom coverage from a compact production footprint.', price: 'RM4,500', setup: '3 PTZ cameras / 3 crews', tone: 'gold', href: '/ptz-robocam-setup/' },
+  { eyebrow: 'Tailored event coverage', name: 'Customised Solution', description: 'Mix and match packages, services and extras around your event.', price: 'Custom', setup: 'Built around your brief', tone: 'light', href: '/customised-solution/' },
+];
+---
+
+<BaseLayout title="Silver MCP Package | MyEventMCP" description="Essential multi-camera production for focused event coverage across Malaysia, from RM1800 per day.">
+  <div class="package-page">
+    <header class="site-header" data-header>
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="MyEventMCP home"><img src="/logo-color.webp" alt="MyEventMCP" /></a>
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="/#about">About</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a><a href="/#faq">FAQ</a>
+        </nav>
+        <div class="header-right"><a class="button button--small header-cta" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle><span></span><span></span><span class="sr-only">Open navigation</span></button></div>
+      </div>
+    </header>
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
+      <div class="mobile-menu__top"><span class="mono-label">PACKAGE</span><button class="menu-close" type="button" data-menu-close aria-label="Close navigation">×</button></div>
+      <nav aria-label="Mobile navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a><a href="/#faq">FAQ</a><a class="button" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a></nav>
+    </div>
+
+    <main>
+      <section class="package-hero section-dark">
+        <div class="package-hero__image"><img src={`${imageBase}/2025/01/DSC02241-scaled.jpg`} alt="Event production team monitoring a live multi-camera feed." /></div>
+        <div class="package-hero__wash"></div>
+        <div class="container package-hero__inner">
+          <div class="package-hero__copy">
+            <a class="back-link" href="/#packages">← All packages</a>
+            <p class="eyebrow eyebrow--light">Essential multi-camera production</p>
+            <h1>Silver MCP<br /><em>Package.</em></h1>
+            <p class="package-hero__lead">1 static Canon XF605 camera, ATEM mini pro switcher, 2 crew members and full event recording for 1–8 hours.</p>
+            <div class="package-hero__actions"><a class="button button--primary" href="/#quote">Enquire now <span aria-hidden="true">↗</span></a><a class="text-link text-link--light" href="#at-a-glance">View specs <span aria-hidden="true">↓</span></a></div>
+            <div class="package-quickfacts"><span>1 static camera</span><span>2 crew</span><span>1–8 hours</span><span>Full event recording</span></div>
+          </div>
+          <aside class="package-price"><span class="mono-label">Starting from</span><strong>RM1,800</strong><span>/ day</span><p>Final pricing depends on your event requirements, date and location.</p></aside>
+        </div>
+      </section>
+
+      <section class="package-intro section" id="at-a-glance">
+        <div class="container package-intro__grid"><div><p class="eyebrow">Package at a glance</p><h2>Simple setup.<br /><em>Clear coverage.</em></h2><div class="package-scenarios"><span class="mono-label">Best for</span><div><span>Corporate gatherings</span><span>Seminars</span><span>Roundtable discussions</span><span>Launches</span></div></div></div><div class="package-specs">{inclusions.map((item) => <div><span>{item[1]}</span><strong>{item[2]}</strong></div>)}</div></div>
+      </section>
+
+      <section class="section addons-section"><div class="container package-intro__grid"><div><p class="eyebrow eyebrow--light">Optional add-ons</p><h2>Build the setup<br /><em>around your event.</em></h2></div><div class="addon-table">{addons.map((addon) => <article class="addon-line"><div><h3>{addon[0]}</h3><p>{addon[1]}</p></div><strong>from {addon[2]}<small>/day</small></strong></article>)}</div></div></section>
+
+      <section class="section package-gallery"><div class="container package-gallery__head"><div><p class="eyebrow">The craft in motion</p><h2>Small setup.<br /><em>Big attention.</em></h2></div><p class="muted">Our crew handles the details behind the scenes so your audience can stay with the story.</p></div><div class="container package-gallery__grid">{gallery.map((item, index) => <figure class={`package-gallery__item package-gallery__item--${index}`}><img src={item.src} alt={item.alt} loading="lazy" /></figure>)}</div></section>
+
+      <section class="package-cta section-dark"><div class="container package-cta__inner"><div><p class="eyebrow eyebrow--light">Ready when you are</p><h2>Let's frame your<br /><em>event right.</em></h2></div><div><p>Tell us about your event, venue and date. We will recommend the right setup and confirm your final quote.</p><a class="button button--primary" href="/#quote">Request a quote <span aria-hidden="true">↗</span></a><a class="whatsapp-link" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>Prefer to chat?</span><strong>WhatsApp us ↗</strong></a></div></div></section>
+
+      <section class="section related-section"><div class="container"><div class="related-heading"><p class="eyebrow">Need more angles?</p><h2>Explore related<br /><em>packages.</em></h2></div><div class="related-grid">{related.map((item) => <article class={`package-card package-card--${item.tone}`}><div class="package-card__top"><p class="eyebrow">{item.eyebrow}</p><span class="package-card__dot"></span></div><h3>{item.name}</h3><p class="package-card__description">{item.description}</p><span class="package-card__setup">{item.setup}</span><div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}{item.price !== 'Custom' && <small>/day</small>}</strong></div><a class="circle-arrow" href={item.href} aria-label={`View ${item.name}`}>↗</a></div></article>)}</div></div></section>
+    </main>
+    <footer class="site-footer"><div class="container footer-top"><div><a class="brand brand--footer" href="/"><img src="/logo-color.webp" alt="MyEventMCP" /></a><p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p></div><div class="footer-links"><div><span class="eyebrow">Explore</span><a href="/#about">About us</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a></div><div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div></div></div><div class="container footer-bottom"><span>MyEventMCP by Sevenue Sdn Bhd</span><span>Serving events across Malaysia</span></div></footer>
+    <a class="whatsapp-fab" href="https://wa.me/601133078724" target="_blank" rel="noreferrer" aria-label="Chat with MyEventMCP on WhatsApp">◔</a>
+  </div>
+</BaseLayout>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const menu = document.querySelector('[data-mobile-menu]');
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const close = document.querySelector('[data-menu-close]');
+  const setMenu = (open) => { menu?.classList.toggle('is-open', open); toggle?.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); };
+  toggle?.addEventListener('click', () => setMenu(true)); close?.addEventListener('click', () => setMenu(false)); menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+  window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
+</script>
+
+<style>
+  @import url('/src/styles/global.css');
+</style>

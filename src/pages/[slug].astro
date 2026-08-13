@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const imageBase = 'https://myeventmcp.com/wp-content/uploads';
+const addOns = [
+  ['Audio Equipments', '2 hall speakers, monitors, subwoofers, mixer, wireless mics and audio crew', 'RM3,000'],
+  ['Event Laptop', 'Capture card, presentation slides and operator', 'RM500'],
+  ['Additional MCP Camera', 'Canon XF605, operator and cables', 'RM800'],
+  ['Livestreaming', 'Vmix software, laptop and YouTube / Facebook setup', 'RM2,500'],
+  ['Event Highlights', 'Videographer and video editing', 'RM3,500'],
+  ['Zoom Webinar', 'Operator, laptop and Zoom Webinar for up to 499 pax', 'RM2,000'],
+  ['Event Photography', 'Up to 100 edited photos and photographer', 'RM2,500'],
+  ['Internet Connection', 'Up to 100 Mbps high-speed connection, location dependent', 'RM1,500'],
+];
+
+const packages = {
+  'silver-mcp-package': {
+    name: 'Silver MCP', title: 'Silver MCP Package', eyebrow: 'Essential multi-camera production', tone: 'silver', price: 'RM1,800', lead: '1 static Canon XF605 camera, ATEM mini pro switcher, 2 crew members and full event recording for 1–8 hours.', description: 'A focused, single-angle setup for events with one clear focal point.', setup: '1 static camera / 2 crews', inclusions: [['Switcher', 'ATEM mini pro — 4 HDMI inputs, 1 HDMI output, 1 audio input'], ['Camera', '1 Canon XF605 static camera on a tripod'], ['Crew', '2 experienced crew members'], ['Monitor and cabling', '1 monitor and production cablings'], ['Event coverage', '1 day / 1–8 hours'], ['Rehearsal and setup', 'Same day as the event / 1–8 hours'], ['Recording', 'Full event video in soft copy']],
+  },
+  'gold-mcp-package': {
+    name: 'Gold MCP', title: 'Gold MCP Package', eyebrow: 'Enhanced multi-camera production', tone: 'red', price: 'RM2,800', lead: '2 static Canon XF605 cameras, ATEM Extreme switcher, 3 crew members and full event recording for 1–8 hours.', description: 'A two-camera setup for a more dynamic view, keeping the stage and audience in the story.', setup: '2 static cameras / 3 crews', inclusions: [['Switcher', 'ATEM Extreme — 8 HDMI inputs, 2 HDMI outputs, 1 audio input'], ['Cameras', '2 Canon XF605 static cameras on tripods'], ['Crew', '3 experienced crew members'], ['Monitor', '1 production monitor'], ['Event coverage', '1 day / 1–8 hours'], ['Rehearsal and setup', 'Same day as the event / 1–8 hours'], ['Recording and cabling', 'Full event video in soft copy and cablings']],
+  },
+  'diamond-mcp-package': {
+    name: 'Diamond MCP', title: 'Diamond MCP Package', eyebrow: 'Premium multi-camera production', tone: 'navy', price: 'RM5,500', lead: '3 static Canon XF605 cameras, ATEM Television Studio 4K8, 4 crew members and full event recording for 1–8 hours.', description: 'Full multi-angle coverage for larger productions, with wide shots, close-ups and alternative perspectives.', setup: '3 static cameras / 4 crews', inclusions: [['Switcher', 'ATEM Television Studio 4K8 — 8 SDI inputs, 8 SDI outputs, 1 audio input'], ['Cameras', '3 Canon XF605 static cameras on tripods'], ['Crew', '4 experienced crew members'], ['Monitor', '1 production monitor'], ['Event coverage', '1 day / 1–8 hours'], ['Rehearsal and setup', 'Set up and 3-hour rehearsal a day prior'], ['Recording and cabling', 'Full event video in soft copy and cablings']],
+  },
+  'ptz-robocam-setup': {
+    name: 'PTZ RoboCam', title: 'PTZ RoboCam Setup', eyebrow: 'Advanced remote-controlled coverage', tone: 'gold', price: 'RM4,500', lead: '3 PTZ cameras, joystick controller, 3 crew members, laptop and monitors for flexible remote-controlled coverage.', description: 'Pan, tilt and zoom from a single position while the production team follows speakers and activity in real time.', setup: '3 PTZ cameras / 3 crews', inclusions: [['Switcher', 'ATEM Extreme — 8 HDMI inputs, 2 HDMI outputs, 1 audio input'], ['Cameras', '3 PTZ cameras on tripods'], ['Controller', '1 PTZ joystick controller'], ['Crew', '3 experienced crew members'], ['Monitors', '1 laptop and 2 monitors'], ['Event coverage', '1 day / 1–8 hours'], ['Rehearsal and recording', 'Same-day setup, rehearsal and full event recording in soft copy']],
+  },
+  'customised-solution': {
+    name: 'Customised Solution', title: 'Customised Solution', eyebrow: 'Tailored event coverage', tone: 'light', price: 'Custom', lead: 'Build a production setup around your venue, audience, event format and technical requirements.', description: 'Choose only what your event needs, then add extras from the full service catalogue.', setup: 'Mix and match / custom quote', custom: true, inclusions: [['Step 01', 'Mix and match our core packages'], ['Step 02', 'Select only the products and services you need'], ['Step 03', 'Add extras from the additional services list'], ['Pricing', 'Final quote confirmed after an event brief']],
+  },
+};
+
+export function getStaticPaths() {
+  return ['gold-mcp-package', 'diamond-mcp-package', 'ptz-robocam-setup', 'customised-solution'].map((slug) => ({ params: { slug } }));
+}
+
+const pkg = packages[Astro.params.slug];
+const gallery = [
+  { src: `${imageBase}/2025/01/DSC02235-scaled.jpg`, alt: 'Behind the scenes of a multi-camera production setup.' },
+  { src: `${imageBase}/2025/01/DSC09768-scaled.jpg`, alt: 'Close-up of a professional event camera.' },
+  { src: `${imageBase}/2025/01/20241115_101711-scaled.jpg`, alt: 'Camera crew setting up equipment for a live event.' },
+];
+const related = Object.entries(packages).filter(([slug]) => slug !== Astro.params.slug);
+---
+
+<BaseLayout title={`${pkg.title} | MyEventMCP`} description={`${pkg.title} for event coverage across Malaysia.`}>
+  <div class="package-page">
+    <header class="site-header" data-header><div class="header-inner"><a class="brand" href="/" aria-label="MyEventMCP home"><img src="/logo-color.webp" alt="MyEventMCP" /></a><nav class="desktop-nav" aria-label="Primary navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a><a href="/#faq">FAQ</a></nav><div class="header-right"><a class="button button--small header-cta" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle><span></span><span></span><span class="sr-only">Open navigation</span></button></div></div></header>
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu><div class="mobile-menu__top"><span class="mono-label">PACKAGE</span><button class="menu-close" type="button" data-menu-close aria-label="Close navigation">×</button></div><nav aria-label="Mobile navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a><a href="/#faq">FAQ</a><a class="button" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a></nav></div>
+    <main>
+      <section class="package-hero section-dark"><div class="package-hero__image"><img src={`${imageBase}/2025/01/DSC02241-scaled.jpg`} alt="Event production team monitoring a live multi-camera feed." /></div><div class="package-hero__wash"></div><div class="container package-hero__inner"><div class="package-hero__copy"><a class="back-link" href="/#packages">← All packages</a><p class="eyebrow eyebrow--light">{pkg.eyebrow}</p><h1>{pkg.name}<br /><em>Package.</em></h1><p class="package-hero__lead">{pkg.lead}</p><div class="package-hero__actions"><a class="button button--primary" href="/#quote">Enquire now <span aria-hidden="true">↗</span></a><a class="text-link text-link--light" href="#at-a-glance">View specs <span aria-hidden="true">↓</span></a></div><div class="package-quickfacts"><span>{pkg.setup.split(' / ')[0]}</span><span>{pkg.setup.split(' / ')[1]}</span><span>{pkg.custom ? 'Custom quote' : '1–8 hours'}</span><span>{pkg.custom ? 'Built around your brief' : 'Full event recording'}</span></div></div><aside class="package-price"><span class="mono-label">Starting from</span><strong>{pkg.price}</strong>{!pkg.custom && <span>/ day</span>}<p>{pkg.custom ? 'Final pricing is tailored to your requirements.' : 'Final pricing depends on your event requirements, date and location.'}</p></aside></div></section>
+      <section class="package-intro section" id="at-a-glance"><div class="container package-intro__grid"><div><p class="eyebrow">Package at a glance</p><h2>{pkg.custom ? <>A setup built<br /><em>around you.</em></> : <>Simple setup.<br /><em>Clear coverage.</em></>}</h2><div class="package-scenarios"><span class="mono-label">Best for</span><div><span>Corporate gatherings</span><span>Conferences</span><span>Seminars</span><span>Launches</span></div></div></div><div class="package-specs">{pkg.inclusions.map((item) => <div><span>{item[0]}</span><strong>{item[1]}</strong></div>)}</div></div></section>
+      <section class="section addons-section"><div class="container package-intro__grid"><div><p class="eyebrow eyebrow--light">Optional add-ons</p><h2>Build the setup<br /><em>around your event.</em></h2></div><div class="addon-table">{addOns.map((addon) => <article class="addon-line"><div><h3>{addon[0]}</h3><p>{addon[1]}</p></div><strong>from {addon[2]}<small>/day</small></strong></article>)}</div></div></section>
+      <section class="section package-gallery"><div class="container package-gallery__head"><div><p class="eyebrow">The craft in motion</p><h2>Small setup.<br /><em>Big attention.</em></h2></div><p class="muted">Our crew handles the details behind the scenes so your audience can stay with the story.</p></div><div class="container package-gallery__grid">{gallery.map((item, index) => <figure class={`package-gallery__item package-gallery__item--${index}`}><img src={item.src} alt={item.alt} loading="lazy" /></figure>)}</div></section>
+      <section class="package-cta section-dark"><div class="container package-cta__inner"><div><p class="eyebrow eyebrow--light">Ready when you are</p><h2>Let's frame your<br /><em>event right.</em></h2></div><div><p>Tell us about your event, venue and date. We will recommend the right setup and confirm your final quote.</p><a class="button button--primary" href="/#quote">Request a quote <span aria-hidden="true">↗</span></a></div></div></section>
+      <section class="section related-section"><div class="container"><div class="related-heading"><p class="eyebrow">Need more angles?</p><h2>Explore related<br /><em>packages.</em></h2></div><div class="related-grid">{related.map(([slug, item]) => <article class={`package-card package-card--${item.tone}`}><div class="package-card__top"><p class="eyebrow">{item.eyebrow}</p><span class="package-card__dot"></span></div><h3>{item.name}</h3><p class="package-card__description">{item.description}</p><span class="package-card__setup">{item.setup}</span><div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}{item.price !== 'Custom' && <small>/day</small>}</strong></div><a class="circle-arrow" href={`/${slug}/`} aria-label={`View ${item.name}`}>↗</a></div></article>)}</div></div></section>
+    </main>
+    <footer class="site-footer"><div class="container footer-top"><div><a class="brand brand--footer" href="/"><img src="/logo-color.webp" alt="MyEventMCP" /></a><p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p></div><div class="footer-links"><div><span class="eyebrow">Explore</span><a href="/#about">About us</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a></div><div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div></div></div><div class="container footer-bottom"><span>MyEventMCP by Sevenue Sdn Bhd</span><span>Serving events across Malaysia</span></div></footer>
+  </div>
+</BaseLayout>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const menu = document.querySelector('[data-mobile-menu]');
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const close = document.querySelector('[data-menu-close]');
+  const setMenu = (open) => { menu?.classList.toggle('is-open', open); toggle?.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); };
+  toggle?.addEventListener('click', () => setMenu(true)); close?.addEventListener('click', () => setMenu(false)); menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+  window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
+</script>
+
+<style>
+  @import url('/src/styles/global.css');
+</style>

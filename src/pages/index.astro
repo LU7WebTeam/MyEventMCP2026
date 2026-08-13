@@ -17,44 +17,40 @@ const clients = [
 
 const packages = [
   {
-    number: '01',
     name: 'Silver MCP',
     eyebrow: 'Essential coverage',
     price: 'RM1,800',
     setup: '1 static camera / 2 crews',
     description: 'A focused, single-angle setup for events with one clear focal point.',
-    tone: 'light',
-    href: '#quote',
+    tone: 'silver',
+    href: '/silver-mcp-package/',
   },
   {
-    number: '02',
     name: 'Gold MCP',
     eyebrow: 'Enhanced coverage',
     price: 'RM2,800',
     setup: '2 static cameras / 3 crews',
     description: 'A more dynamic view that keeps the stage and audience in the story.',
     tone: 'red',
-    href: '#quote',
+    href: '/gold-mcp-package/',
   },
   {
-    number: '03',
     name: 'Diamond MCP',
     eyebrow: 'Premium coverage',
     price: 'RM5,500',
     setup: '3 static cameras / 4 crews',
     description: 'Complete multi-angle coverage for larger, higher-stakes productions.',
     tone: 'navy',
-    href: '#quote',
+    href: '/diamond-mcp-package/',
   },
   {
-    number: '04',
     name: 'PTZ RoboCam',
     eyebrow: 'Remote-controlled coverage',
     price: 'RM4,500',
     setup: '3 PTZ cameras / 3 crews',
     description: 'Flexible pan, tilt and zoom coverage from a compact production footprint.',
     tone: 'gold',
-    href: '#quote',
+    href: '/ptz-robocam-setup/',
   },
 ];
 
@@ -84,6 +80,25 @@ const gallery = [
 ];
 
 const marqueeClients = [...clients, ...clients];
+
+const estimatorPackages = [
+  { id: 'silver', name: 'Silver MCP', price: 1800, setup: '1 static camera · 2 crews' },
+  { id: 'gold', name: 'Gold MCP', price: 2800, setup: '2 static cameras · 3 crews' },
+  { id: 'diamond', name: 'Diamond MCP', price: 5500, setup: '3 static cameras · 4 crews' },
+  { id: 'ptz', name: 'PTZ RoboCam', price: 4500, setup: '3 PTZ cameras · 3 crews' },
+  { id: 'custom', name: 'Custom build', price: 0, setup: 'Tailored to your event' },
+];
+
+const estimatorAddons = [
+  { id: 'audio', name: 'Audio Equipments', detail: '2 hall speakers, 2 monitors, 2 subwoofers, mixer, 4 wireless mics, engineer', price: 3000, qty: false },
+  { id: 'laptop', name: 'Event Laptop', detail: 'Capture card, presentation slides, operator', price: 500, qty: false },
+  { id: 'camera', name: 'Additional MCP Camera', detail: 'Canon XF605, operator, cables', price: 800, qty: true, max: 5 },
+  { id: 'livestream', name: 'Livestreaming', detail: 'Vmix software, YouTube + Facebook, laptop', price: 2500, qty: false },
+  { id: 'highlights', name: 'Event Highlights', detail: 'Videographer + video editing', price: 3500, qty: false },
+  { id: 'zoom', name: 'Zoom Webinar', detail: 'Operator, laptop, Zoom Webinar up to 499 pax', price: 2000, qty: false },
+  { id: 'photo', name: 'Event Photography', detail: 'Up to 100 edited photos, photographer', price: 2500, qty: false },
+  { id: 'internet', name: 'Internet Connection', detail: 'Up to 100 mbps high-speed', price: 1500, qty: false },
+];
 ---
 
 <BaseLayout>
@@ -91,7 +106,7 @@ const marqueeClients = [...clients, ...clients];
     <header class="site-header" data-header>
       <div class="header-inner">
         <a class="brand" href="#top" aria-label="MyEventMCP home">
-          <img src={`${imageBase}/2024/04/MyEventMCP-Logo-2.webp`} alt="MyEventMCP" />
+          <img src="/logo-color.webp" alt="MyEventMCP" />
         </a>
         <nav class="desktop-nav" aria-label="Primary navigation">
           <a href="#about">About</a>
@@ -191,11 +206,11 @@ const marqueeClients = [...clients, ...clients];
           </div>
           <div class="package-grid">
             {packages.map((item) => <article class={`package-card package-card--${item.tone}`}>
-              <div class="package-card__top"><span class="mono-label">{item.number} / 04</span><span class="package-card__dot"></span></div>
-              <p class="eyebrow">{item.eyebrow}</p>
+              <div class="package-card__top"><p class="eyebrow">{item.eyebrow}</p><span class="package-card__dot"></span></div>
               <h3>{item.name}</h3>
               <p class="package-card__description">{item.description}</p>
-              <div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}<small>/day</small></strong><span class="package-card__setup">{item.setup}</span></div><a class="circle-arrow" href={item.href} aria-label={`Get a quote for ${item.name}`}>↗</a></div>
+              <span class="package-card__setup">{item.setup}</span>
+              <div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}<small>/day</small></strong></div><a class="circle-arrow" href={item.href} aria-label={`Get a quote for ${item.name}`}>↗</a></div>
             </article>)}
           </div>
           <div class="custom-bar"><div><span class="eyebrow eyebrow--light">Need something specific?</span><h3>Mix and match. Make it yours.</h3></div><a class="button button--gold" href="#quote">Customised solution <span aria-hidden="true">↗</span></a></div>
@@ -239,11 +254,122 @@ const marqueeClients = [...clients, ...clients];
 
       <section class="quote-section" id="quote" aria-labelledby="quote-title">
         <div class="quote-section__backdrop"><img src={`${imageBase}/2025/01/DSC00768-scaled.jpg`} alt="Cameraman adjusting focus during a recording session." /></div>
-        <div class="container quote-layout"><div class="quote-copy"><p class="eyebrow eyebrow--light">Let's make it happen</p><h2 id="quote-title">Your event is the headline.<br /><em>Let's frame it right.</em></h2><p>Tell us what you are planning and our team will help you find the right coverage solution.</p><a class="whatsapp-link" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>WhatsApp us</span><strong>+60 11 3307 8724 ↗</strong></a></div><form class="quote-form" action="#" method="post"><div class="form-heading"><span class="mono-label">QUOTE / 01</span><p>Start with the basics.</p></div><label>Name<input type="text" name="name" placeholder="Your name" required /></label><label>Email<input type="email" name="email" placeholder="you@company.com" required /></label><div class="form-row"><label>Event date<input type="date" name="date" required /></label><label>Event type<select name="event-type" required><option value="">Select one</option><option>Conference</option><option>Corporate gathering</option><option>Seminar</option><option>Annual dinner</option><option>Launch</option><option>Other</option></select></label></div><label>Tell us about the event<textarea name="message" rows="3" placeholder="Location, audience size, what you need..."></textarea></label><button class="button button--primary" type="submit">Request a quote <span aria-hidden="true">↗</span></button><p class="form-note">We will use your details only to respond to this enquiry.</p></form></div>
+        <div class="container">
+          <div class="section-heading quote-heading">
+            <p class="eyebrow eyebrow--light">Plan your event</p>
+            <h2 id="quote-title">Your event is the headline.<br /><em>Let's frame it right.</em></h2>
+          </div>
+          <div class="estimator-grid">
+            <div class="estimator-controls" data-estimator-controls>
+              <fieldset class="estimator-step">
+                <legend><span class="estimator-step__name">Choose a package</span></legend>
+                <div class="option-grid">
+                  {estimatorPackages.map((pkg, i) => (
+                    <label class="option-card">
+                      <input type="radio" name="est-base" value={pkg.id} data-price={pkg.price} data-name={pkg.name} data-setup={pkg.setup} checked={i === 0} />
+                      <span class="option-card__body">
+                        <span class="option-card__top">
+                          <span class="option-card__price">{pkg.price === 0 ? 'Custom' : `RM${pkg.price.toLocaleString()}`}<small>/day</small></span>
+                        </span>
+                        <span class="option-card__name">{pkg.name}</span>
+                        <span class="option-card__setup">{pkg.setup}</span>
+                        <span class="option-card__check" aria-hidden="true">↗</span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
+              <fieldset class="estimator-step">
+                <legend><span class="estimator-step__name">When is your event?</span></legend>
+                <div class="date-range-field">
+                  <input type="text" id="event-dates" placeholder="Click to select a date range" data-date-input readonly />
+                </div>
+                <p class="estimator-step__hint">Pick a start and end date in the calendar. A single day covers 1–8 hours of event coverage.</p>
+              </fieldset>
+
+              <fieldset class="estimator-step">
+                <legend><span class="estimator-step__name">Extra services</span></legend>
+                <div class="addon-list">
+                  {estimatorAddons.map((addon) => (
+                    <div class={`addon-row${addon.qty ? ' addon-row--qty' : ''}`} data-addon>
+                      <label class="addon-toggle">
+                        <input type="checkbox" data-price={addon.price} data-name={addon.name} />
+                        <span class="addon-toggle__box" aria-hidden="true"></span>
+                        <span class="addon-toggle__label">
+                          <span class="addon-toggle__name">{addon.name}</span>
+                          <span class="addon-toggle__detail">{addon.detail}</span>
+                        </span>
+                      </label>
+                      {addon.qty && (
+                        <div class="stepper stepper--small" data-stepper data-min="1" data-max={addon.max} data-default="1" data-key={`addon-${addon.id}`}>
+                          <button type="button" class="stepper__btn" data-stepper="-" aria-label={`Decrease ${addon.name}`}>&#8722;</button>
+                          <output class="stepper__value" data-stepper-value>1</output>
+                          <button type="button" class="stepper__btn" data-stepper="+" aria-label={`Increase ${addon.name}`}>+</button>
+                        </div>
+                      )}
+                      <span class="addon-row__price">from RM{addon.price.toLocaleString()}<small>/day</small></span>
+                    </div>
+                  ))}
+                </div>
+              </fieldset>
+
+              <fieldset class="estimator-step">
+                <legend><span class="estimator-step__name">Optional uplifts</span></legend>
+                <div class="surcharge-list">
+                  <label class="surcharge-toggle">
+                    <input type="checkbox" data-surcharge="weekend" data-rate="0.20" />
+                    <span class="surcharge-toggle__box" aria-hidden="true"></span>
+                    <span class="surcharge-toggle__label">
+                      <span class="surcharge-toggle__name">Weekend / public holiday</span>
+                      <span class="surcharge-toggle__detail">+20% surcharge on the job total</span>
+                    </span>
+                  </label>
+                  <label class="surcharge-toggle">
+                    <input type="checkbox" data-surcharge="rehearsal" data-rate="0.30" />
+                    <span class="surcharge-toggle__box" aria-hidden="true"></span>
+                    <span class="surcharge-toggle__label">
+                      <span class="surcharge-toggle__name">Day-before rehearsal</span>
+                      <span class="surcharge-toggle__detail">+30% of package day-rate (one-off)</span>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="quote-right">
+              <aside class="estimator-summary" data-estimator-summary>
+                <div class="summary-card">
+                  <div class="summary-card__head">
+                    <span class="mono-label">Estimate</span>
+                    <span class="summary-card__status" data-estimate-status>Live</span>
+                  </div>
+                  <div class="summary-card__rows" data-summary-rows></div>
+                  <div class="summary-card__total">
+                    <span>Estimated total</span>
+                    <strong data-summary-total>RM1,800</strong>
+                  </div>
+                  <p class="summary-card__note" data-summary-note>Estimate only. Final pricing confirmed on enquiry.</p>
+                  <button type="button" class="button button--primary summary-card__cta" data-estimate-cta>Send to quote form <span aria-hidden="true">↓</span></button>
+                </div>
+              </aside>
+              <form class="quote-form" action="#" method="post" data-quote-form>
+                <div class="form-heading"><p>Start with the basics.</p></div>
+                <label>Name<input type="text" name="name" placeholder="Your name" required /></label>
+                <label>Email<input type="email" name="email" placeholder="you@company.com" required /></label>
+                <label>Event type<select name="event-type" required><option value="">Select one</option><option>Conference</option><option>Corporate gathering</option><option>Seminar</option><option>Annual dinner</option><option>Launch</option><option>Other</option></select></label>
+                <label>Tell us about the event<textarea name="message" rows="3" placeholder="Location, audience size, what you need..."></textarea></label>
+                <button class="button button--primary" type="submit">Request a quote <span aria-hidden="true">↗</span></button>
+                <p class="form-note">We will use your details only to respond to this enquiry.</p>
+              </form>
+              <a class="whatsapp-link whatsapp-link--dark" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>Prefer to chat?</span><strong>WhatsApp us ↗</strong></a>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
-    <footer class="site-footer"><div class="container footer-top"><div><a class="brand brand--footer" href="#top"><img src={`${imageBase}/2024/04/MyEventMCP-Logo-2.webp`} alt="MyEventMCP" /></a><p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p></div><div class="footer-links"><div><span class="eyebrow">Explore</span><a href="#about">About us</a><a href="#packages">Packages</a><a href="#portfolio">Portfolio</a></div><div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div></div></div><div class="container footer-bottom"><span>Â© 2026 MyEventMCP by Video Production KL Sdn Bhd</span><span>Made for moments that matter <b>↗</b></span></div></footer>
+    <footer class="site-footer"><div class="container footer-top"><div><a class="brand brand--footer" href="#top"><img src="/logo-color.webp" alt="MyEventMCP" /></a><p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p></div><div class="footer-links"><div><span class="eyebrow">Explore</span><a href="#about">About us</a><a href="#packages">Packages</a><a href="#portfolio">Portfolio</a></div><div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div></div></div><div class="container footer-bottom"><span>MyEventMCP by Sevenue Sdn Bhd</span><span>Visit <a href="https://sevenue.com" target="_blank" rel="noreferrer">sevenue.com</a> to learn more about our full event production services.</span></div></footer>
     <a class="whatsapp-fab" href="https://wa.me/601133078724" target="_blank" rel="noreferrer" aria-label="Chat with MyEventMCP on WhatsApp">◔</a>
     <div class="lightbox" data-lightbox aria-hidden="true"><button type="button" class="lightbox__close" data-lightbox-close aria-label="Close">×</button><button type="button" class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous">‹</button><button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next">›</button><div class="lightbox__stage"><img data-lightbox-media-image alt="" /><div class="lightbox__video" data-lightbox-video-wrap aria-hidden="true"></div></div><p class="lightbox__caption" data-lightbox-caption></p><span class="lightbox__counter" data-lightbox-counter></span></div>
   </div>
@@ -360,6 +486,164 @@ const marqueeClients = [...clients, ...clients];
     button.textContent = 'Thanks - we will be in touch';
     button.setAttribute('disabled', 'true');
   });
+
+  // ===== Event Estimator =====
+  (function () {
+    const estControls = document.querySelector('[data-estimator-controls]');
+    const summaryRows = document.querySelector('[data-summary-rows]');
+    const summaryTotal = document.querySelector('[data-summary-total]');
+    const summaryNote = document.querySelector('[data-summary-note]');
+    const estCta = document.querySelector('[data-estimate-cta]');
+    if (!estControls || !summaryRows || !summaryTotal) return;
+
+    const fmt = (n) => 'RM' + Math.round(n).toLocaleString('en-MY');
+    const dayPlural = (n) => n + ' day' + (n > 1 ? 's' : '');
+
+    let eventDays = 1;
+    let dateRangeText = '';
+    let lastSummaryText = '';
+    const row = (label, value, sub) => '<div class="summary-row' + (sub ? ' summary-row--sub' : '') + '"><span>' + label + '</span><span>' + value + '</span></div>';
+
+    // Flatpickr range date picker
+    const dateInput = document.querySelector('[data-date-input]');
+    if (dateInput && typeof flatpickr !== 'undefined') {
+      flatpickr(dateInput, {
+        mode: 'range',
+        minDate: 'today',
+        dateFormat: 'M j, Y',
+        onChange: (selectedDates, dateStr) => {
+          if (selectedDates.length === 2) {
+            eventDays = Math.max(1, Math.round((selectedDates[1] - selectedDates[0]) / 86400000) + 1);
+            dateRangeText = dateStr.replace(' to ', ' \u2013 ');
+          } else {
+            eventDays = 1;
+            dateRangeText = '';
+          }
+          compute();
+        }
+      });
+    }
+
+    const buildSummaryText = (data) => {
+      const lines = [];
+      lines.push('MyEventMCP - event estimate');
+      lines.push('----------------------------------');
+      lines.push('Base package: ' + data.baseName + (data.isCustom ? ' (custom quote)' : ' (' + fmt(data.basePrice) + '/day)'));
+      lines.push('Event dates: ' + (data.dateRangeText || 'Not selected') + ' (' + data.days + ' day' + (data.days > 1 ? 's' : '') + ')');
+      if (data.addonLines.length) {
+        lines.push('Add-ons:');
+        data.addonLines.forEach((a) => lines.push('  - ' + a.name + (a.qty > 1 ? ' x' + a.qty : '') + ' = ' + fmt(a.line * data.days)));
+      } else {
+        lines.push('Add-ons: none');
+      }
+      lines.push('Weekend / public holiday surcharge: ' + (data.weekend > 0 ? '+' + fmt(data.weekend) : 'no'));
+      lines.push('Day-before rehearsal: ' + (data.rehearsal > 0 ? '+' + fmt(data.rehearsal) : 'no'));
+      lines.push('----------------------------------');
+      lines.push('Estimated total: ' + (data.isCustom ? (data.customExtra > 0 ? 'from ' + fmt(data.customExtra) + ' + custom setup' : 'custom quote') : fmt(data.total)));
+      lines.push('(Estimate only - final pricing confirmed on enquiry.)');
+      return lines.join('\n');
+    };
+
+    const compute = () => {
+      try {
+        const baseInput = estControls.querySelector('input[name="est-base"]:checked');
+        const basePrice = baseInput ? parseFloat(baseInput.getAttribute('data-price') || '0') : 0;
+        const baseName = baseInput ? baseInput.getAttribute('data-name') : '';
+        const isCustom = baseInput ? baseInput.value === 'custom' : false;
+
+        const days = eventDays;
+
+        let addonsDay = 0;
+        const addonLines = [];
+        estControls.querySelectorAll('[data-addon]').forEach((rowEl) => {
+          const cb = rowEl.querySelector('input[type="checkbox"]');
+          if (!cb || !cb.checked) return;
+          const price = parseFloat(cb.getAttribute('data-price') || '0');
+          const name = cb.getAttribute('data-name');
+          const qtyStepper = rowEl.querySelector('[data-stepper]');
+          let qty = 1;
+          if (qtyStepper) qty = parseInt(qtyStepper.getAttribute('data-current') || '1', 10);
+          const line = price * qty;
+          addonsDay += line;
+          addonLines.push({ name, price, qty, line });
+        });
+
+        const baseTotal = basePrice * days;
+        const addonsTotal = addonsDay * days;
+        const subtotal = baseTotal + addonsTotal;
+
+        const weekendCb = estControls.querySelector('[data-surcharge="weekend"]');
+        const rehearsalCb = estControls.querySelector('[data-surcharge="rehearsal"]');
+        const weekendRate = weekendCb?.checked ? parseFloat(weekendCb.getAttribute('data-rate') || '0') : 0;
+        const rehearsalRate = (rehearsalCb?.checked && !isCustom) ? parseFloat(rehearsalCb.getAttribute('data-rate') || '0') : 0;
+
+        const weekend = Math.round(subtotal * weekendRate);
+        const rehearsal = isCustom ? 0 : Math.round(basePrice * rehearsalRate);
+        const total = subtotal + weekend + rehearsal;
+        const customExtra = addonsTotal + weekend;
+
+        const data = { baseName, basePrice, isCustom, days, addonLines, baseTotal, addonsTotal, weekend, rehearsal, total, customExtra, dateRangeText };
+
+        const out = [];
+        out.push(row('Event dates', dateRangeText ? dateRangeText + ' (' + dayPlural(days) + ')' : dayPlural(days) + ' (default)'));
+        out.push(row('Base coverage', isCustom ? 'Custom quote' : fmt(baseTotal)));
+        out.push(row('Add-ons ' + dayPlural(days), addonsTotal > 0 ? fmt(addonsTotal) : '\u2014'));
+        addonLines.forEach((a) => out.push(row(a.name + (a.qty > 1 ? ' \u00d7 ' + a.qty : ''), fmt(a.line * days), true)));
+        if (weekend > 0) out.push(row('Weekend / holiday (+20%)', '+' + fmt(weekend)));
+        if (rehearsal > 0) out.push(row('Day-before rehearsal (+30%)', '+' + fmt(rehearsal)));
+        summaryRows.innerHTML = out.join('');
+
+        if (isCustom) {
+          summaryTotal.textContent = customExtra > 0 ? 'from ' + fmt(customExtra) : 'Custom quote';
+          if (summaryNote) summaryNote.textContent = customExtra > 0 ? 'Add-on estimate only. Custom camera/switcher setup quoted on enquiry.' : 'Final pricing is tailored to your brief and confirmed on enquiry.';
+        } else {
+          summaryTotal.textContent = fmt(total);
+          if (summaryNote) summaryNote.textContent = 'Estimate only. Final pricing confirmed on enquiry.';
+        }
+
+        lastSummaryText = buildSummaryText(data);
+      } catch (err) {
+        console.error('[estimator] compute failed', err);
+      }
+    };
+
+    // Event delegation: any change/input anywhere inside the controls updates the estimate.
+    estControls.addEventListener('change', compute);
+    estControls.addEventListener('input', compute);
+
+    // Stepper wiring (add-on qty steppers)
+    document.querySelectorAll('[data-stepper]').forEach((stepper) => {
+      const min = parseInt(stepper.getAttribute('data-min') || '0', 10);
+      const max = parseInt(stepper.getAttribute('data-max') || '99', 10);
+      const valueEl = stepper.querySelector('[data-stepper-value]');
+      const plural = stepper.querySelector('[data-stepper-plural]');
+      let value = parseInt(stepper.getAttribute('data-default') || '0', 10);
+      const render = () => { valueEl.textContent = value; if (plural) plural.style.display = value > 1 ? '' : 'none'; };
+      const set = (v) => {
+        value = Math.max(min, Math.min(max, v));
+        render();
+        stepper.setAttribute('data-current', String(value));
+        compute();
+      };
+      stepper.querySelector('[data-stepper="-"]').addEventListener('click', () => set(value - 1));
+      stepper.querySelector('[data-stepper="+"]').addEventListener('click', () => set(value + 1));
+      stepper.setAttribute('data-current', String(value));
+      render();
+    });
+
+    // CTA: fill the quote form message with the estimate and focus it
+    estCta?.addEventListener('click', () => {
+      const form = document.querySelector('[data-quote-form]');
+      if (!form) return;
+      const ta = form.querySelector('textarea[name="message"]');
+      if (ta && lastSummaryText) ta.value = lastSummaryText;
+      const nameInput = form.querySelector('input[name="name"]');
+      nameInput?.focus();
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    compute();
+  })();
 </script>
 
 <style>
