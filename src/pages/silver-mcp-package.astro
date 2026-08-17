@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 const imageBase = 'https://myeventmcp.com/wp-content/uploads';
 
@@ -38,7 +39,8 @@ const related = [
 ];
 ---
 
-<BaseLayout title="Silver MCP Package | MyEventMCP" description="Essential multi-camera production for focused event coverage across Malaysia, from RM1800 per day.">
+<BaseLayout title="Silver MCP Package | MyEventMCP" description="Essential multi-camera production for focused event coverage across Malaysia, from RM1800 per day." image="https://myeventmcp.com/wp-content/uploads/2025/01/DSC02241-scaled.jpg">
+  <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Service', serviceType: 'Silver MCP Package', name: 'Silver MCP', description: 'Essential multi-camera production for focused event coverage.', url: 'https://myeventmcp.com/silver-mcp-package/', provider: { '@type': 'Organization', name: 'MyEventMCP', url: 'https://myeventmcp.com/' }, areaServed: 'Malaysia' })} />
   <div class="package-page">
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -83,7 +85,7 @@ const related = [
 
       <section class="section related-section"><div class="container"><div class="related-heading"><p class="eyebrow">Need more angles?</p><h2>Explore related<br /><em>packages.</em></h2></div><div class="related-grid">{related.map((item) => <article class={`package-card package-card--${item.tone}`}><div class="package-card__top"><p class="eyebrow">{item.eyebrow}</p><span class="package-card__dot"></span></div><h3>{item.name}</h3><p class="package-card__description">{item.description}</p><span class="package-card__setup">{item.setup}</span><div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}{item.price !== 'Custom' && <small>/day</small>}</strong></div><a class="circle-arrow" href={item.href} aria-label={`View ${item.name}`}>↗</a></div></article>)}</div></div></section>
     </main>
-    <footer class="site-footer"><div class="container footer-top"><div><a class="brand brand--footer" href="/"><img src="/logo-color.webp" alt="MyEventMCP" /></a><p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p></div><div class="footer-links"><div><span class="eyebrow">Explore</span><a href="/#about">About us</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a></div><div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div></div></div><div class="container footer-bottom"><span>MyEventMCP by Sevenue Sdn Bhd</span><span>Serving events across Malaysia</span></div></footer>
+    <SiteFooter />
     <a class="whatsapp-fab" href="https://wa.me/601133078724" target="_blank" rel="noreferrer" aria-label="Chat with MyEventMCP on WhatsApp">◔</a>
   </div>
 </BaseLayout>
@@ -98,6 +100,6 @@ const related = [
   window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
 </script>
 
-<style>
+<style is:global>
   @import url('/src/styles/global.css');
 </style>

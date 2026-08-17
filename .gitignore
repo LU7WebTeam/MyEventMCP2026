@@ -3,3 +3,7 @@ dist/
 .astro/
 *.log
 *.log.err
+.env
+.env.*
+!.env.example
+config.secret.php

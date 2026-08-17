@@ -1,5 +1,31 @@
 ---
-const { title = 'MyEventMCP | Multi-Camera Production Malaysia', description = 'Professional multi-camera production and event coverage across Malaysia.' } = Astro.props;
+const {
+  title = 'MyEventMCP | Multi-Camera Production Malaysia',
+  description = 'Professional multi-camera production and event coverage across Malaysia.',
+  image = '/logo-color.webp',
+  type = 'website',
+} = Astro.props;
+
+const url = `https://myeventmcp.com${Astro.url.pathname}`;
+const ogImage = image.startsWith('http') ? image : `https://myeventmcp.com${image}`;
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://myeventmcp.com/#organization',
+  name: 'MyEventMCP',
+  url: 'https://myeventmcp.com/',
+  logo: 'https://myeventmcp.com/logo-color.webp',
+  description: 'Professional multi-camera production and event coverage across Malaysia.',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+60 3 8605 3563',
+    email: 'hello@myeventmcp.com',
+    contactType: 'sales',
+    areaServed: 'MY',
+    availableLanguage: 'English',
+  },
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -8,12 +34,42 @@ const { title = 'MyEventMCP | Multi-Camera Production Malaysia', description = '
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#303485" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={url} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{title}</title>
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="MyEventMCP" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_MY" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+
+    <script is:inline>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KP5JMBH7');
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" is:inline defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <title>{title}</title>
   </head>
   <body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KP5JMBH7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <slot />
   </body>
 </html>
+
+<style is:global>
+  @import url('/src/styles/global.css');
+</style>

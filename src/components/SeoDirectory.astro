@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+const { kind, items } = Astro.props;
+const isEvents = kind === 'events';
+const label = isEvents ? 'Event types' : 'Locations';
+const title = isEvents ? 'Event production for every occasion.' : 'Event production across Malaysia.';
+const description = isEvents
+  ? 'Explore multi-camera production services for conferences, launches, awards, broadcasts and more.'
+  : 'Explore professional multi-camera event production services in Kuala Lumpur and across Malaysia.';
+---
+
+<BaseLayout title={`${label} | MyEventMCP`} description={description} image="https://myeventmcp.com/wp-content/uploads/2025/01/DSC02241-scaled.jpg">
+  <div class="seo-page">
+    <header class="site-header" data-header><div class="header-inner"><a class="brand" href="/" aria-label="MyEventMCP home"><img src="/logo-color.webp" alt="MyEventMCP" /></a><nav class="desktop-nav" aria-label="Primary navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/events/">Events</a><a href="/locations/">Locations</a></nav><div class="header-right"><a class="button button--small header-cta" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle><span></span><span></span><span class="sr-only">Open navigation</span></button></div></div></header>
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu><div class="mobile-menu__top"><span class="mono-label">EXPLORE</span><button class="menu-close" type="button" data-menu-close aria-label="Close navigation">×</button></div><nav aria-label="Mobile navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/events/">Events</a><a href="/locations/">Locations</a><a class="button" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a></nav></div>
+    <main>
+      <section class="seo-hero section-dark"><div class="container"><p class="eyebrow eyebrow--light">MyEventMCP / {label}</p><h1>{title}</h1><p class="seo-hero__lead">{description}</p></div></section>
+      <section class="section seo-directory"><div class="container"><div class="seo-directory__heading"><p class="eyebrow">Find your fit</p><h2>{isEvents ? 'Built for the way your event moves.' : 'Coverage where your event happens.'}</h2></div><div class="seo-directory__grid"><a class="seo-directory__card seo-directory__card--all" href={`/${kind === 'events' ? 'events' : 'locations'}/`}><span class="mono-label">Browse</span><h3>All {label.toLowerCase()}</h3><span class="circle-arrow">↗</span></a>{items.map((item) => <a class="seo-directory__card" href={`/${kind}/${item.slug}/`}><span class="mono-label">{isEvents ? 'Event type' : 'Location'}</span><h3>{item.name}</h3><p>{item.shortDescription}</p><span class="circle-arrow">↗</span></a>)}</div></div></section>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>
+
+<script>
+  const header = document.querySelector('[data-header]'); const menu = document.querySelector('[data-mobile-menu]'); const toggle = document.querySelector('[data-menu-toggle]'); const close = document.querySelector('[data-menu-close]');
+  const setMenu = (open) => { menu?.classList.toggle('is-open', open); toggle?.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); };
+  toggle?.addEventListener('click', () => setMenu(true)); close?.addEventListener('click', () => setMenu(false)); menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false))); window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
+</script>

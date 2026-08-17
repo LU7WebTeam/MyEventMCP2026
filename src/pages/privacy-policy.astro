@@ -1,0 +1,47 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+
+const title = 'Privacy Policy | MyEventMCP';
+const description = 'How MyEventMCP collects, uses and protects your personal information when you visit myeventmcp.com and request our services.';
+const updated = 'Last updated: August 2026';
+---
+
+<LegalLayout title={title} description={description} pageTitle="Privacy Policy" updated={updated}>
+
+  <h2 slot="nav"><a href="#introduction">Introduction</a></h2>
+  <h2 slot="nav"><a href="#collection">What we collect</a></h2>
+  <h2 slot="nav"><a href="#use">How we use it</a></h2>
+  <h2 slot="nav"><a href="#sharing">Sharing your information</a></h2>
+  <h2 slot="nav"><a href="#security">Data security</a></h2>
+  <h2 slot="nav"><a href="#rights">Your rights</a></h2>
+  <h2 slot="nav"><a href="#cookies">Cookies and tracking</a></h2>
+  <h2 slot="nav"><a href="#contact">Contact</a></h2>
+
+  <p class="legal-updated">{updated}</p>
+
+  <h2 id="introduction">1. Introduction</h2>
+  <p>MyEventMCP, operated by Sevenue Sdn Bhd, respects your privacy. This Privacy Policy explains what information we collect through our website at <a href="https://myeventmcp.com/">myeventmcp.com</a>, how we use it, and the choices you have. By using our website or providing us with your details, you agree to the practices described here.</p>
+
+  <h2 id="collection">2. Information we collect</h2>
+  <p>We collect information you provide directly, including your name, email address, phone number, event details and any message you send through our quote form or by contacting us. We may also collect technical information automatically, such as browser type, device information and usage data through cookies and analytics tools, to understand how the website is used.</p>
+
+  <h2 id="use">3. How we use your information</h2>
+  <p>We use your information to respond to enquiries, prepare and confirm quotes, manage bookings, deliver our services, improve the website, and comply with legal obligations. Where you have opted in or where permitted by law, we may send you updates about our services. You can opt out of marketing communications at any time.</p>
+  <p>We do not use your information to make automated decisions that significantly affect you, other than routine processing needed to respond to your requests.</p>
+
+  <h2 id="sharing">4. Sharing your information</h2>
+  <p>We do not sell your personal information. We may share it with service providers who help us operate the website and deliver our services, such as payment processors, email and messaging services, and analytics providers. We may disclose information where required by law or to protect our legal rights.</p>
+
+  <h2 id="security">5. Data security</h2>
+  <p>We apply reasonable technical and organisational measures to protect your information. No method of transmission over the internet or method of electronic storage is completely secure, so we cannot guarantee absolute security, but we work to keep your data safe.</p>
+
+  <h2 id="rights">6. Your rights</h2>
+  <p>You may request access to the personal information we hold about you, ask us to correct or delete inaccurate data, request a copy of the data you have provided, or opt out of marketing communications. To exercise any of these rights, contact us at <a href="mailto:hello@myeventmcp.com">hello@myeventmcp.com</a> and we will respond within a reasonable time in line with applicable law.</p>
+
+  <h2 id="cookies">7. Cookies and tracking</h2>
+  <p>Our website may use cookies and similar technologies to remember preferences, measure traffic and improve the experience. You can manage or disable cookies through your browser settings, though some features may not work correctly without them.</p>
+
+  <h2 id="contact">8. Contact</h2>
+  <p>Questions about this Privacy Policy or how we handle your data can be sent to <a href="mailto:hello@myeventmcp.com">hello@myeventmcp.com</a> or via WhatsApp at <a href="https://wa.me/601133078724">+60 11-3307 8724</a>. Our principal place of business is West Wing 1st Floor, Bangunan ECM Libra, 8, Jalan Damansara Endah, 50490 Kuala Lumpur, Malaysia.</p>
+
+</LegalLayout>

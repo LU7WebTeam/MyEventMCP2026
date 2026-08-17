@@ -1,0 +1,53 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+
+const title = 'Terms of Service | MyEventMCP';
+const description = 'Terms of Service governing MyEventMCP multi-camera production services, bookings, payments, cancellations and liability.';
+const updated = 'Last updated: August 2026';
+---
+
+<LegalLayout title={title} description={description} pageTitle="Terms of Service" updated={updated}>
+
+  <h2 slot="nav"><a href="#introduction">Introduction</a></h2>
+  <h2 slot="nav"><a href="#services">Services provided</a></h2>
+  <h2 slot="nav"><a href="#bookings">Bookings and payments</a></h2>
+  <h2 slot="nav"><a href="#responsibilities">Your responsibilities</a></h2>
+  <h2 slot="nav"><a href="#cancellations">Cancellations and refunds</a></h2>
+  <h2 slot="nav"><a href="#execution">Event execution</a></h2>
+  <h2 slot="nav"><a href="#liability">Liability and indemnity</a></h2>
+  <h2 slot="nav"><a href="#governing-law">Governing law</a></h2>
+  <h2 slot="nav"><a href="#contact">Contact</a></h2>
+
+  <p class="legal-updated">{updated}</p>
+
+  <h2 id="introduction">1. Introduction</h2>
+  <p>Welcome to MyEventMCP, a multi-camera event production service operated by Sevenue Sdn Bhd ("MyEventMCP," "we," "our," "us"). These Terms of Service ("Terms") govern your use of our website at <a href="https://myeventmcp.com/">myeventmcp.com</a> and your booking of our multi-camera production, livestreaming, recording and related event services. By browsing the site, requesting a quote, or booking our services, you agree to be bound by these Terms.</p>
+
+  <h2 id="services">2. Services provided</h2>
+  <p>MyEventMCP provides professional multi-camera production and related event services across Malaysia, including camera crews, live switching, event recording, livestreaming and add-on services. Details of our packages and add-ons are described on the website and in the quote we confirm for your event. All bookings are subject to crew, equipment and date availability.</p>
+  <p>We may decline or modify a booking where the requested service cannot be delivered safely or reliably, and we will communicate any changes to you as early as possible.</p>
+
+  <h2 id="bookings">3. Bookings and payments</h2>
+  <p>Once you send us an enquiry, we will confirm availability and provide a detailed quote after a short brief. A booking is confirmed only when we have acknowledged it in writing and, where required, received any deposit. The final quote depends on your event date, location, scope, equipment requirements and any selected add-ons.</p>
+  <p>Payment must be made using the approved payment methods shown on your invoice. A deposit or full payment may be required before the event date. Failure to pay on time may delay or cancel your booking.</p>
+
+  <h2 id="responsibilities">4. Your responsibilities</h2>
+  <p>You agree to provide accurate information about your event, venue, programme and technical requirements. You are responsible for obtaining venue access, permits and any third-party approvals needed for our crew and equipment to operate on site, and for confirming site-specific rules such as power, loading and safety requirements. You must ensure the working environment is safe for our crew.</p>
+
+  <h2 id="cancellations">5. Cancellations and refunds</h2>
+  <p>If you need to cancel a confirmed booking, please contact us as soon as possible. Cancellations made at least 14 days before the event date are eligible for a partial refund of any booking fee paid, subject to a reasonable processing charge. Cancellations made within 14 days of the event date are non-refundable because crew and equipment have generally been committed by then. No refunds are issued once our crew and equipment are on site.</p>
+
+  <h2 id="execution">6. Event execution</h2>
+  <p>We will prepare, set up, operate, and dismantle our production in line with the agreed run sheet. We are not liable for interruptions caused by circumstances beyond our reasonable control, including but not limited to venue failures, power loss, weather, acts of God, or the acts of third parties. Any changes to the event programme may affect coverage, and we will communicate any impact on your setup as soon as it becomes known.</p>
+
+  <h2 id="liability">7. Intellectual property, liability and indemnity</h2>
+  <p>All content on this website, including text, imagery, video and branding, is owned by or licensed to MyEventMCP and may not be reproduced without prior written consent. You retain rights to the recordings we produce for your event, subject to payment and to any third-party rights.</p>
+  <p>To the maximum extent permitted by law, our liability for any claim relating to our services is limited to the amount paid for the affected booking. We are not responsible for indirect, incidental or consequential damages. You agree to indemnify and hold MyEventMCP harmless from claims, losses or damages arising from your use of the website or your breach of these Terms.</p>
+
+  <h2 id="governing-law">8. Governing law</h2>
+  <p>These Terms are governed by and construed in accordance with the laws of Malaysia. Any dispute arising out of these Terms will be subject to the exclusive jurisdiction of the courts of Malaysia.</p>
+
+  <h2 id="contact">9. Contact</h2>
+  <p>Questions about these Terms can be sent to <a href="mailto:hello@myeventmcp.com">hello@myeventmcp.com</a> or via WhatsApp at <a href="https://wa.me/601133078724">+60 11-3307 8724</a>. Our principal place of business is West Wing 1st Floor, Bangunan ECM Libra, 8, Jalan Damansara Endah, 50490 Kuala Lumpur, Malaysia.</p>
+
+</LegalLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+const { title, description, pageTitle, updated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="legal-page">
+    <header class="site-header" data-header><div class="header-inner"><a class="brand" href="/" aria-label="MyEventMCP home"><img src="/logo-color.webp" alt="MyEventMCP" /></a><nav class="desktop-nav" aria-label="Primary navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/events/">Events</a><a href="/locations/">Locations</a></nav><div class="header-right"><a class="button button--small header-cta" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle><span></span><span></span><span class="sr-only">Open navigation</span></button></div></div></header>
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu><div class="mobile-menu__top"><span class="mono-label">LEGAL</span><button class="menu-close" type="button" data-menu-close aria-label="Close navigation">×</button></div><nav aria-label="Mobile navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/events/">Events</a><a href="/locations/">Locations</a><a class="button" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a></nav></div>
+    <main>
+      <section class="legal-hero section-dark"><div class="container"><p class="eyebrow eyebrow--light">Legal</p><h1>{pageTitle}</h1></div></section>
+      <section class="section legal-body"><div class="container legal-body__inner">
+        <nav class="legal-nav" aria-label="On this page"><span class="legal-nav__label">On this page</span><slot name="nav" /></nav>
+        <div class="legal-prose"><slot /></div>
+      </div></section>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>
+
+<script>
+  const header = document.querySelector('[data-header]'); const menu = document.querySelector('[data-mobile-menu]'); const toggle = document.querySelector('[data-menu-toggle]'); const close = document.querySelector('[data-menu-close]');
+  const setMenu = (open) => { menu?.classList.toggle('is-open', open); toggle?.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); };
+  toggle?.addEventListener('click', () => setMenu(true)); close?.addEventListener('click', () => setMenu(false)); menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false))); window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
+</script>

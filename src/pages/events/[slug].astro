@@ -1,0 +1,11 @@
+---
+import SeoLanding from '../../components/SeoLanding.astro';
+import { eventPages } from '../../data/seo-pages';
+
+export function getStaticPaths() {
+  return eventPages.map((item) => ({ params: { slug: item.slug }, props: { item, related: eventPages.filter((entry) => entry.slug !== item.slug).slice(0, 3) } }));
+}
+
+const { item, related } = Astro.props;
+---
+<SeoLanding kind="events" item={item} related={related} />

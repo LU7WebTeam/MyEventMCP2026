@@ -1,5 +1,6 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 const imageBase = 'https://myeventmcp.com/wp-content/uploads';
 
@@ -87,6 +88,7 @@ const estimatorPackages = [
   { id: 'diamond', name: 'Diamond MCP', price: 5500, setup: '3 static cameras · 4 crews' },
   { id: 'ptz', name: 'PTZ RoboCam', price: 4500, setup: '3 PTZ cameras · 3 crews' },
   { id: 'custom', name: 'Custom build', price: 0, setup: 'Tailored to your event' },
+  { id: 'unsure', name: 'Not sure yet', price: 0, setup: 'We will recommend the right setup' },
 ];
 
 const estimatorAddons = [
@@ -99,9 +101,25 @@ const estimatorAddons = [
   { id: 'photo', name: 'Event Photography', detail: 'Up to 100 edited photos, photographer', price: 2500, qty: false },
   { id: 'internet', name: 'Internet Connection', detail: 'Up to 100 mbps high-speed', price: 1500, qty: false },
 ];
+
+const faqs = [
+  ['Which package is right for my event?', 'It depends on the size, format and visual rhythm of your event. <a href="/silver-mcp-package/">Silver</a> suits a single focal point, <a href="/gold-mcp-package/">Gold</a> adds a second perspective, and <a href="/diamond-mcp-package/">Diamond</a> is built for fuller multi-angle coverage. We can recommend a setup after a quick brief, or you can build a <a href="/customised-solution/">customised solution</a>.'],
+  ['Do you provide livestreaming?', 'Yes. Livestreaming is available as an add-on for platforms including YouTube and Facebook, subject to the event\u2019s connectivity and technical requirements. It pairs naturally with our <a href="/events/broadcast-video-production/">broadcast and video production</a> coverage.'],
+  ['Do you cover events outside Kuala Lumpur?', 'Yes. We serve events across Malaysia. Additional transportation and accommodation costs may apply outside Kuala Lumpur and Selangor. See the <a href="/locations/">locations we cover</a>, including <a href="/locations/penang/">Penang</a> and <a href="/locations/johor/">Johor</a>.'],
+  ['Can you support a last-minute event?', 'We are experienced in supporting urgent requests, subject to crew, equipment and date availability. Contact us as soon as possible via the <a href="/#quote">quote form</a> for a fast assessment.'],
+  ['Can you help us choose the right camera setup?', 'Yes. Every booking includes a production plan built around your venue, programme and audience. We recommend the right number of cameras, positions and crew for your event — <a href="/#packages">compare our packages</a> or request a <a href="/customised-solution/">customised solution</a>.'],
+  ['How is my final quote calculated?', 'Final quotes depend on your event date, location, scope, equipment requirements and any selected add-ons. We confirm pricing after a short brief and send a clear, itemised quote — <a href="/#quote">start your quote</a> and we will respond within one business day.'],
+  ['Do you provide photography and highlights?', 'Yes. Event photography, highlights and additional services such as livestreaming, Zoom webinars and high-speed internet connections are available as <a href="/#quote">add-ons</a>.'],
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({ '@type': 'Question', name: faq[0], acceptedAnswer: { '@type': 'Answer', text: faq[1].replace(/<[^>]*>/g, '') } })),
+};
 ---
 
-<BaseLayout>
+<BaseLayout title="MyEventMCP | Multi-Camera Production Malaysia" description="Professional multi-camera production and event coverage across Malaysia. Based in Kuala Lumpur, serving events across Malaysia." image="https://myeventmcp.com/wp-content/uploads/2025/01/DSC02241-scaled.jpg">
   <div class="site-shell">
     <header class="site-header" data-header>
       <div class="header-inner">
@@ -249,7 +267,8 @@ const estimatorAddons = [
       </section>
 
       <section class="section faq-section" id="faq" aria-labelledby="faq-title">
-        <div class="container faq-layout"><div><p class="eyebrow">Before we roll</p><h2 id="faq-title">Good to <em>know.</em></h2><p class="faq-intro">A few answers before we get into the details of your event.</p></div><div class="faq-list"><details open><summary>Which package is right for my event?<span>+</span></summary><p>It depends on the size, format and visual rhythm of your event. Silver suits a single focal point, Gold adds a second perspective, and Diamond is built for fuller multi-angle coverage. We can recommend a setup after a quick brief.</p></details><details><summary>Do you provide livestreaming?<span>+</span></summary><p>Yes. Livestreaming is available as an add-on for platforms including YouTube and Facebook, subject to the event's connectivity and technical requirements.</p></details><details><summary>Do you cover events outside Kuala Lumpur?<span>+</span></summary><p>Yes. We serve events across Malaysia. Additional transportation and accommodation costs may apply outside Kuala Lumpur and Selangor.</p></details><details><summary>Can you support a last-minute event?<span>+</span></summary><p>We are experienced in supporting urgent requests, subject to crew, equipment and date availability. Contact us as soon as possible for a fast assessment.</p></details></div></div>
+        <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+        <div class="container faq-layout"><div><p class="eyebrow">Before we roll</p><h2 id="faq-title">Good to <em>know.</em></h2><p class="faq-intro">A few answers before we get into the details of your event.</p></div><div class="faq-list">{faqs.map((faq, index) => <details open={index === 0}><summary>{faq[0]}<span>+</span></summary><p set:html={faq[1]} /></details>)}</div></div>
       </section>
 
       <section class="quote-section" id="quote" aria-labelledby="quote-title">
@@ -268,12 +287,12 @@ const estimatorAddons = [
                     <label class="option-card">
                       <input type="radio" name="est-base" value={pkg.id} data-price={pkg.price} data-name={pkg.name} data-setup={pkg.setup} checked={i === 0} />
                       <span class="option-card__body">
-                        <span class="option-card__top">
-                          <span class="option-card__price">{pkg.price === 0 ? 'Custom' : `RM${pkg.price.toLocaleString()}`}<small>/day</small></span>
-                        </span>
                         <span class="option-card__name">{pkg.name}</span>
                         <span class="option-card__setup">{pkg.setup}</span>
-                        <span class="option-card__check" aria-hidden="true">↗</span>
+                        <span class="option-card__bottom">
+                          <span class="option-card__price">{pkg.price === 0 ? (pkg.id === 'unsure' ? 'Advice' : 'Custom') : `RM${pkg.price.toLocaleString()}`}{pkg.price > 0 && <small>/day</small>}</span>
+                        </span>
+                        <span class="option-card__check" aria-hidden="true">✓</span>
                       </span>
                     </label>
                   ))}
@@ -350,26 +369,39 @@ const estimatorAddons = [
                     <strong data-summary-total>RM1,800</strong>
                   </div>
                   <p class="summary-card__note" data-summary-note>Estimate only. Final pricing confirmed on enquiry.</p>
+                  <button type="button" class="estimator-reset summary-card__reset" data-estimate-reset>Reset estimate</button>
                   <button type="button" class="button button--primary summary-card__cta" data-estimate-cta>Send to quote form <span aria-hidden="true">↓</span></button>
                 </div>
-              </aside>
-              <form class="quote-form" action="#" method="post" data-quote-form>
-                <div class="form-heading"><p>Start with the basics.</p></div>
-                <label>Name<input type="text" name="name" placeholder="Your name" required /></label>
-                <label>Email<input type="email" name="email" placeholder="you@company.com" required /></label>
-                <label>Event type<select name="event-type" required><option value="">Select one</option><option>Conference</option><option>Corporate gathering</option><option>Seminar</option><option>Annual dinner</option><option>Launch</option><option>Other</option></select></label>
-                <label>Tell us about the event<textarea name="message" rows="3" placeholder="Location, audience size, what you need..."></textarea></label>
-                <button class="button button--primary" type="submit">Request a quote <span aria-hidden="true">↗</span></button>
-                <p class="form-note">We will use your details only to respond to this enquiry.</p>
-              </form>
-              <a class="whatsapp-link whatsapp-link--dark" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>Prefer to chat?</span><strong>WhatsApp us ↗</strong></a>
-            </div>
+               </aside>
+             </div>
           </div>
+       </div>
+      </section>
+      <section class="enquiry-section" id="quote-form" aria-labelledby="enquiry-title">
+        <div class="container enquiry-layout">
+          <div class="enquiry-copy">
+            <p class="eyebrow">Ready when you are</p>
+            <h2 id="enquiry-title">Tell us about<br /><em>your event.</em></h2>
+            <p>Share the basics and our team will recommend the right coverage, crew and setup. You can enquire even if you have not chosen a package.</p>
+            <a class="whatsapp-link whatsapp-link--light" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>Prefer to chat?</span><strong>WhatsApp us ↗</strong></a>
+          </div>
+          <form class="quote-form" action="/api/quote" method="post" data-quote-form>
+            <div class="form-heading"><p>Start with the basics.</p></div>
+            <label class="sr-only" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+            <label>Name<input type="text" name="name" placeholder="Your name" required /></label>
+            <label>Email<input type="email" name="email" placeholder="you@company.com" required /></label>
+            <label>Phone number<input type="tel" name="phone" placeholder="+60 12 345 6789" autocomplete="tel" /></label>
+            <label>Event type<select name="event-type" required><option value="" selected disabled>Select one</option><option value="conference">Conference</option><option value="corporate-gathering">Corporate gathering</option><option value="seminar">Seminar</option><option value="annual-dinner">Annual dinner</option><option value="launch">Launch</option><option value="other">Other</option></select></label>
+            <label>Tell us about the event<textarea name="message" rows="3" placeholder="Location, audience size, what you need..."></textarea></label>
+            <button class="button button--primary" type="submit">Request a quote <span aria-hidden="true">↗</span></button>
+            <p class="form-status" data-quote-form-status role="status" aria-live="polite"></p>
+            <p class="form-note">We will use your details only to respond to this enquiry.</p>
+          </form>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer"><div class="container footer-top"><div><a class="brand brand--footer" href="#top"><img src="/logo-color.webp" alt="MyEventMCP" /></a><p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p></div><div class="footer-links"><div><span class="eyebrow">Explore</span><a href="#about">About us</a><a href="#packages">Packages</a><a href="#portfolio">Portfolio</a></div><div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div></div></div><div class="container footer-bottom"><span>MyEventMCP by Sevenue Sdn Bhd</span><span>Visit <a href="https://sevenue.com" target="_blank" rel="noreferrer">sevenue.com</a> to learn more about our full event production services.</span></div></footer>
+    <SiteFooter home />
     <a class="whatsapp-fab" href="https://wa.me/601133078724" target="_blank" rel="noreferrer" aria-label="Chat with MyEventMCP on WhatsApp">◔</a>
     <div class="lightbox" data-lightbox aria-hidden="true"><button type="button" class="lightbox__close" data-lightbox-close aria-label="Close">×</button><button type="button" class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous">‹</button><button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next">›</button><div class="lightbox__stage"><img data-lightbox-media-image alt="" /><div class="lightbox__video" data-lightbox-video-wrap aria-hidden="true"></div></div><p class="lightbox__caption" data-lightbox-caption></p><span class="lightbox__counter" data-lightbox-counter></span></div>
   </div>
@@ -479,12 +511,54 @@ const estimatorAddons = [
     if (Math.abs(dx) > 50) openLightbox(currentIndex + (dx < 0 ? 1 : -1), currentGroup);
   }, { passive: true });
 
+  const pushEvent = (name, params) => {
+    if (typeof window.dataLayer !== 'undefined') {
+      const payload = { event: name };
+      if (params) for (const key in params) payload[key] = params[key];
+      window.dataLayer.push(payload);
+    }
+  };
+
   document.querySelector('.quote-form')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const button = form.querySelector('button');
-    button.textContent = 'Thanks - we will be in touch';
-    button.setAttribute('disabled', 'true');
+    const button = form.querySelector('button[type="submit"]');
+    const status = form.querySelector('[data-quote-form-status]');
+    if (!button || button.hasAttribute('disabled')) return;
+    const original = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = 'Sending...';
+    if (status) status.textContent = '';
+    pushEvent('quote_form_start', { form_name: 'enquiry' });
+    const payload = new URLSearchParams(new FormData(form));
+    fetch('/api/quote', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: payload })
+      .then((res) => res.json().catch(() => ({ success: false })))
+      .then((result) => {
+        if (result && result.success) {
+          button.innerHTML = 'Thanks - we will be in touch <span aria-hidden="true">↗</span>';
+          if (status) status.textContent = result.message || 'Your enquiry has been received. We will be in touch shortly.';
+          pushEvent('quote_form_submit', { form_name: 'enquiry' });
+        } else {
+          button.innerHTML = original;
+          button.disabled = false;
+          if (status) status.textContent = 'Something went wrong sending your enquiry. Please try again or message us on WhatsApp.';
+          pushEvent('quote_form_error', { form_name: 'enquiry', reason: result?.message || 'unknown' });
+        }
+      })
+      .catch(() => {
+        button.innerHTML = original;
+        button.disabled = false;
+        if (status) status.textContent = 'Could not reach our server. Please try again or message us on WhatsApp.';
+        pushEvent('quote_form_error', { form_name: 'enquiry', reason: 'network' });
+      });
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('a');
+    if (!target) return;
+    const href = target.getAttribute('href') || '';
+    if (href.includes('wa.me')) pushEvent('whatsapp_click');
+    if (href.includes('#quote') || href.endsWith('/quote')) pushEvent('quote_cta_click');
   });
 
   // ===== Event Estimator =====
@@ -502,13 +576,22 @@ const estimatorAddons = [
     let eventDays = 1;
     let dateRangeText = '';
     let lastSummaryText = '';
+    let datePicker;
     const row = (label, value, sub) => '<div class="summary-row' + (sub ? ' summary-row--sub' : '') + '"><span>' + label + '</span><span>' + value + '</span></div>';
+
+    const focusQuoteForm = () => {
+      const form = document.querySelector('[data-quote-form]');
+      if (!form) return;
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      form.querySelector('input[name="name"]')?.focus({ preventScroll: true });
+    };
 
     // Flatpickr range date picker
     const dateInput = document.querySelector('[data-date-input]');
     if (dateInput && typeof flatpickr !== 'undefined') {
-      flatpickr(dateInput, {
+      datePicker = flatpickr(dateInput, {
         mode: 'range',
+        monthSelectorType: 'static',
         minDate: 'today',
         dateFormat: 'M j, Y',
         onChange: (selectedDates, dateStr) => {
@@ -528,7 +611,7 @@ const estimatorAddons = [
       const lines = [];
       lines.push('MyEventMCP - event estimate');
       lines.push('----------------------------------');
-      lines.push('Base package: ' + data.baseName + (data.isCustom ? ' (custom quote)' : ' (' + fmt(data.basePrice) + '/day)'));
+       lines.push('Base package: ' + (data.baseName || 'Not selected') + (data.isCustom || data.isNotSure ? ' (quote on request)' : (data.hasPackage ? ' (' + fmt(data.basePrice) + '/day)' : '')));
       lines.push('Event dates: ' + (data.dateRangeText || 'Not selected') + ' (' + data.days + ' day' + (data.days > 1 ? 's' : '') + ')');
       if (data.addonLines.length) {
         lines.push('Add-ons:');
@@ -539,7 +622,7 @@ const estimatorAddons = [
       lines.push('Weekend / public holiday surcharge: ' + (data.weekend > 0 ? '+' + fmt(data.weekend) : 'no'));
       lines.push('Day-before rehearsal: ' + (data.rehearsal > 0 ? '+' + fmt(data.rehearsal) : 'no'));
       lines.push('----------------------------------');
-      lines.push('Estimated total: ' + (data.isCustom ? (data.customExtra > 0 ? 'from ' + fmt(data.customExtra) + ' + custom setup' : 'custom quote') : fmt(data.total)));
+       lines.push('Estimated total: ' + (!data.hasPackage ? 'quote on request' : (data.isCustom || data.isNotSure ? (data.customExtra > 0 ? 'from ' + fmt(data.customExtra) + ' + custom setup' : 'custom quote') : fmt(data.total))));
       lines.push('(Estimate only - final pricing confirmed on enquiry.)');
       return lines.join('\n');
     };
@@ -547,9 +630,11 @@ const estimatorAddons = [
     const compute = () => {
       try {
         const baseInput = estControls.querySelector('input[name="est-base"]:checked');
-        const basePrice = baseInput ? parseFloat(baseInput.getAttribute('data-price') || '0') : 0;
-        const baseName = baseInput ? baseInput.getAttribute('data-name') : '';
-        const isCustom = baseInput ? baseInput.value === 'custom' : false;
+         const hasPackage = Boolean(baseInput);
+         const basePrice = baseInput ? parseFloat(baseInput.getAttribute('data-price') || '0') : 0;
+         const baseName = baseInput ? baseInput.getAttribute('data-name') : '';
+         const isCustom = baseInput ? baseInput.value === 'custom' : false;
+         const isNotSure = baseInput ? baseInput.value === 'unsure' : false;
 
         const days = eventDays;
 
@@ -575,27 +660,30 @@ const estimatorAddons = [
         const weekendCb = estControls.querySelector('[data-surcharge="weekend"]');
         const rehearsalCb = estControls.querySelector('[data-surcharge="rehearsal"]');
         const weekendRate = weekendCb?.checked ? parseFloat(weekendCb.getAttribute('data-rate') || '0') : 0;
-        const rehearsalRate = (rehearsalCb?.checked && !isCustom) ? parseFloat(rehearsalCb.getAttribute('data-rate') || '0') : 0;
+         const rehearsalRate = (rehearsalCb?.checked && hasPackage && !isCustom && !isNotSure) ? parseFloat(rehearsalCb.getAttribute('data-rate') || '0') : 0;
 
         const weekend = Math.round(subtotal * weekendRate);
         const rehearsal = isCustom ? 0 : Math.round(basePrice * rehearsalRate);
         const total = subtotal + weekend + rehearsal;
         const customExtra = addonsTotal + weekend;
 
-        const data = { baseName, basePrice, isCustom, days, addonLines, baseTotal, addonsTotal, weekend, rehearsal, total, customExtra, dateRangeText };
+         const data = { baseName, basePrice, hasPackage, isCustom, isNotSure, days, addonLines, baseTotal, addonsTotal, weekend, rehearsal, total, customExtra, dateRangeText };
 
         const out = [];
         out.push(row('Event dates', dateRangeText ? dateRangeText + ' (' + dayPlural(days) + ')' : dayPlural(days) + ' (default)'));
-        out.push(row('Base coverage', isCustom ? 'Custom quote' : fmt(baseTotal)));
+         out.push(row('Base coverage', !hasPackage ? 'Not selected' : (isCustom || isNotSure ? 'Quote on request' : fmt(baseTotal))));
         out.push(row('Add-ons ' + dayPlural(days), addonsTotal > 0 ? fmt(addonsTotal) : '\u2014'));
         addonLines.forEach((a) => out.push(row(a.name + (a.qty > 1 ? ' \u00d7 ' + a.qty : ''), fmt(a.line * days), true)));
         if (weekend > 0) out.push(row('Weekend / holiday (+20%)', '+' + fmt(weekend)));
         if (rehearsal > 0) out.push(row('Day-before rehearsal (+30%)', '+' + fmt(rehearsal)));
         summaryRows.innerHTML = out.join('');
 
-        if (isCustom) {
-          summaryTotal.textContent = customExtra > 0 ? 'from ' + fmt(customExtra) : 'Custom quote';
-          if (summaryNote) summaryNote.textContent = customExtra > 0 ? 'Add-on estimate only. Custom camera/switcher setup quoted on enquiry.' : 'Final pricing is tailored to your brief and confirmed on enquiry.';
+         if (!hasPackage) {
+           summaryTotal.textContent = 'Quote on request';
+           if (summaryNote) summaryNote.textContent = 'You can request a quote without selecting a package.';
+         } else if (isCustom || isNotSure) {
+           summaryTotal.textContent = customExtra > 0 ? 'from ' + fmt(customExtra) : 'Custom quote';
+           if (summaryNote) summaryNote.textContent = isNotSure ? 'Tell us about your event and we will recommend the right setup.' : (customExtra > 0 ? 'Add-on estimate only. Custom camera/switcher setup quoted on enquiry.' : 'Final pricing is tailored to your brief and confirmed on enquiry.');
         } else {
           summaryTotal.textContent = fmt(total);
           if (summaryNote) summaryNote.textContent = 'Estimate only. Final pricing confirmed on enquiry.';
@@ -612,7 +700,8 @@ const estimatorAddons = [
     estControls.addEventListener('input', compute);
 
     // Stepper wiring (add-on qty steppers)
-    document.querySelectorAll('[data-stepper]').forEach((stepper) => {
+     const resetSteppers = [];
+     document.querySelectorAll('[data-stepper][data-min]').forEach((stepper) => {
       const min = parseInt(stepper.getAttribute('data-min') || '0', 10);
       const max = parseInt(stepper.getAttribute('data-max') || '99', 10);
       const valueEl = stepper.querySelector('[data-stepper-value]');
@@ -627,25 +716,49 @@ const estimatorAddons = [
       };
       stepper.querySelector('[data-stepper="-"]').addEventListener('click', () => set(value - 1));
       stepper.querySelector('[data-stepper="+"]').addEventListener('click', () => set(value + 1));
-      stepper.setAttribute('data-current', String(value));
-      render();
-    });
+       stepper.setAttribute('data-current', String(value));
+       render();
+       resetSteppers.push(() => set(parseInt(stepper.getAttribute('data-default') || '0', 10)));
+     });
+
+     estControls.querySelectorAll('input[name="est-base"]').forEach((input) => {
+       input.addEventListener('change', () => {
+         if (input.value === 'unsure') focusQuoteForm();
+       });
+     });
+
+      const resetEstimate = () => {
+        const defaultPackage = estControls.querySelector('input[name="est-base"][value="silver"]');
+        if (defaultPackage) defaultPackage.checked = true;
+        estControls.querySelectorAll('input[type="checkbox"]').forEach((input) => { input.checked = false; });
+        datePicker?.clear();
+        eventDays = 1;
+        dateRangeText = '';
+        resetSteppers.forEach((reset) => reset());
+        compute();
+      };
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        const resetButton = target && typeof target.closest === 'function' ? target.closest('[data-estimate-reset]') : null;
+        if (!resetButton) return;
+        event.preventDefault();
+        resetEstimate();
+      });
 
     // CTA: fill the quote form message with the estimate and focus it
-    estCta?.addEventListener('click', () => {
-      const form = document.querySelector('[data-quote-form]');
-      if (!form) return;
-      const ta = form.querySelector('textarea[name="message"]');
-      if (ta && lastSummaryText) ta.value = lastSummaryText;
-      const nameInput = form.querySelector('input[name="name"]');
-      nameInput?.focus();
-      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
+     estCta?.addEventListener('click', () => {
+       const form = document.querySelector('[data-quote-form]');
+       if (!form) return;
+       const ta = form.querySelector('textarea[name="message"]');
+       if (ta && lastSummaryText) ta.value = lastSummaryText;
+       focusQuoteForm();
+     });
 
     compute();
   })();
 </script>
 
-<style>
+<style is:global>
   @import url('/src/styles/global.css');
 </style>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 const imageBase = 'https://myeventmcp.com/wp-content/uploads';
 const addOns = [
@@ -44,7 +45,8 @@ const gallery = [
 const related = Object.entries(packages).filter(([slug]) => slug !== Astro.params.slug);
 ---
 
-<BaseLayout title={`${pkg.title} | MyEventMCP`} description={`${pkg.title} for event coverage across Malaysia.`}>
+<BaseLayout title={`${pkg.title} | MyEventMCP`} description={`${pkg.title} for event coverage across Malaysia.`} image={`${imageBase}/2025/01/DSC02241-scaled.jpg`}>
+  <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Service', serviceType: pkg.title, name: pkg.name, description: pkg.description, url: `https://myeventmcp.com/${Astro.params.slug}/`, provider: { '@type': 'Organization', name: 'MyEventMCP', url: 'https://myeventmcp.com/' }, areaServed: 'Malaysia' })} />
   <div class="package-page">
     <header class="site-header" data-header><div class="header-inner"><a class="brand" href="/" aria-label="MyEventMCP home"><img src="/logo-color.webp" alt="MyEventMCP" /></a><nav class="desktop-nav" aria-label="Primary navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a><a href="/#faq">FAQ</a></nav><div class="header-right"><a class="button button--small header-cta" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle><span></span><span></span><span class="sr-only">Open navigation</span></button></div></div></header>
     <div class="mobile-menu" id="mobile-menu" data-mobile-menu><div class="mobile-menu__top"><span class="mono-label">PACKAGE</span><button class="menu-close" type="button" data-menu-close aria-label="Close navigation">×</button></div><nav aria-label="Mobile navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a><a href="/#faq">FAQ</a><a class="button" href="/#quote">Get a quote <span aria-hidden="true">↗</span></a></nav></div>
@@ -56,7 +58,7 @@ const related = Object.entries(packages).filter(([slug]) => slug !== Astro.param
       <section class="package-cta section-dark"><div class="container package-cta__inner"><div><p class="eyebrow eyebrow--light">Ready when you are</p><h2>Let's frame your<br /><em>event right.</em></h2></div><div><p>Tell us about your event, venue and date. We will recommend the right setup and confirm your final quote.</p><a class="button button--primary" href="/#quote">Request a quote <span aria-hidden="true">↗</span></a></div></div></section>
       <section class="section related-section"><div class="container"><div class="related-heading"><p class="eyebrow">Need more angles?</p><h2>Explore related<br /><em>packages.</em></h2></div><div class="related-grid">{related.map(([slug, item]) => <article class={`package-card package-card--${item.tone}`}><div class="package-card__top"><p class="eyebrow">{item.eyebrow}</p><span class="package-card__dot"></span></div><h3>{item.name}</h3><p class="package-card__description">{item.description}</p><span class="package-card__setup">{item.setup}</span><div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}{item.price !== 'Custom' && <small>/day</small>}</strong></div><a class="circle-arrow" href={`/${slug}/`} aria-label={`View ${item.name}`}>↗</a></div></article>)}</div></div></section>
     </main>
-    <footer class="site-footer"><div class="container footer-top"><div><a class="brand brand--footer" href="/"><img src="/logo-color.webp" alt="MyEventMCP" /></a><p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p></div><div class="footer-links"><div><span class="eyebrow">Explore</span><a href="/#about">About us</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a></div><div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div></div></div><div class="container footer-bottom"><span>MyEventMCP by Sevenue Sdn Bhd</span><span>Serving events across Malaysia</span></div></footer>
+    <SiteFooter />
   </div>
 </BaseLayout>
 
@@ -70,6 +72,6 @@ const related = Object.entries(packages).filter(([slug]) => slug !== Astro.param
   window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
 </script>
 
-<style>
+<style is:global>
   @import url('/src/styles/global.css');
 </style>

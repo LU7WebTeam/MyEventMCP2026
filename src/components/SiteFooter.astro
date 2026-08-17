@@ -1,0 +1,22 @@
+---
+import { eventPages, locationPages } from '../data/seo-pages';
+
+const { home = false } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div>
+      <a class="brand brand--footer" href={home ? '#top' : '/'}><img src="/logo-color.webp" alt="MyEventMCP" /></a>
+      <p>A multi-camera production agency, based in Kuala Lumpur. Providing MCP services across Malaysia.</p>
+      <p>MyEventMCP is operated by Sevenue Sdn Bhd. Visit <a href="https://sevenue.com" target="_blank" rel="noreferrer">sevenue.com</a> to learn more about our full event production services.</p>
+    </div>
+    <div class="footer-links">
+      <div><span class="eyebrow">Explore</span><a href={home ? '#about' : '/#about'}>About us</a><a href={home ? '#packages' : '/#packages'}>Packages</a><a href={home ? '#portfolio' : '/#portfolio'}>Portfolio</a></div>
+      <div><span class="eyebrow">Events</span><a href="/events/">All event types</a>{eventPages.map((page) => <a href={`/events/${page.slug}/`}>{page.name}</a>)}</div>
+      <div><span class="eyebrow">Locations</span><a href="/locations/">All locations</a>{locationPages.map((page) => <a href={`/locations/${page.slug}/`}>{page.name}</a>)}</div>
+      <div><span class="eyebrow">Contact</span><a href="tel:+60386053563">+603 8605 3563</a><a href="mailto:hello@myeventmcp.com">Email our team</a><a href="https://wa.me/601133078724">WhatsApp</a></div>
+    </div>
+  </div>
+  <div class="container footer-bottom"><span>MyEventMCP by Sevenue Sdn Bhd</span><span><a href="/terms-services/">Terms of Service</a> · <a href="/privacy-policy/">Privacy Policy</a> · Serving events across Malaysia</span></div>
+</footer>
