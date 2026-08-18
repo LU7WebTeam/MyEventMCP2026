@@ -8,13 +8,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH into Replit and rebuild
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.REPLIT_SSH_HOST }}
-          username: ${{ secrets.REPLIT_SSH_USERNAME }}
-          key: ${{ secrets.REPLIT_SSH_PRIVATE_KEY }}
-          script: |
-            cd ~/workspace/artifacts/myeventmcp
-            git pull origin main
-            npm run build
+      - name: Trigger Replit rebuild
+        run: |
+          curl -f -X POST \
+            -H "Authorization: Bearer ${{ secrets.REPLIT_WEBHOOK_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d '{"site":"myeventmcp"}' \
+            https://myeventqr.com/api/webhook/rebuild
