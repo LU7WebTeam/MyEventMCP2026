@@ -9,9 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Replit rebuild
+        env:
+          WEBHOOK_SECRET: ${{ secrets.REPLIT_WEBHOOK_SECRET }}
         run: |
           curl -f -X POST \
-            -H "Authorization: Bearer ${{ secrets.REPLIT_WEBHOOK_SECRET }}" \
+            -H "Authorization: Bearer ${WEBHOOK_SECRET}" \
             -H "Content-Type: application/json" \
             -d '{"site":"myeventmcp"}' \
             https://myeventqr.com/api/webhook/rebuild
