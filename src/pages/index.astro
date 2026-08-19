@@ -393,10 +393,13 @@ const faqSchema = {
             <label class="sr-only" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
             <label>Name<input type="text" name="name" placeholder="Your name" required /></label>
             <label>Email<input type="email" name="email" placeholder="you@company.com" required /></label>
-            <label>Phone number<input type="tel" name="phone" placeholder="+60 12 345 6789" autocomplete="tel" /></label>
+            <label>Phone number<input type="tel" name="phone" placeholder="+60 12 345 6789" autocomplete="tel" required /></label>
             <label>Event type<select name="event-type" required><option value="" selected disabled>Select one</option><option value="conference">Conference</option><option value="corporate-gathering">Corporate gathering</option><option value="seminar">Seminar</option><option value="annual-dinner">Annual dinner</option><option value="launch">Launch</option><option value="other">Other</option></select></label>
             <label>Tell us about the event<textarea name="message" rows="3" placeholder="Location, audience size, what you need..."></textarea></label>
-            <button class="button button--primary" type="submit">Request a quote <span aria-hidden="true">↗</span></button>
+            <div class="form-actions">
+              <button class="button button--primary" type="submit" data-submit-method="email">Request via email <span aria-hidden="true">↗</span></button>
+              <button class="button button--whatsapp" type="submit" data-submit-method="whatsapp">Request via WhatsApp <span aria-hidden="true">↗</span></button>
+            </div>
             <p class="form-status" data-quote-form-status role="status" aria-live="polite"></p>
             <p class="form-note">We will use your details only to respond to this enquiry.</p>
           </form>
@@ -526,10 +529,34 @@ const faqSchema = {
     }
   };
 
+  const WHATSAPP_NUMBER = '601133078724';
+
   document.querySelector('.quote-form')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const button = form.querySelector('button[type="submit"]');
+    const method = event.submitter?.getAttribute('data-submit-method') || 'email';
+
+    if (method === 'whatsapp') {
+      const data = new FormData(form);
+      const eventType = String(data.get('event-type') || '');
+      const lines = [
+        'MyEventMCP - quote request',
+        '----------------------------------',
+        'Name: ' + String(data.get('name') || '-'),
+        'Email: ' + String(data.get('email') || '-'),
+        'Phone: ' + String(data.get('phone') || '-'),
+        'Event type: ' + (eventType ? eventType.replace(/-/g, ' ') : '-'),
+        'Message:',
+        String(data.get('message') || '-'),
+      ];
+      window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+      pushEvent('quote_form_submit', { form_name: 'enquiry', method: 'whatsapp' });
+      const status = form.querySelector('[data-quote-form-status]');
+      if (status) status.textContent = 'Opening WhatsApp with your enquiry details...';
+      return;
+    }
+
+    const button = form.querySelector('button[type="submit"][data-submit-method="email"]');
     const status = form.querySelector('[data-quote-form-status]');
     if (!button || button.hasAttribute('disabled')) return;
     const original = button.innerHTML;

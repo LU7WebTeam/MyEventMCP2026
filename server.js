@@ -29,8 +29,8 @@ app.post('/api/quote', (req, res) => {
   const eventType = String(req.body['event-type'] || '').trim().slice(0, 120);
   const message = String(req.body.message || '').trim().slice(0, 5000);
 
-  if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(422).json({ success: false, message: 'Please provide your name and a valid email address.' });
+  if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !phone) {
+    return res.status(422).json({ success: false, message: 'Please provide your name, email address and phone number.' });
   }
 
   const smtpPass = process.env.SMTP_PASS || '';
