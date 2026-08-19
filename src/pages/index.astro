@@ -93,7 +93,7 @@ const estimatorAddons = [
   { id: 'audio', name: 'Audio Equipments', detail: '2 hall speakers, 2 monitors, 2 subwoofers, mixer, 4 wireless mics, engineer', price: 3000, qty: false },
   { id: 'laptop', name: 'Event Laptop', detail: 'Capture card, presentation slides, operator', price: 500, qty: false },
   { id: 'camera', name: 'Additional MCP Camera', detail: 'Canon XF605, operator, cables', price: 800, qty: true, max: 5 },
-  { id: 'transmitter', name: 'Wireless visual Transmitter', detail: 'Transmitter, receiver and cable', price: 850, qty: false },
+  { id: 'transmitter', name: 'Wireless Visual Transmitter', detail: 'Transmitter, receiver and cable', price: 850, qty: false },
   { id: 'lighting', name: 'Lighting Package', detail: '1x Tiger Touch lighting mixer, 4 Sharpy and 6 face lights', price: 5000, qty: false },
   { id: 'livestream', name: 'Livestreaming', detail: 'Vmix software, YouTube + Facebook, laptop', price: 2500, qty: false },
   { id: 'highlights', name: 'Event Highlights', detail: 'Videographer + video editing', price: 3500, qty: false },
@@ -352,7 +352,7 @@ const faqSchema = {
                     <span class="surcharge-toggle__box" aria-hidden="true"></span>
                     <span class="surcharge-toggle__label">
                       <span class="surcharge-toggle__name">Day-before rehearsal</span>
-                      <span class="surcharge-toggle__detail">+30% of the base package and add-ons (one-off)</span>
+                      <span class="surcharge-toggle__detail">+30% of one day's package and add-ons (one-off)</span>
                     </span>
                   </label>
                 </div>
@@ -670,7 +670,7 @@ const faqSchema = {
         const rehearsalRate = (rehearsalCb?.checked && hasPackage && !isNotSure) ? parseFloat(rehearsalCb.getAttribute('data-rate') || '0') : 0;
 
         const weekend = Math.round(subtotal * weekendRate);
-        const rehearsal = Math.round(subtotal * rehearsalRate);
+        const rehearsal = Math.round((basePrice + addonsDay) * rehearsalRate);
         const total = subtotal + weekend + rehearsal;
         const customExtra = addonsTotal + weekend + rehearsal;
 
