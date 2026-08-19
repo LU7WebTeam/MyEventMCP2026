@@ -37,11 +37,39 @@ export function getStaticPaths() {
 }
 
 const pkg = packages[Astro.params.slug];
-const gallery = [
-  { src: `${imageBase}/2025/01/DSC02235-scaled.jpg`, alt: 'Behind the scenes of a multi-camera production setup.' },
-  { src: `${imageBase}/2025/01/DSC09768-scaled.jpg`, alt: 'Close-up of a professional event camera.' },
-  { src: `${imageBase}/2025/01/20241115_101711-scaled.jpg`, alt: 'Camera crew setting up equipment for a live event.' },
-];
+const galleryByPackage = {
+  'gold-mcp-package': [
+    ['gold-mcp-package-event-production-setup.webp', 'Gold MCP package event production setup with multiple cameras.'],
+    ['gold-mcp-package-camera-operator.webp', 'Gold MCP package camera operator monitoring the live production feed.'],
+    ['gold-mcp-package-live-event-camera.webp', 'Gold MCP package camera setup filming a live event.'],
+    ['gold-mcp-package-production-crew.webp', 'Gold MCP package production crew managing event video equipment.'],
+    ['gold-mcp-package-professional-camera-setup.webp', 'Professional camera setup used for Gold MCP package event coverage.'],
+    ['gold-mcp-package-event-production-equipment.webp', 'Gold MCP package event production equipment ready for operation.'],
+    ['gold-mcp-package-multi-camera-production.webp', 'Gold MCP package multi-camera production control equipment.'],
+    ['gold-mcp-package-live-production-setup.webp', 'Gold MCP package live production setup for event coverage.'],
+  ],
+  'diamond-mcp-package': [
+    ['diamond-mcp-package-event-production-setup.webp', 'Diamond MCP package event production setup with multiple cameras.'],
+    ['diamond-mcp-package-camera-operator.webp', 'Diamond MCP package camera operator monitoring the live production feed.'],
+    ['diamond-mcp-package-live-event-camera.webp', 'Diamond MCP package camera setup filming a live event.'],
+    ['diamond-mcp-package-production-crew.webp', 'Diamond MCP package production crew managing event video equipment.'],
+    ['diamond-mcp-package-professional-camera-setup.webp', 'Professional camera setup used for Diamond MCP package event coverage.'],
+    ['diamond-mcp-package-event-production-equipment.webp', 'Diamond MCP package event production equipment ready for operation.'],
+    ['diamond-mcp-package-multi-camera-production.webp', 'Diamond MCP package multi-camera production control equipment.'],
+    ['diamond-mcp-package-live-production-setup.webp', 'Diamond MCP package live production setup for event coverage.'],
+  ],
+  'ptz-robocam-setup': [
+    ['ptz-robocam-setup-remote-camera.webp', 'PTZ RoboCam setup with a remote-controlled event camera.'],
+    ['ptz-robocam-setup-production-view.webp', 'PTZ RoboCam production view during live event coverage.'],
+    ['ptz-robocam-setup-ptz-camera.webp', 'PTZ RoboCam camera ready for remote pan, tilt and zoom control.'],
+    ['ptz-robocam-setup-camera-control.webp', 'PTZ RoboCam camera control equipment for live event production.'],
+    ['ptz-robocam-setup-event-camera.webp', 'PTZ RoboCam event camera positioned for flexible coverage.'],
+    ['ptz-robocam-setup-production-equipment.webp', 'PTZ RoboCam production equipment prepared for an event.'],
+    ['ptz-robocam-setup-live-event-coverage.webp', 'PTZ RoboCam setup providing live event coverage.'],
+    ['ptz-robocam-setup-remote-production.webp', 'PTZ RoboCam remote production setup with professional equipment.'],
+  ],
+};
+const gallery = (galleryByPackage[Astro.params.slug] || []).map(([file, alt]) => ({ src: `/` + (Astro.params.slug === 'ptz-robocam-setup' ? 'ptz-gallery' : Astro.params.slug === 'gold-mcp-package' ? 'gold-gallery' : 'diamond-gallery') + `/${file}`, alt }));
 const related = Object.entries(packages).filter(([slug]) => slug !== Astro.params.slug);
 ---
 
@@ -54,11 +82,12 @@ const related = Object.entries(packages).filter(([slug]) => slug !== Astro.param
       <section class="package-hero section-dark"><div class="package-hero__image"><img src={`${imageBase}/2025/01/DSC02241-scaled.jpg`} alt="Event production team monitoring a live multi-camera feed." /></div><div class="package-hero__wash"></div><div class="container package-hero__inner"><div class="package-hero__copy"><a class="back-link" href="/#packages">← All packages</a><p class="eyebrow eyebrow--light">{pkg.eyebrow}</p><h1>{pkg.name}<br /><em>Package.</em></h1><p class="package-hero__lead">{pkg.lead}</p><div class="package-hero__actions"><a class="button button--primary" href="/#quote">Enquire now <span aria-hidden="true">↗</span></a><a class="text-link text-link--light" href="#at-a-glance">View specs <span aria-hidden="true">↓</span></a></div><div class="package-quickfacts"><span>{pkg.setup.split(' / ')[0]}</span><span>{pkg.setup.split(' / ')[1]}</span><span>{pkg.custom ? 'Custom quote' : '1–8 hours'}</span><span>{pkg.custom ? 'Built around your brief' : 'Full event recording'}</span></div></div><aside class="package-price"><span class="mono-label">Starting from</span><strong>{pkg.price}</strong>{!pkg.custom && <span>/ day</span>}<p>{pkg.custom ? 'Final pricing is tailored to your requirements.' : 'Final pricing depends on your event requirements, date and location.'}</p></aside></div></section>
       <section class="package-intro section" id="at-a-glance"><div class="container package-intro__grid"><div><p class="eyebrow">Package at a glance</p><h2>{pkg.custom ? <>A setup built<br /><em>around you.</em></> : <>Simple setup.<br /><em>Clear coverage.</em></>}</h2><div class="package-scenarios"><span class="mono-label">Best for</span><div><span>Corporate gatherings</span><span>Conferences</span><span>Seminars</span><span>Launches</span></div></div></div><div class="package-specs">{pkg.inclusions.map((item) => <div><span>{item[0]}</span><strong>{item[1]}</strong></div>)}</div></div></section>
       <section class="section addons-section"><div class="container package-intro__grid"><div><p class="eyebrow eyebrow--light">Optional add-ons</p><h2>Build the setup<br /><em>around your event.</em></h2></div><div class="addon-table">{addOns.map((addon) => <article class="addon-line"><div><h3>{addon[0]}</h3><p>{addon[1]}</p></div><strong>from {addon[2]}<small>/day</small></strong></article>)}</div></div></section>
-      <section class="section package-gallery"><div class="container package-gallery__head"><div><p class="eyebrow">The craft in motion</p><h2>Small setup.<br /><em>Big attention.</em></h2></div><p class="muted">Our crew handles the details behind the scenes so your audience can stay with the story.</p></div><div class="container package-gallery__grid">{gallery.map((item, index) => <figure class={`package-gallery__item package-gallery__item--${index}`}><img src={item.src} alt={item.alt} loading="lazy" /></figure>)}</div></section>
+       {gallery.length > 0 && <section class="section package-gallery" aria-labelledby="package-gallery-title"><div class="container package-gallery__head"><div><p class="eyebrow">The craft in motion</p><h2 id="package-gallery-title">Small setup.<br /><em>Big attention.</em></h2></div><p class="muted">Our crew handles the details behind the scenes so your audience can stay with the story. Open any image to view the full gallery.</p></div><div class="container package-gallery__grid">{gallery.map((item, index) => <button class={`package-gallery__item package-gallery__item--${index}`} type="button" data-lightbox-type="image" data-lightbox-group="package-gallery" data-lightbox-src={item.src} data-lightbox-alt={item.alt} data-lightbox-caption={item.alt} aria-label={`Open image ${index + 1} of ${gallery.length}`}><img src={item.src} alt={item.alt} loading="lazy" /><span>View image <b aria-hidden="true">↗</b></span></button>)}</div></section>}
       <section class="package-cta section-dark"><div class="container package-cta__inner"><div><p class="eyebrow eyebrow--light">Ready when you are</p><h2>Let's frame your<br /><em>event right.</em></h2></div><div><p>Tell us about your event, venue and date. We will recommend the right setup and confirm your final quote.</p><a class="button button--primary" href="/#quote">Request a quote <span aria-hidden="true">↗</span></a></div></div></section>
       <section class="section related-section"><div class="container"><div class="related-heading"><p class="eyebrow">Need more angles?</p><h2>Explore related<br /><em>packages.</em></h2></div><div class="related-grid">{related.map(([slug, item]) => <article class={`package-card package-card--${item.tone}`}><div class="package-card__top"><p class="eyebrow">{item.eyebrow}</p><span class="package-card__dot"></span></div><h3>{item.name}</h3><p class="package-card__description">{item.description}</p><span class="package-card__setup">{item.setup}</span><div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}{item.price !== 'Custom' && <small>/day</small>}</strong></div><a class="circle-arrow" href={`/${slug}/`} aria-label={`View ${item.name}`}>↗</a></div></article>)}</div></div></section>
     </main>
-    <SiteFooter />
+     <SiteFooter />
+     <div class="lightbox" data-lightbox aria-hidden="true"><button type="button" class="lightbox__close" data-lightbox-close aria-label="Close image gallery">×</button><button type="button" class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous image">‹</button><button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next image">›</button><div class="lightbox__stage"><img data-lightbox-media-image alt="" /></div><p class="lightbox__caption" data-lightbox-caption></p><span class="lightbox__counter" data-lightbox-counter></span></div>
   </div>
 </BaseLayout>
 
@@ -70,6 +99,25 @@ const related = Object.entries(packages).filter(([slug]) => slug !== Astro.param
   const setMenu = (open) => { menu?.classList.toggle('is-open', open); toggle?.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); };
   toggle?.addEventListener('click', () => setMenu(true)); close?.addEventListener('click', () => setMenu(false)); menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
   window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
+
+  const lightbox = document.querySelector('[data-lightbox]');
+  const lightboxImage = lightbox?.querySelector('[data-lightbox-media-image]');
+  const lightboxCaption = lightbox?.querySelector('[data-lightbox-caption]');
+  const lightboxCounter = lightbox?.querySelector('[data-lightbox-counter]');
+  const items = [...document.querySelectorAll('[data-lightbox-type]')].map((el, index) => ({ el, index, src: el.getAttribute('data-lightbox-src') || '', alt: el.getAttribute('data-lightbox-alt') || '', caption: el.getAttribute('data-lightbox-caption') || '' }));
+  let currentIndex = 0;
+  const renderLightbox = () => { const item = items[currentIndex]; if (!item || !lightboxImage || !lightboxCaption || !lightboxCounter) return; lightboxImage.src = item.src; lightboxImage.alt = item.alt; lightboxCaption.textContent = item.caption; lightboxCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`; };
+  const openLightbox = (index) => { currentIndex = (index + items.length) % items.length; renderLightbox(); lightbox?.classList.add('is-open'); lightbox?.setAttribute('aria-hidden', 'false'); document.body.classList.add('lightbox-open'); };
+  const closeLightbox = () => { lightbox?.classList.remove('is-open'); lightbox?.setAttribute('aria-hidden', 'true'); document.body.classList.remove('lightbox-open'); };
+  items.forEach((item) => item.el.addEventListener('click', () => openLightbox(item.index)));
+  document.querySelector('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
+  document.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => openLightbox(currentIndex - 1));
+  document.querySelector('[data-lightbox-next]')?.addEventListener('click', () => openLightbox(currentIndex + 1));
+  lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeLightbox(); if (lightbox?.classList.contains('is-open') && event.key === 'ArrowLeft') openLightbox(currentIndex - 1); if (lightbox?.classList.contains('is-open') && event.key === 'ArrowRight') openLightbox(currentIndex + 1); });
+  let touchStartX = 0;
+  lightbox?.addEventListener('touchstart', (event) => { touchStartX = event.touches[0].clientX; }, { passive: true });
+  lightbox?.addEventListener('touchend', (event) => { const distance = event.changedTouches[0].clientX - touchStartX; if (Math.abs(distance) > 50) openLightbox(currentIndex + (distance < 0 ? 1 : -1)); }, { passive: true });
 </script>
 
 <style is:global>

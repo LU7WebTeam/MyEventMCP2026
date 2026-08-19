@@ -15,9 +15,14 @@ const inclusions = [
 ];
 
 const gallery = [
-  { src: `${imageBase}/2025/01/DSC02235-scaled.jpg`, alt: 'Behind the scenes of a multi-camera production setup.' },
-  { src: `${imageBase}/2025/01/DSC09768-scaled.jpg`, alt: 'Close-up of a professional event camera.' },
-  { src: `${imageBase}/2025/01/20241115_101711-scaled.jpg`, alt: 'Camera crew setting up equipment for a live event.' },
+  { src: '/silver-gallery/silver-mcp-package-event-production-setup.webp', alt: 'Silver MCP package event production setup with camera operator and monitor.' },
+  { src: '/silver-gallery/silver-mcp-package-camera-operator.webp', alt: 'Silver MCP package camera operator monitoring the live production feed.' },
+  { src: '/silver-gallery/silver-mcp-package-live-event-camera.webp', alt: 'Silver MCP package camera operator filming a live event.' },
+  { src: '/silver-gallery/silver-mcp-package-production-crew.webp', alt: 'Silver MCP package production crew managing event video equipment.' },
+  { src: '/silver-gallery/silver-mcp-package-professional-camera-setup.webp', alt: 'Professional camera setup used for Silver MCP package event coverage.' },
+  { src: '/silver-gallery/silver-mcp-package-event-production-equipment.webp', alt: 'Silver MCP package event production equipment ready for operation.' },
+  { src: '/silver-gallery/silver-mcp-package-multi-camera-production.webp', alt: 'Silver MCP package multi-camera production control equipment.' },
+  { src: '/silver-gallery/silver-mcp-package-live-production-setup.webp', alt: 'Silver MCP package live production setup with professional event camera.' },
 ];
 
 const addons = [
@@ -79,13 +84,14 @@ const related = [
 
       <section class="section addons-section"><div class="container package-intro__grid"><div><p class="eyebrow eyebrow--light">Optional add-ons</p><h2>Build the setup<br /><em>around your event.</em></h2></div><div class="addon-table">{addons.map((addon) => <article class="addon-line"><div><h3>{addon[0]}</h3><p>{addon[1]}</p></div><strong>from {addon[2]}<small>/day</small></strong></article>)}</div></div></section>
 
-      <section class="section package-gallery"><div class="container package-gallery__head"><div><p class="eyebrow">The craft in motion</p><h2>Small setup.<br /><em>Big attention.</em></h2></div><p class="muted">Our crew handles the details behind the scenes so your audience can stay with the story.</p></div><div class="container package-gallery__grid">{gallery.map((item, index) => <figure class={`package-gallery__item package-gallery__item--${index}`}><img src={item.src} alt={item.alt} loading="lazy" /></figure>)}</div></section>
+      <section class="section package-gallery" aria-labelledby="silver-gallery-title"><div class="container package-gallery__head"><div><p class="eyebrow">The craft in motion</p><h2 id="silver-gallery-title">Small setup.<br /><em>Big attention.</em></h2></div><p class="muted">Our crew handles the details behind the scenes so your audience can stay with the story. Open any image to view the full gallery.</p></div><div class="container package-gallery__grid">{gallery.map((item, index) => <button class={`package-gallery__item package-gallery__item--${index}`} type="button" data-lightbox-type="image" data-lightbox-group="silver-gallery" data-lightbox-src={item.src} data-lightbox-alt={item.alt} data-lightbox-caption={item.alt} aria-label={`Open image ${index + 1} of ${gallery.length}`}><img src={item.src} alt={item.alt} loading="lazy" /><span>View image <b aria-hidden="true">↗</b></span></button>)}</div></section>
 
       <section class="package-cta section-dark"><div class="container package-cta__inner"><div><p class="eyebrow eyebrow--light">Ready when you are</p><h2>Let's frame your<br /><em>event right.</em></h2></div><div><p>Tell us about your event, venue and date. We will recommend the right setup and confirm your final quote.</p><a class="button button--primary" href="/#quote">Request a quote <span aria-hidden="true">↗</span></a><a class="whatsapp-link" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>Prefer to chat?</span><strong>WhatsApp us ↗</strong></a></div></div></section>
 
       <section class="section related-section"><div class="container"><div class="related-heading"><p class="eyebrow">Need more angles?</p><h2>Explore related<br /><em>packages.</em></h2></div><div class="related-grid">{related.map((item) => <article class={`package-card package-card--${item.tone}`}><div class="package-card__top"><p class="eyebrow">{item.eyebrow}</p><span class="package-card__dot"></span></div><h3>{item.name}</h3><p class="package-card__description">{item.description}</p><span class="package-card__setup">{item.setup}</span><div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}{item.price !== 'Custom' && <small>/day</small>}</strong></div><a class="circle-arrow" href={item.href} aria-label={`View ${item.name}`}>↗</a></div></article>)}</div></div></section>
     </main>
     <SiteFooter />
+    <div class="lightbox" data-lightbox aria-hidden="true"><button type="button" class="lightbox__close" data-lightbox-close aria-label="Close image gallery">×</button><button type="button" class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous image">‹</button><button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next image">›</button><div class="lightbox__stage"><img data-lightbox-media-image alt="" /></div><p class="lightbox__caption" data-lightbox-caption></p><span class="lightbox__counter" data-lightbox-counter></span></div>
     <a class="whatsapp-fab" href="https://wa.me/601133078724" target="_blank" rel="noreferrer" aria-label="Chat with MyEventMCP on WhatsApp">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
@@ -102,6 +108,47 @@ const related = [
   const setMenu = (open) => { menu?.classList.toggle('is-open', open); toggle?.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); };
   toggle?.addEventListener('click', () => setMenu(true)); close?.addEventListener('click', () => setMenu(false)); menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
   window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
+
+  const lightbox = document.querySelector('[data-lightbox]');
+  const lightboxImage = lightbox?.querySelector('[data-lightbox-media-image]');
+  const lightboxCaption = lightbox?.querySelector('[data-lightbox-caption]');
+  const lightboxCounter = lightbox?.querySelector('[data-lightbox-counter]');
+  const items = [...document.querySelectorAll('[data-lightbox-type]')].map((el, index) => ({ el, index, src: el.getAttribute('data-lightbox-src') || '', alt: el.getAttribute('data-lightbox-alt') || '', caption: el.getAttribute('data-lightbox-caption') || '' }));
+  let currentIndex = 0;
+
+  const renderLightbox = () => {
+    const item = items[currentIndex];
+    if (!item || !lightboxImage || !lightboxCaption || !lightboxCounter) return;
+    lightboxImage.src = item.src;
+    lightboxImage.alt = item.alt;
+    lightboxCaption.textContent = item.caption;
+    lightboxCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+  };
+  const openLightbox = (index) => {
+    currentIndex = (index + items.length) % items.length;
+    renderLightbox();
+    lightbox?.classList.add('is-open');
+    lightbox?.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lightbox-open');
+  };
+  const closeLightbox = () => {
+    lightbox?.classList.remove('is-open');
+    lightbox?.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lightbox-open');
+  };
+  items.forEach((item) => item.el.addEventListener('click', () => openLightbox(item.index)));
+  document.querySelector('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
+  document.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => openLightbox(currentIndex - 1));
+  document.querySelector('[data-lightbox-next]')?.addEventListener('click', () => openLightbox(currentIndex + 1));
+  lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeLightbox();
+    if (lightbox?.classList.contains('is-open') && event.key === 'ArrowLeft') openLightbox(currentIndex - 1);
+    if (lightbox?.classList.contains('is-open') && event.key === 'ArrowRight') openLightbox(currentIndex + 1);
+  });
+  let touchStartX = 0;
+  lightbox?.addEventListener('touchstart', (event) => { touchStartX = event.touches[0].clientX; }, { passive: true });
+  lightbox?.addEventListener('touchend', (event) => { const distance = event.changedTouches[0].clientX - touchStartX; if (Math.abs(distance) > 50) openLightbox(currentIndex + (distance < 0 ? 1 : -1)); }, { passive: true });
 </script>
 
 <style is:global>
