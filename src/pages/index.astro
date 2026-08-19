@@ -63,12 +63,12 @@ const features = [
 ];
 
 const portfolio = [
-  { event: 'Sasana Symposium 2023', client: 'Bank Negara Malaysia', video: 'VzNjiXNHwOk', image: `${imageBase}/2024/03/Media-2.webp` },
-  { event: 'FIMMAC 2023', client: 'FIMM', video: '3MuD-53D_Xc', image: `${imageBase}/2024/03/Media-1.webp` },
-  { event: 'ICIEF 2024', client: 'IIUM', video: '-yxZWAMYnLA', image: `${imageBase}/2024/03/Media.webp` },
-  { event: 'Karnival Celik Kewangan 2023', client: 'Bank Negara Malaysia', video: 'PSpocEUDQTY', image: `${imageBase}/2025/01/DSC09768-scaled.jpg` },
-  { event: 'BELANJAWANKU 2023', client: 'KWSP / EPF', video: '7Q31LR1-Ox8', image: `${imageBase}/2025/01/DSC02241-scaled.jpg` },
-  { event: 'World Bank Conference 2023', client: 'Suruhanjaya Sekuriti Malaysia', video: 'fd-uTjOTve0', image: `${imageBase}/2025/01/DSC00768-scaled.jpg` },
+  { event: 'Sasana Symposium', client: 'Bank Negara Malaysia', video: 'VzNjiXNHwOk', image: `${imageBase}/2024/03/Media-2.webp` },
+  { event: 'FIMMAC', client: 'FIMM', video: '3MuD-53D_Xc', image: `${imageBase}/2024/03/Media-1.webp` },
+  { event: 'ICIEF', client: 'IIUM', video: '-yxZWAMYnLA', image: `${imageBase}/2024/03/Media.webp` },
+  { event: 'Karnival Celik Kewangan', client: 'Bank Negara Malaysia', video: 'PSpocEUDQTY', image: `${imageBase}/2025/01/DSC09768-scaled.jpg` },
+  { event: 'BELANJAWANKU', client: 'KWSP / EPF', video: '7Q31LR1-Ox8', image: `${imageBase}/2025/01/DSC02241-scaled.jpg` },
+  { event: 'World Bank Conference', client: 'Suruhanjaya Sekuriti Malaysia', video: 'fd-uTjOTve0', image: `${imageBase}/2025/01/DSC00768-scaled.jpg` },
 ];
 
 const gallery = [
@@ -93,6 +93,8 @@ const estimatorAddons = [
   { id: 'audio', name: 'Audio Equipments', detail: '2 hall speakers, 2 monitors, 2 subwoofers, mixer, 4 wireless mics, engineer', price: 3000, qty: false },
   { id: 'laptop', name: 'Event Laptop', detail: 'Capture card, presentation slides, operator', price: 500, qty: false },
   { id: 'camera', name: 'Additional MCP Camera', detail: 'Canon XF605, operator, cables', price: 800, qty: true, max: 5 },
+  { id: 'transmitter', name: 'Wireless visual Transmitter', detail: 'Transmitter, receiver and cable', price: 850, qty: false },
+  { id: 'lighting', name: 'Lighting Package', detail: '1x Tiger Touch lighting mixer, 4 Sharpy and 6 face lights', price: 5000, qty: false },
   { id: 'livestream', name: 'Livestreaming', detail: 'Vmix software, YouTube + Facebook, laptop', price: 2500, qty: false },
   { id: 'highlights', name: 'Event Highlights', detail: 'Videographer + video editing', price: 3500, qty: false },
   { id: 'zoom', name: 'Zoom Webinar', detail: 'Operator, laptop, Zoom Webinar up to 499 pax', price: 2000, qty: false },
@@ -323,9 +325,9 @@ const faqSchema = {
                       </label>
                       {addon.qty && (
                         <div class="stepper stepper--small" data-stepper data-min="1" data-max={addon.max} data-default="1" data-key={`addon-${addon.id}`}>
-                          <button type="button" class="stepper__btn" data-stepper="-" aria-label={`Decrease ${addon.name}`}>&#8722;</button>
+                          <button type="button" class="stepper__btn" data-stepper-action="-" aria-label={`Decrease ${addon.name}`}>&#8722;</button>
                           <output class="stepper__value" data-stepper-value>1</output>
-                          <button type="button" class="stepper__btn" data-stepper="+" aria-label={`Increase ${addon.name}`}>+</button>
+                          <button type="button" class="stepper__btn" data-stepper-action="+" aria-label={`Increase ${addon.name}`}>+</button>
                         </div>
                       )}
                       <span class="addon-row__price">from RM{addon.price.toLocaleString()}<small>/day</small></span>
@@ -350,7 +352,7 @@ const faqSchema = {
                     <span class="surcharge-toggle__box" aria-hidden="true"></span>
                     <span class="surcharge-toggle__label">
                       <span class="surcharge-toggle__name">Day-before rehearsal</span>
-                      <span class="surcharge-toggle__detail">+30% of package day-rate (one-off)</span>
+                      <span class="surcharge-toggle__detail">+30% of the base package and add-ons (one-off)</span>
                     </span>
                   </label>
                 </div>
@@ -457,7 +459,7 @@ const faqSchema = {
       lightboxImage.removeAttribute('src');
       lightboxImage.style.display = 'none';
       lightboxVideoWrap.style.background = `#000 url('https://img.youtube.com/vi/${item.video}/hqdefault.jpg') center/cover no-repeat`;
-      lightboxVideoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.video}?autoplay=1" title="${item.alt}" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      lightboxVideoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.video}?autoplay=1&rel=0" title="${item.alt}" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     } else {
       lightboxVideoWrap.innerHTML = '';
       lightboxVideoWrap.style.background = '';
@@ -665,12 +667,12 @@ const faqSchema = {
         const weekendCb = estControls.querySelector('[data-surcharge="weekend"]');
         const rehearsalCb = estControls.querySelector('[data-surcharge="rehearsal"]');
         const weekendRate = weekendCb?.checked ? parseFloat(weekendCb.getAttribute('data-rate') || '0') : 0;
-         const rehearsalRate = (rehearsalCb?.checked && hasPackage && !isCustom && !isNotSure) ? parseFloat(rehearsalCb.getAttribute('data-rate') || '0') : 0;
+        const rehearsalRate = (rehearsalCb?.checked && hasPackage && !isNotSure) ? parseFloat(rehearsalCb.getAttribute('data-rate') || '0') : 0;
 
         const weekend = Math.round(subtotal * weekendRate);
-        const rehearsal = isCustom ? 0 : Math.round(basePrice * rehearsalRate);
+        const rehearsal = Math.round(subtotal * rehearsalRate);
         const total = subtotal + weekend + rehearsal;
-        const customExtra = addonsTotal + weekend;
+        const customExtra = addonsTotal + weekend + rehearsal;
 
          const data = { baseName, basePrice, hasPackage, isCustom, isNotSure, days, addonLines, baseTotal, addonsTotal, weekend, rehearsal, total, customExtra, dateRangeText };
 
@@ -719,8 +721,8 @@ const faqSchema = {
         stepper.setAttribute('data-current', String(value));
         compute();
       };
-      stepper.querySelector('[data-stepper="-"]').addEventListener('click', () => set(value - 1));
-      stepper.querySelector('[data-stepper="+"]').addEventListener('click', () => set(value + 1));
+      stepper.querySelector('[data-stepper-action="-"]').addEventListener('click', () => set(value - 1));
+      stepper.querySelector('[data-stepper-action="+"]').addEventListener('click', () => set(value + 1));
        stepper.setAttribute('data-current', String(value));
        render();
        resetSteppers.push(() => set(parseInt(stepper.getAttribute('data-default') || '0', 10)));
