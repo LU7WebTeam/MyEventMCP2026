@@ -1,19 +1,38 @@
-name: Deploy to Replit
+name: Build and Deploy to Replit
 
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Replit rebuild
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Package build output
+        run: tar -czf site.tar.gz -C dist .
+
+      - name: Upload build to Replit
         env:
           WEBHOOK_SECRET: ${{ secrets.REPLIT_WEBHOOK_SECRET }}
         run: |
-          curl -f -X POST \
+          curl --fail-with-body -sS -X POST \
             -H "Authorization: Bearer ${WEBHOOK_SECRET}" \
-            -H "Content-Type: application/json" \
-            -d '{"site":"myeventmcp"}' \
-            https://myeventqr.com/api/webhook/rebuild
+            -H "Content-Type: application/gzip" \
+            --data-binary @site.tar.gz \
+            "https://myeventqr.com/api/webhook/deploy?site=myeventmcp"
