@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
-const imageBase = 'https://myeventmcp.com/wp-content/uploads';
+const imageBase = '/legacy-images';
 
 const inclusions = [
   ['01', 'ATEM mini pro switcher', '4 HDMI inputs, 1 HDMI output and 1 audio input'],
@@ -46,7 +46,7 @@ const related = [
 ];
 ---
 
-<BaseLayout title="Silver MCP Package | MyEventMCP" description="Essential multi-camera production for focused event coverage across Malaysia, from RM1800 per day." image="https://myeventmcp.com/wp-content/uploads/2025/01/DSC02241-scaled.jpg">
+<BaseLayout title="Silver MCP Package | MyEventMCP" description="Essential multi-camera production for focused event coverage across Malaysia, from RM1800 per day." image="/legacy-images/2025/01/DSC02241-scaled.jpg">
   <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Service', serviceType: 'Silver MCP Package', name: 'Silver MCP', description: 'Essential multi-camera production for focused event coverage.', url: 'https://myeventmcp.com/silver-mcp-package/', provider: { '@type': 'Organization', name: 'MyEventMCP', url: 'https://myeventmcp.com/' }, areaServed: 'Malaysia' })} />
   <div class="package-page">
     <header class="site-header" data-header>
