@@ -19,6 +19,12 @@ function pathOf(url) {
 export default defineConfig({
   site,
   output: 'static',
+  // Inline the site stylesheet into each page's <head> so the first paint is
+  // already styled. Avoids a render-blocking CSS request (and the unstyled
+  // "FOUC" flash) on slow or cold-starting hosts.
+  build: {
+    inlineStylesheets: 'always',
+  },
   integrations: [
     sitemap({
       changefreq: 'monthly',

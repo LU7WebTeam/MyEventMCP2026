@@ -121,7 +121,3 @@ const related = Object.entries(packages).filter(([slug]) => slug !== Astro.param
   lightbox?.addEventListener('touchstart', (event) => { touchStartX = event.touches[0].clientX; }, { passive: true });
   lightbox?.addEventListener('touchend', (event) => { const distance = event.changedTouches[0].clientX - touchStartX; if (Math.abs(distance) > 50) openLightbox(currentIndex + (distance < 0 ? 1 : -1)); }, { passive: true });
 </script>
-
-<style is:global>
-  @import url('/src/styles/global.css');
-</style>
