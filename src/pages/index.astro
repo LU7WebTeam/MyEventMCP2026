@@ -109,6 +109,7 @@ const faqs = [
   ['Can you support a last-minute event?', 'We are experienced in supporting urgent requests, subject to crew, equipment and date availability. Contact us as soon as possible via the <a href="/#quote">quote form</a> for a fast assessment.'],
   ['Can you help us choose the right camera setup?', 'Yes. Every booking includes a production plan built around your venue, programme and audience. We recommend the right number of cameras, positions and crew for your event — <a href="/#packages">compare our packages</a> or request a <a href="/customised-solution/">customised solution</a>.'],
   ['How is my final quote calculated?', 'Final quotes depend on your event date, location, scope, equipment requirements and any selected add-ons. We confirm pricing after a short brief and send a clear, itemised quote — <a href="/#quote">start your quote</a> and we will respond within one business day.'],
+  ['Can I save more if I book for multiple days?', 'Definitely. Multi-day bookings enjoy additional discounts, so the longer your event runs, the more you can save. Try our <a href="/#quote-form">quote form</a> to see how much you could save based on your event duration.'],
   ['Do you provide photography and highlights?', 'Yes. Event photography, highlights and additional services such as livestreaming, Zoom webinars and high-speed internet connections are available as <a href="/#quote">add-ons</a>.'],
 ];
 
@@ -134,7 +135,7 @@ const faqSchema = {
           <a href="#faq">FAQ</a>
         </nav>
         <div class="header-right">
-          <a class="button button--small header-cta" href="#quote">Get a quote <span aria-hidden="true">↗</span></a>
+          <a class="button button--small header-cta" href="#quote">Get a quote NOW <span aria-hidden="true">↗</span></a>
           <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
             <span></span><span></span>
             <span class="sr-only">Open navigation</span>
@@ -154,7 +155,7 @@ const faqSchema = {
         <a href="#portfolio">Portfolio</a>
         <a href="#gallery">Gallery</a>
         <a href="#faq">FAQ</a>
-        <a class="button" href="#quote">Get a quote <span aria-hidden="true">↗</span></a>
+        <a class="button" href="#quote">Get a quote NOW <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
 
@@ -169,7 +170,7 @@ const faqSchema = {
             <h1 id="hero-title">Every angle covered.<br /><em>Every moment</em> delivered.</h1>
             <p class="hero__lead">Professional event coverage that keeps your audience in the room, your message in focus and your production moving.</p>
             <div class="hero__actions">
-              <a class="button button--primary" href="#quote">Get a quote <span aria-hidden="true">↗</span></a>
+              <a class="button button--primary" href="#quote">Get a quote NOW <span aria-hidden="true">↗</span></a>
               <a class="text-link text-link--light" href="#packages">Explore packages <span aria-hidden="true">↓</span></a>
             </div>
             <div class="hero__meta">
@@ -231,7 +232,7 @@ const faqSchema = {
               <h3>{item.name}</h3>
               <p class="package-card__description">{item.description}</p>
               <span class="package-card__setup">{item.setup}</span>
-              <div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}<small>/day</small></strong></div><a class="circle-arrow" href={item.href} aria-label={`Get a quote for ${item.name}`}>↗</a></div>
+              <div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}<small>/day</small></strong></div><a class="circle-arrow package-card__link" href={item.href} aria-label={`Get a quote for ${item.name}`}>↗</a></div>
             </article>)}
           </div>
           <div class="custom-bar"><div><span class="eyebrow eyebrow--light">Need something specific?</span><h3>Mix and match. Make it yours.</h3></div><a class="button button--gold" href="#quote">Customised solution <span aria-hidden="true">↗</span></a></div>
@@ -655,8 +656,9 @@ const faqSchema = {
       }
       lines.push('Weekend / public holiday surcharge: ' + (data.weekend > 0 ? '+' + fmt(data.weekend) : 'no'));
       lines.push('Day-before rehearsal: ' + (data.rehearsal > 0 ? '+' + fmt(data.rehearsal) : 'no'));
+      if (data.discount > 0) lines.push('Multi-day discount (' + data.days + ' days, \u2212' + Math.round(data.discountRate * 100) + '%): \u2212' + fmt(data.discount));
       lines.push('----------------------------------');
-       lines.push('Estimated total: ' + (!data.hasPackage ? 'quote on request' : (data.isCustom || data.isNotSure ? (data.customExtra > 0 ? 'from ' + fmt(data.customExtra) + ' + custom setup' : 'custom quote') : fmt(data.total))));
+       lines.push('Estimated total: ' + (!data.hasPackage ? 'quote on request' : (data.isCustom || data.isNotSure ? (data.netCustomExtra > 0 ? 'from ' + fmt(data.netCustomExtra) + ' + custom setup' : 'custom quote') : fmt(data.netTotal))));
       lines.push('(Estimate only - final pricing confirmed on enquiry.)');
       return lines.join('\n');
     };
@@ -701,7 +703,14 @@ const faqSchema = {
         const total = subtotal + weekend + rehearsal;
         const customExtra = addonsTotal + weekend + rehearsal;
 
-         const data = { baseName, basePrice, hasPackage, isCustom, isNotSure, days, addonLines, baseTotal, addonsTotal, weekend, rehearsal, total, customExtra, dateRangeText };
+        // Multi-day discount, taken off the final total: 2 days 10%, 3 days 15%, 4 days 20%, 5+ days 25%.
+        const discountRate = days >= 5 ? 0.25 : days === 4 ? 0.20 : days === 3 ? 0.15 : days === 2 ? 0.10 : 0;
+        const discountBase = (isCustom || isNotSure) ? customExtra : total;
+        const discount = discountRate > 0 && discountBase > 0 ? Math.round(discountBase * discountRate) : 0;
+        const netTotal = total - discount;
+        const netCustomExtra = customExtra - discount;
+
+         const data = { baseName, basePrice, hasPackage, isCustom, isNotSure, days, addonLines, baseTotal, addonsTotal, weekend, rehearsal, total, customExtra, discount, discountRate, netTotal, netCustomExtra, dateRangeText };
 
         const out = [];
         out.push(row('Event dates', dateRangeText ? dateRangeText + ' (' + dayPlural(days) + ')' : dayPlural(days) + ' (default)'));
@@ -710,17 +719,18 @@ const faqSchema = {
         addonLines.forEach((a) => out.push(row(a.name + (a.qty > 1 ? ' \u00d7 ' + a.qty : ''), fmt(a.line * days), true)));
         if (weekend > 0) out.push(row('Weekend / holiday (+20%)', '+' + fmt(weekend)));
         if (rehearsal > 0) out.push(row('Day-before rehearsal (+30%)', '+' + fmt(rehearsal)));
+        if (discount > 0) out.push(row('Multi-day discount (' + dayPlural(days) + ', \u2212' + Math.round(discountRate * 100) + '%)', '\u2212' + fmt(discount)));
         summaryRows.innerHTML = out.join('');
 
          if (!hasPackage) {
            summaryTotal.textContent = 'Quote on request';
            if (summaryNote) summaryNote.textContent = 'You can request a quote without selecting a package.';
          } else if (isCustom || isNotSure) {
-           summaryTotal.textContent = customExtra > 0 ? 'from ' + fmt(customExtra) : 'Custom quote';
-           if (summaryNote) summaryNote.textContent = isNotSure ? 'Tell us about your event and we will recommend the right setup.' : (customExtra > 0 ? 'Add-on estimate only. Custom camera/switcher setup quoted on enquiry.' : 'Final pricing is tailored to your brief and confirmed on enquiry.');
+           summaryTotal.textContent = netCustomExtra > 0 ? 'from ' + fmt(netCustomExtra) : 'Custom quote';
+           if (summaryNote) summaryNote.textContent = (isNotSure ? 'Tell us about your event and we will recommend the right setup.' : (netCustomExtra > 0 ? 'Add-on estimate only. Custom camera/switcher setup quoted on enquiry.' : 'Final pricing is tailored to your brief and confirmed on enquiry.')) + (discount > 0 ? ' Includes ' + Math.round(discountRate * 100) + '% multi-day saving.' : '');
         } else {
-          summaryTotal.textContent = fmt(total);
-          if (summaryNote) summaryNote.textContent = 'Estimate only. Final pricing confirmed on enquiry.';
+          summaryTotal.textContent = fmt(netTotal);
+          if (summaryNote) summaryNote.textContent = 'Estimate only. Final pricing confirmed on enquiry.' + (discount > 0 ? ' Includes ' + Math.round(discountRate * 100) + '% multi-day saving.' : '');
         }
 
         lastSummaryText = buildSummaryText(data);
