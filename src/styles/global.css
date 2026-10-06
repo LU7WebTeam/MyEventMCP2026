@@ -537,7 +537,7 @@ em { color: var(--red); font-style: normal; }
 .related-section { background: var(--paper); }
 .related-heading { margin-bottom: 60px; }
 .related-grid { display: grid; gap: 14px; grid-template-columns: repeat(4, 1fr); }
-.related-grid .package-card { min-height: 390px; }
+.related-grid .package-card { min-height: 390px; position: relative; }
 .related-card { background: var(--white); border-radius: var(--radius-lg); display: flex; flex-direction: column; min-height: 300px; padding: 28px; transition: transform .35s var(--ease), background .35s; }
 .related-card:hover { background: var(--gold); transform: translateY(-8px); }
 .related-card--1 { background: var(--navy); color: var(--white); }
