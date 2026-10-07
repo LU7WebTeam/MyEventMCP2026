@@ -583,6 +583,7 @@ const faqSchema = {
       .then((result) => {
         if (result && result.success) {
           button.innerHTML = 'Thanks - we will be in touch <span aria-hidden="true">↗</span>';
+          form.classList.add('is-sent');
           if (status) status.textContent = result.message || 'Your enquiry has been received. We will be in touch shortly.';
           pushEvent('quote_form_submit', { form_name: 'enquiry' });
         } else {

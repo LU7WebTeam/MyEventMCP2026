@@ -185,6 +185,9 @@ em { color: var(--red); font-style: normal; }
 .estimator-reset { background: var(--gold); border: 1px solid var(--gold); border-radius: var(--radius-full); color: var(--ink); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 9px 14px; text-transform: uppercase; transition: background .25s, border-color .25s, box-shadow .25s, transform .25s; }
 .estimator-reset:hover { background: var(--white); border-color: var(--white); box-shadow: 0 6px 18px rgba(0,0,0,.22); transform: translateY(-1px); }
 .form-status { color: var(--navy); font-size: 13px; margin: 14px 0 0; }
+.quote-form.is-sent .form-heading, .quote-form.is-sent > label, .quote-form.is-sent .form-actions { display: none; }
+.quote-form.is-sent .form-status { color: var(--ink); font-size: 22px; font-weight: 800; letter-spacing: -.01em; margin: 30px 0 8px; text-align: center; }
+.quote-form.is-sent .form-status::before { align-items: center; background: var(--gold); border-radius: 50%; color: var(--ink); content: '✓'; display: flex; font-size: 22px; height: 54px; justify-content: center; margin: 0 auto 18px; width: 54px; }
 
 .option-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
 .option-card { border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius); cursor: pointer; display: flex; flex-direction: column; overflow: hidden; position: relative; transition: border-color .3s, box-shadow .3s, background .3s; }
