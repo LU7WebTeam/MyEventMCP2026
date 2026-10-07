@@ -305,10 +305,22 @@ const faqSchema = {
 
               <fieldset class="estimator-step">
                 <legend><span class="estimator-step__name">When is your event?</span></legend>
+                <div class="multiday-banner">
+                  <div class="multiday-banner__intro">
+                    <span class="multiday-banner__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24H4a1 1 0 0 0-1 1v5.59a2 2 0 0 0 .59 1.41l9.58 9.59a2 2 0 0 0 2.83 0l4.59-4.59a2 2 0 0 0 0-2.83z" /><circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></svg></span>
+                    <div><strong>Book more days, <em>save more.</em></strong><span>The longer your event runs, the more you save.</span></div>
+                  </div>
+                  <ul class="multiday-banner__tiers">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg><b>2 days</b><strong>10% off</strong></li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg><b>3 days</b><strong>15% off</strong></li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg><b>4 days</b><strong>20% off</strong></li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg><b>5+ days</b><strong>25% off</strong></li>
+                  </ul>
+                </div>
                 <div class="date-range-field">
                   <input type="text" id="event-dates" placeholder="Click to select a date range" data-date-input readonly />
                 </div>
-                <p class="estimator-step__hint">Pick a start and end date in the calendar. A single day covers 1–8 hours of event coverage.</p>
+                <p class="estimator-step__hint">Pick a start and end date in the calendar. A single day covers 1–8 hours of event coverage.<br /><strong>Multi-day savings apply automatically.</strong></p>
               </fieldset>
 
               <fieldset class="estimator-step">
