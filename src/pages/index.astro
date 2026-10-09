@@ -102,6 +102,24 @@ const estimatorAddons = [
   { id: 'internet', name: 'Internet Connection', detail: 'Up to 100 mbps high-speed', price: 1500, qty: false },
 ];
 
+const malaysiaStates = [
+  'Johor',
+  'Kedah',
+  'Kelantan',
+  'Melaka',
+  'Negeri Sembilan',
+  'Pahang',
+  'Perak',
+  'Perlis',
+  'Pulau Pinang',
+  'Sabah',
+  'Sarawak',
+  'Selangor',
+  'Terengganu',
+];
+
+const federalTerritories = ['Putrajaya', 'Labuan'];
+
 const faqs = [
   ['Which package is right for my event?', 'It depends on the size, format and visual rhythm of your event. <a href="/silver-mcp-package/">Silver</a> suits a single focal point, <a href="/gold-mcp-package/">Gold</a> adds a second perspective, and <a href="/diamond-mcp-package/">Diamond</a> is built for fuller multi-angle coverage. We can recommend a setup after a quick brief, or you can build a <a href="/customised-solution/">customised solution</a>.'],
   ['Do you provide livestreaming?', 'Yes. Livestreaming is available as an add-on for platforms including YouTube and Facebook, subject to the event\u2019s connectivity and technical requirements. It pairs naturally with our <a href="/events/broadcast-video-production/">broadcast and video production</a> coverage.'],
@@ -324,6 +342,42 @@ const faqSchema = {
               </fieldset>
 
               <fieldset class="estimator-step">
+                <legend><span class="estimator-step__name">Where is your event?</span></legend>
+                <div class="option-grid">
+                  <label class="option-card">
+                    <input type="radio" name="est-location" value="kl" data-name="Kuala Lumpur (KL)" checked />
+                    <span class="option-card__body">
+                      <span class="option-card__name">Kuala Lumpur (KL)</span>
+                      <span class="option-card__setup">Our home base — no location charges</span>
+                      <span class="option-card__check" aria-hidden="true">✓</span>
+                    </span>
+                  </label>
+                  <label class="option-card">
+                    <input type="radio" name="est-location" value="other" data-name="Other States" />
+                    <span class="option-card__body">
+                      <span class="option-card__name">Other States</span>
+                      <span class="option-card__setup">Peninsular Malaysia, Sabah &amp; Sarawak</span>
+                      <span class="option-card__check" aria-hidden="true">✓</span>
+                    </span>
+                  </label>
+                </div>
+                <div class="location-state-field" data-location-state hidden>
+                  <label class="sr-only" for="event-state">Select a state</label>
+                  <div class="location-select">
+                    <select id="event-state" name="est-location-state" data-location-select>
+                      <option value="" selected disabled>Select a state</option>
+                      <optgroup label="States">
+                        {malaysiaStates.map((state) => <option value={state}>{state}</option>)}
+                      </optgroup>
+                      <optgroup label="Federal Territories">
+                        {federalTerritories.map((state) => <option value={state}>{state}</option>)}
+                      </optgroup>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="estimator-step">
                 <legend><span class="estimator-step__name">Extra services</span></legend>
                 <div class="addon-list">
                   {estimatorAddons.map((addon) => (
@@ -384,6 +438,7 @@ const faqSchema = {
                     <span>Estimated total</span>
                     <strong data-summary-total>RM1,800</strong>
                   </div>
+                  <p class="summary-card__location" data-summary-location hidden></p>
                   <p class="summary-card__note" data-summary-note>Estimate only. Final pricing confirmed on enquiry.</p>
                   <button type="button" class="estimator-reset summary-card__reset" data-estimate-reset>Reset estimate</button>
                   <button type="button" class="button button--primary summary-card__cta" data-estimate-cta>Send to quote form <span aria-hidden="true">↓</span></button>
@@ -661,6 +716,7 @@ const faqSchema = {
       lines.push('----------------------------------');
        lines.push('Base package: ' + (data.baseName || 'Not selected') + (data.isCustom || data.isNotSure ? ' (quote on request)' : (data.hasPackage ? ' (' + fmt(data.basePrice) + '/day)' : '')));
       lines.push('Event dates: ' + (data.dateRangeText || 'Not selected') + ' (' + data.days + ' day' + (data.days > 1 ? 's' : '') + ')');
+      lines.push('Event location: ' + (data.locationValue === 'kl' ? 'Kuala Lumpur (KL) - FOC' : ((data.locationState || 'Other state') + ' - subject to additional charges')));
       if (data.addonLines.length) {
         lines.push('Add-ons:');
         data.addonLines.forEach((a) => lines.push('  - ' + a.name + (a.qty > 1 ? ' x' + a.qty : '') + ' = ' + fmt(a.line * data.days)));
@@ -684,6 +740,13 @@ const faqSchema = {
          const baseName = baseInput ? baseInput.getAttribute('data-name') : '';
          const isCustom = baseInput ? baseInput.value === 'custom' : false;
          const isNotSure = baseInput ? baseInput.value === 'unsure' : false;
+
+        const locationInput = estControls.querySelector('input[name="est-location"]:checked');
+        const locationValue = locationInput ? locationInput.value : 'kl';
+        const locationSelect = estControls.querySelector('[data-location-select]');
+        const locationState = locationSelect ? locationSelect.value : '';
+        const locationStateField = estControls.querySelector('[data-location-state]');
+        if (locationStateField) locationStateField.hidden = locationValue !== 'other';
 
         const days = eventDays;
 
@@ -723,7 +786,7 @@ const faqSchema = {
         const netTotal = total - discount;
         const netCustomExtra = customExtra - discount;
 
-         const data = { baseName, basePrice, hasPackage, isCustom, isNotSure, days, addonLines, baseTotal, addonsTotal, weekend, rehearsal, total, customExtra, discount, discountRate, netTotal, netCustomExtra, dateRangeText };
+         const data = { baseName, basePrice, hasPackage, isCustom, isNotSure, days, addonLines, baseTotal, addonsTotal, weekend, rehearsal, total, customExtra, discount, discountRate, netTotal, netCustomExtra, dateRangeText, locationValue, locationState };
 
         const out = [];
         out.push(row('Event dates', dateRangeText ? dateRangeText + ' (' + dayPlural(days) + ')' : dayPlural(days) + ' (default)'));
@@ -744,6 +807,19 @@ const faqSchema = {
         } else {
           summaryTotal.textContent = fmt(netTotal);
           if (summaryNote) summaryNote.textContent = 'Estimate only. Final pricing confirmed on enquiry.' + (discount > 0 ? ' Includes ' + Math.round(discountRate * 100) + '% multi-day saving.' : '');
+        }
+
+        const locationNoteEl = document.querySelector('[data-summary-location]');
+        if (locationNoteEl) {
+          if (locationValue === 'kl') {
+            locationNoteEl.hidden = false;
+            locationNoteEl.className = 'summary-card__location summary-card__location--foc';
+            locationNoteEl.textContent = 'Location: FOC';
+          } else {
+            locationNoteEl.hidden = false;
+            locationNoteEl.className = 'summary-card__location summary-card__location--note';
+            locationNoteEl.textContent = 'Please note that pricing for locations outside of Kuala Lumpur are subject to additional charges depending on the state.';
+          }
         }
 
         lastSummaryText = buildSummaryText(data);
@@ -784,9 +860,20 @@ const faqSchema = {
        });
      });
 
+     estControls.querySelectorAll('input[name="est-location"]').forEach((input) => {
+       input.addEventListener('change', () => {
+         const locationSelect = estControls.querySelector('[data-location-select]');
+         if (input.value === 'kl' && locationSelect) locationSelect.value = '';
+       });
+     });
+
       const resetEstimate = () => {
         const defaultPackage = estControls.querySelector('input[name="est-base"][value="silver"]');
         if (defaultPackage) defaultPackage.checked = true;
+        const defaultLocation = estControls.querySelector('input[name="est-location"][value="kl"]');
+        if (defaultLocation) defaultLocation.checked = true;
+        const locationSelect = estControls.querySelector('[data-location-select]');
+        if (locationSelect) locationSelect.value = '';
         estControls.querySelectorAll('input[type="checkbox"]').forEach((input) => { input.checked = false; });
         datePicker?.clear();
         eventDays = 1;

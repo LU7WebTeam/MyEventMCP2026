@@ -209,6 +209,19 @@ em { color: var(--red); font-style: normal; }
 .date-range-field input:hover { background-color: rgba(255,255,255,.09); border-color: rgba(255,255,255,.35); }
 .date-range-field input:focus { background-color: rgba(255,255,255,.08); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(250,175,64,.18); }
 
+.location-state-field { margin-top: 14px; }
+.location-select { position: relative; }
+.location-select::after { border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); content: ''; height: 9px; pointer-events: none; position: absolute; right: 20px; top: 50%; transform: translateY(-70%) rotate(45deg); width: 9px; }
+.location-select select { -webkit-appearance: none; appearance: none; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: var(--radius-sm); color: var(--white); cursor: pointer; font-family: var(--body); font-size: 16px; outline: none; padding: 15px 48px 15px 18px; transition: border-color .25s, box-shadow .25s, background-color .25s; width: 100%; }
+.location-select select option { background: var(--navy-deep); color: var(--white); }
+.location-select select optgroup { background: var(--navy-deep); color: var(--gold); }
+.location-select select:hover { background-color: rgba(255,255,255,.09); border-color: rgba(255,255,255,.35); }
+.location-select select:focus { background-color: rgba(255,255,255,.08); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(250,175,64,.18); }
+
+.summary-card__location { border-radius: var(--radius-sm); font-size: 12px; line-height: 1.5; margin: 16px 0 0; padding: 12px 14px; }
+.summary-card__location--foc { background: rgba(250,175,64,.1); border: 1px solid rgba(250,175,64,.4); color: var(--gold); font-weight: 700; letter-spacing: .01em; }
+.summary-card__location--note { background: rgba(234,67,54,.12); border: 1px solid rgba(234,67,54,.4); color: #ffb4ad; }
+
 .stepper { align-items: center; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: var(--radius-full); display: inline-flex; gap: 4px; height: 46px; padding: 4px; }
 .stepper__btn { align-items: center; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 50%; color: var(--white); display: flex; font-size: 18px; height: 36px; justify-content: center; line-height: 1; transition: background .25s, color .25s, border-color .25s; width: 36px; }
 .stepper__btn:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
