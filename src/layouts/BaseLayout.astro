@@ -1,11 +1,18 @@
 ---
 import '../styles/global.css';
+import StickyContact from '../components/StickyContact.astro';
+import { DEFAULT_WHATSAPP_MESSAGE } from '../lib/contact';
 
 const {
   title = 'MyEventMCP | Multi-Camera Production Malaysia',
   description = 'Professional multi-camera production and event coverage across Malaysia.',
   image = '/logo-color.webp',
   type = 'website',
+  whatsappMessage = DEFAULT_WHATSAPP_MESSAGE,
+  preloadImage = '',
+  preloadSrcset = '',
+  preloadSizes = '100vw',
+  loadDatePicker = false,
 } = Astro.props;
 
 const url = `https://myeventmcp.com${Astro.url.pathname}`;
@@ -21,7 +28,7 @@ const orgJsonLd = {
   description: 'Professional multi-camera production and event coverage across Malaysia.',
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+60 3 8605 3563',
+    telephone: '+60386053563',
     email: 'hello@myeventmcp.com',
     contactType: 'sales',
     areaServed: 'MY',
@@ -34,6 +41,16 @@ const orgJsonLd = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      (function () {
+        try {
+          var params = new URLSearchParams(location.search);
+          var source = (params.get('utm_source') || '').toLowerCase();
+          if (params.get('gclid') || source === 'google') document.documentElement.classList.add('is-ad-landing');
+        } catch (e) {}
+        window.dataLayer = window.dataLayer || [];
+      })();
+    </script>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#303485" />
     <meta name="robots" content="index, follow" />
@@ -54,20 +71,57 @@ const orgJsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/raleway-latin.woff2" as="font" type="font/woff2" crossorigin />
+    {preloadImage && (
+      <link
+        rel="preload"
+        as="image"
+        href={preloadImage}
+        imagesrcset={preloadSrcset || undefined}
+        imagesizes={preloadSrcset ? preloadSizes : undefined}
+        fetchpriority="high"
+      />
+    )}
+
     <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
 
     <script is:inline>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KP5JMBH7');
     </script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" is:inline defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    {loadDatePicker && (
+      <>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" /></noscript>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" defer></script>
+      </>
+    )}
   </head>
   <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KP5JMBH7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <slot />
+    <StickyContact whatsappMessage={whatsappMessage} />
+    <script is:inline>
+      (function () {
+        var values = { whatsapp_click: 100, phone_click: 60, email_click: 20 };
+        document.addEventListener('click', function (event) {
+          var node = event.target;
+          if (!node || !node.closest) return;
+          var link = node.closest('a');
+          if (!link) return;
+          var href = link.getAttribute('href') || '';
+          var name = '';
+          if (href.indexOf('wa.me') !== -1 || href.indexOf('api.whatsapp.com') !== -1 || href.indexOf('whatsapp:') === 0) name = 'whatsapp_click';
+          else if (href.indexOf('tel:') === 0) name = 'phone_click';
+          else if (href.indexOf('mailto:') === 0) name = 'email_click';
+          if (!name) return;
+          var id = '';
+          try { id = crypto.randomUUID(); } catch (e) { id = String(Date.now()); }
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: name, value: values[name], currency: 'MYR', transaction_id: id });
+        }, true);
+      })();
+    </script>
   </body>
 </html>

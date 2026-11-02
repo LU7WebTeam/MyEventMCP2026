@@ -8,7 +8,8 @@
     "build": "astro build",
     "download:legacy-images": "node scripts/download-legacy-images.mjs",
     "start": "node server.js",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "node --test test/quote.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

@@ -1,0 +1,169 @@
+---
+import { PHONE_DISPLAY, PHONE_TEL, whatsappHref } from '../lib/contact';
+
+interface Props {
+  variant?: 'full' | 'short';
+  formName?: string;
+  source: string;
+  whatsappMessage: string;
+  showWhatsapp?: boolean;
+}
+
+const {
+  variant = 'full',
+  formName = 'enquiry',
+  source,
+  whatsappMessage,
+  showWhatsapp = false,
+} = Astro.props;
+
+const wa = whatsappHref(whatsappMessage);
+---
+
+<div class="enquiry-form-block">
+  {showWhatsapp && (
+    <div class="enquiry-primary">
+      <a class="button button--whatsapp" href={wa} target="_blank" rel="noopener noreferrer">WhatsApp us <span aria-hidden="true">↗︎</span></a>
+      <a class="button button--call button--call-dark" href={`tel:${PHONE_TEL}`}>Call {PHONE_DISPLAY}</a>
+      <p>WhatsApp is the fastest way to reach the crew. Or send the short form and we will reply within one business day.</p>
+    </div>
+  )}
+  <form class="quote-form" action="/api/quote" method="post" data-quote-form data-form-name={formName}>
+    <div class="form-thanks" data-form-thanks hidden>
+      <p class="form-thanks__mark" aria-hidden="true">✓</p>
+      <h3 tabindex="-1">Thank you.</h3>
+      <p>We have received your enquiry and will be in touch shortly. If your event is urgent, call or WhatsApp us.</p>
+      <div class="form-thanks__actions">
+        <a class="button button--whatsapp" href={wa} target="_blank" rel="noopener noreferrer">WhatsApp us <span aria-hidden="true">↗︎</span></a>
+        <a class="button button--call button--call-dark" href={`tel:${PHONE_TEL}`}>Call {PHONE_DISPLAY}</a>
+      </div>
+    </div>
+    <div data-form-fields>
+      <div class="form-heading"><p>{variant === 'short' ? 'Tell us the basics.' : 'Start with the basics.'}</p></div>
+      <label class="sr-only" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      <input type="hidden" name="source" value={source} />
+      <label>Name<input type="text" name="name" placeholder="Your name" autocomplete="name" required /></label>
+      <label>Phone number<input type="tel" name="phone" placeholder="01x xxx xxxx" autocomplete="tel" required /></label>
+      <label>Event date<input type="date" name="event-date" autocomplete="off" required /></label>
+      {variant === 'full' && (
+        <>
+          <label>Email <span class="field-optional">(optional)</span><input type="email" name="email" placeholder="you@company.com" autocomplete="email" /></label>
+          <label>Event type <span class="field-optional">(optional)</span>
+            <select name="event-type">
+              <option value="">Select one (optional)</option>
+              <option value="conference">Conference</option>
+              <option value="corporate-gathering">Corporate gathering</option>
+              <option value="seminar">Seminar</option>
+              <option value="annual-dinner">Annual dinner</option>
+              <option value="launch">Launch</option>
+              <option value="livestream">Livestream</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+        </>
+      )}
+      <label>Message <span class="field-optional">(optional)</span><textarea name="message" rows="3" placeholder="Venue, audience size, what you need..."></textarea></label>
+      <div class="form-actions form-actions--single">
+        <button class="button button--primary" type="submit" data-quote-submit>Send enquiry <span aria-hidden="true">↗︎</span></button>
+      </div>
+      <p class="form-status" data-quote-form-status role="status" aria-live="polite"></p>
+      <p class="form-note">Name, phone and event date are enough. We use these details only to reply to this enquiry.</p>
+    </div>
+  </form>
+</div>
+
+<script>
+  const push = (eventName: string, params?: Record<string, string | number>) => {
+    const dataLayer = (window.dataLayer = window.dataLayer || []);
+    dataLayer.push({ event: eventName, ...params });
+  };
+
+  const submissionId = () => {
+    try {
+      return crypto.randomUUID();
+    } catch {
+      return `quote-${Date.now()}`;
+    }
+  };
+
+  document.querySelectorAll('[data-quote-form]').forEach((node) => {
+    if (!(node instanceof HTMLFormElement)) return;
+    const form = node;
+    let started = false;
+    form.addEventListener('focusin', () => {
+      if (started) return;
+      started = true;
+      push('quote_form_start', { form_name: form.getAttribute('data-form-name') || 'enquiry' });
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (form.dataset.sending === '1' || form.dataset.quoteTracked === '1') return;
+      const button = form.querySelector('[data-quote-submit]');
+      const status = form.querySelector('[data-quote-form-status]');
+      const fields = form.querySelector('[data-form-fields]');
+      const thanks = form.querySelector('[data-form-thanks]');
+      if (!(button instanceof HTMLButtonElement)) return;
+      const original = button.innerHTML;
+      const transactionId = submissionId();
+      form.dataset.sending = '1';
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      if (status) {
+        status.textContent = '';
+        status.classList.remove('is-error');
+      }
+
+      const payload = new URLSearchParams(new FormData(form));
+      fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload,
+      })
+        .then(async (res) => ({ ok: res.ok, result: await res.json().catch(() => ({ success: false })) }))
+        .then(({ result }) => {
+          if (result && result.success) {
+            form.dataset.quoteTracked = '1';
+            form.classList.add('is-sent');
+            if (fields instanceof HTMLElement) fields.hidden = true;
+            if (thanks instanceof HTMLElement) {
+              thanks.hidden = false;
+              thanks.scrollIntoView({ block: 'center', behavior: 'instant' });
+              const heading = thanks.querySelector('h3');
+              if (heading instanceof HTMLElement) heading.focus({ preventScroll: true });
+            }
+            if (result.tracked !== false) {
+              push('quote_form_submit', {
+                form_name: form.getAttribute('data-form-name') || 'enquiry',
+                value: 100,
+                currency: 'MYR',
+                transaction_id: transactionId,
+              });
+            }
+            return;
+          }
+          form.dataset.sending = '0';
+          button.disabled = false;
+          button.innerHTML = original;
+          if (status) {
+            status.classList.add('is-error');
+            status.textContent = (result && result.message) || 'We could not send your enquiry. Please try again, or WhatsApp us.';
+          }
+          push('quote_form_error', {
+            form_name: form.getAttribute('data-form-name') || 'enquiry',
+            reason: (result && result.message) || 'unknown',
+          });
+        })
+        .catch(() => {
+          form.dataset.sending = '0';
+          button.disabled = false;
+          button.innerHTML = original;
+          if (status) {
+            status.classList.add('is-error');
+            status.textContent = 'We could not reach our server. Please try again, or WhatsApp us.';
+          }
+          push('quote_form_error', { form_name: form.getAttribute('data-form-name') || 'enquiry', reason: 'network' });
+        });
+    });
+  });
+</script>

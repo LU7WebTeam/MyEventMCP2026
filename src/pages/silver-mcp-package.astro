@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { PHONE_DISPLAY, PHONE_TEL, whatsappHref } from '../lib/contact';
 
-const imageBase = '/legacy-images';
+const whatsappMessage = "Hi, I'm interested in the Silver MCP package for my event.";
+const whatsappLink = whatsappHref(whatsappMessage);
 
 const inclusions = [
   ['01', 'ATEM mini pro switcher', '4 HDMI inputs, 1 HDMI output and 1 audio input'],
@@ -46,26 +49,14 @@ const related = [
 ];
 ---
 
-<BaseLayout title="Silver MCP Package | MyEventMCP" description="Essential multi-camera production for focused event coverage across Malaysia, from RM1800 per day." image="/legacy-images/2025/01/DSC02241-scaled.jpg">
+<BaseLayout title="Silver MCP Package | MyEventMCP" description="Essential multi-camera production for focused event coverage across Malaysia, from RM1800 per day." image="/opt/hero-main-1100.webp" whatsappMessage={whatsappMessage} preloadImage="/opt/hero-main-720.webp" preloadSrcset="/opt/hero-main-720.webp 720w, /opt/hero-main-1100.webp 1100w" preloadSizes="100vw">
   <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Service', serviceType: 'Silver MCP Package', name: 'Silver MCP', description: 'Essential multi-camera production for focused event coverage.', url: 'https://myeventmcp.com/silver-mcp-package/', provider: { '@type': 'Organization', name: 'MyEventMCP', url: 'https://myeventmcp.com/' }, areaServed: 'Malaysia' })} />
   <div class="package-page">
-    <header class="site-header" data-header>
-      <div class="header-inner">
-        <a class="brand" href="/" aria-label="MyEventMCP home"><img src="/logo-color.webp" alt="MyEventMCP" /></a>
-        <nav class="desktop-nav" aria-label="Primary navigation">
-          <a href="/#about">About</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a><a href="/#faq">FAQ</a>
-        </nav>
-        <div class="header-right"><a class="button button--small header-cta" href="/#quote">Get a quote NOW <span aria-hidden="true">↗︎</span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle><span></span><span></span><span class="sr-only">Open navigation</span></button></div>
-      </div>
-    </header>
-    <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
-      <div class="mobile-menu__top"><span class="mono-label">PACKAGE</span><button class="menu-close" type="button" data-menu-close aria-label="Close navigation">×</button></div>
-      <nav aria-label="Mobile navigation"><a href="/#about">About</a><a href="/#packages">Packages</a><a href="/#portfolio">Portfolio</a><a href="/#faq">FAQ</a><a class="button" href="/#quote">Get a quote NOW <span aria-hidden="true">↗︎</span></a></nav>
-    </div>
+    <SiteHeader nav="package" whatsappMessage={whatsappMessage} menuLabel="PACKAGE" />
 
     <main>
       <section class="package-hero section-dark">
-        <div class="package-hero__image"><img src={`${imageBase}/2025/01/DSC02241-scaled.jpg`} alt="Event production team monitoring a live multi-camera feed." /></div>
+        <div class="package-hero__image"><img src="/opt/hero-main-720.webp" srcset="/opt/hero-main-720.webp 720w, /opt/hero-main-1100.webp 1100w" sizes="100vw" width="1100" height="619" alt="Event production team monitoring a live multi-camera feed." fetchpriority="high" decoding="async" /></div>
         <div class="package-hero__wash"></div>
         <div class="container package-hero__inner">
           <div class="package-hero__copy">
@@ -73,7 +64,7 @@ const related = [
             <p class="eyebrow eyebrow--light">Essential multi-camera production</p>
             <h1>Silver MCP<br /><em>Package.</em></h1>
             <p class="package-hero__lead">1 static Canon XF605 camera, ATEM mini pro switcher, 2 crew members and full event recording for 1–8 hours.</p>
-            <div class="package-hero__actions"><a class="button button--primary" href="/#quote">Enquire now <span aria-hidden="true">↗︎</span></a><a class="text-link text-link--light" href="#at-a-glance">View specs <span aria-hidden="true">↓</span></a></div>
+            <div class="package-hero__actions"><a class="button button--whatsapp" href={whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp us <span aria-hidden="true">↗︎</span></a><a class="button button--call" href={`tel:${PHONE_TEL}`}>Call {PHONE_DISPLAY}</a><a class="text-link text-link--light" href="#at-a-glance">View specs <span aria-hidden="true">↓</span></a></div>
             <div class="package-quickfacts"><span>1 static camera</span><span>2 crew</span><span>1–8 hours</span><span>Full event recording</span></div>
           </div>
           <aside class="package-price"><span class="mono-label">Starting from</span><strong>RM1,800</strong><span>/ day</span><p>Final pricing depends on your event requirements, date and location.</p></aside>
@@ -88,29 +79,16 @@ const related = [
 
       <section class="section addons-section addons-section--light"><div class="container package-intro__grid"><div><p class="eyebrow">Optional add-ons</p><h2>Build the setup<br /><em>around your event.</em></h2></div><div class="addon-table">{addons.map((addon) => <article class="addon-line"><div><h3>{addon[0]}</h3><p>{addon[1]}</p></div><strong>from {addon[2]}<small>/day</small></strong></article>)}</div></div></section>
 
-      <section class="package-cta section-dark"><div class="container package-cta__inner"><div><p class="eyebrow eyebrow--light">Ready when you are</p><h2>Let's frame your<br /><em>event right.</em></h2></div><div><p>Tell us about your event, venue and date. We will recommend the right setup and confirm your final quote.</p><a class="button button--primary" href="/#quote">Request a quote <span aria-hidden="true">↗︎</span></a><a class="whatsapp-link" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>Prefer to chat?</span><strong>WhatsApp us ↗︎</strong></a></div></div></section>
+      <section class="package-cta section-dark"><div class="container package-cta__inner"><div><p class="eyebrow eyebrow--light">Ready when you are</p><h2>Let's frame your<br /><em>event right.</em></h2></div><div><p>Tell us about your event, venue and date. We will recommend the right setup and confirm your final quote.</p><a class="button button--whatsapp" href={whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp us <span aria-hidden="true">↗︎</span></a><a class="button button--call" href={`tel:${PHONE_TEL}`}>Call {PHONE_DISPLAY}</a><a class="text-link text-link--light" href="/#quote">Request a quote <span aria-hidden="true">↗︎</span></a></div></div></section>
 
       <section class="section related-section"><div class="container"><div class="related-heading"><p class="eyebrow">Need more angles?</p><h2>Explore related<br /><em>packages.</em></h2></div><div class="related-grid">{related.map((item) => <article class={`package-card package-card--${item.tone}`}><div class="package-card__top"><p class="eyebrow">{item.eyebrow}</p><span class="package-card__dot"></span></div><h3>{item.name}</h3><p class="package-card__description">{item.description}</p><span class="package-card__setup">{item.setup}</span><div class="package-card__bottom"><div><span class="mono-label">From</span><strong>{item.price}{item.price !== 'Custom' && <small>/day</small>}</strong></div><a class="circle-arrow package-card__link" href={item.href} aria-label={`View ${item.name}`}>↗︎</a></div></article>)}</div></div></section>
     </main>
-    <SiteFooter />
+    <SiteFooter whatsappMessage={whatsappMessage} />
     <div class="lightbox" data-lightbox aria-hidden="true"><button type="button" class="lightbox__close" data-lightbox-close aria-label="Close image gallery">×</button><button type="button" class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous image">‹</button><button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next image">›</button><div class="lightbox__stage"><img data-lightbox-media-image alt="" /></div><p class="lightbox__caption" data-lightbox-caption></p><span class="lightbox__counter" data-lightbox-counter></span></div>
-    <a class="whatsapp-fab" href="https://wa.me/601133078724" target="_blank" rel="noreferrer" aria-label="Chat with MyEventMCP on WhatsApp">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-      </svg>
-    </a>
   </div>
 </BaseLayout>
 
 <script>
-  const header = document.querySelector('[data-header]');
-  const menu = document.querySelector('[data-mobile-menu]');
-  const toggle = document.querySelector('[data-menu-toggle]');
-  const close = document.querySelector('[data-menu-close]');
-  const setMenu = (open) => { menu?.classList.toggle('is-open', open); toggle?.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); };
-  toggle?.addEventListener('click', () => setMenu(true)); close?.addEventListener('click', () => setMenu(false)); menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
-  window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
-
   const lightbox = document.querySelector('[data-lightbox]');
   const lightboxImage = lightbox?.querySelector('[data-lightbox-media-image]');
   const lightboxCaption = lightbox?.querySelector('[data-lightbox-caption]');
