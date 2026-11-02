@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { adminQuoteText, quoteDeliveries, validateQuote, visitorQuoteText } from './src/lib/quote.mjs';
 
 dotenv.config();
 
@@ -19,19 +20,10 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // Works with SendGrid SMTP (host smtp.sendgrid.net, user "apikey", pass = SG API key)
 // and any other SMTP provider.
 app.post('/api/quote', (req, res) => {
-  // Honeypot: a real human never fills this hidden field.
-  const honeypot = String(req.body.website || '').trim();
-  if (honeypot !== '') return res.json({ success: true, message: 'OK' });
-
-  const name = String(req.body.name || '').trim().slice(0, 120);
-  const email = String(req.body.email || '').trim().toLowerCase().slice(0, 200);
-  const phone = String(req.body.phone || '').trim().slice(0, 60);
-  const eventType = String(req.body['event-type'] || '').trim().slice(0, 120);
-  const message = String(req.body.message || '').trim().slice(0, 5000);
-
-  if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !phone) {
-    return res.status(422).json({ success: false, message: 'Please provide your name, email address and phone number.' });
-  }
+  const parsed = validateQuote(req.body || {});
+  if (!parsed.ok) return res.status(parsed.status).json({ success: false, message: parsed.message });
+  // Honeypot: acknowledge it without emailing anyone or asking the page to count a conversion.
+  if (parsed.honeypot) return res.json({ success: true, tracked: false, message: 'OK' });
 
   const smtpPass = process.env.SMTP_PASS || '';
   if (!smtpPass) {
@@ -51,27 +43,19 @@ app.post('/api/quote', (req, res) => {
 
   const from = process.env.FROM_EMAIL || 'hello@myeventmcp.com';
   const admin = process.env.ADMIN_EMAIL || 'hello@myeventmcp.com';
+  const siteUrl = process.env.SITE_URL || 'https://myeventmcp.com';
+  const lead = parsed.lead;
 
-  const body = [
-    `New quote request from ${process.env.SITE_URL || 'https://myeventmcp.com'}`,
-    '----------------------------------',
-    `Name: ${name || '-'}`,
-    `Email: ${email}`,
-    `Phone: ${phone || '-'}`,
-    `Event type: ${eventType || '-'}`,
-    'Message:',
-    message || '-',
-    '----------------------------------',
-  ].join('\n');
+  const deliveries = quoteDeliveries(lead, admin).map((delivery) => transporter.sendMail({
+    from,
+    to: delivery.to,
+    subject: delivery.subject,
+    text: delivery.kind === 'visitor' ? visitorQuoteText(lead) : adminQuoteText(lead, siteUrl),
+    replyTo: delivery.kind === 'admin' && lead.email ? lead.email : undefined,
+  }));
 
-  const send = (to, subject) =>
-    transporter.sendMail({ from, to, subject, text: body });
-
-  Promise.all([
-    send(admin, `New quote request - ${name || 'website'}`),
-    send(email, 'Thank you - your MyEventMCP enquiry'),
-  ])
-    .then(() => res.json({ success: true, message: 'Thank you! Your enquiry has been received. We will be in touch shortly.' }))
+  Promise.all(deliveries)
+    .then(() => res.json({ success: true, message: 'Thank you. We have received your enquiry and will be in touch shortly.' }))
     .catch((err) => {
       console.error('[quote] send failed', err);
       res.status(500).json({ success: false, message: 'Your enquiry could not be sent right now. Please try again or message us on WhatsApp.' });

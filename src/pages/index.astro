@@ -1,6 +1,12 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { PHONE_DISPLAY, PHONE_TEL, whatsappHref } from '../lib/contact';
+
+const whatsappMessage = "Hi, I'm interested in multi-camera production for my event.";
+const whatsappLink = whatsappHref(whatsappMessage);
 
 const imageBase = '/legacy-images';
 
@@ -63,21 +69,21 @@ const features = [
 ];
 
 const portfolio = [
-  { event: 'Sasana Symposium', client: 'Bank Negara Malaysia', video: 'VzNjiXNHwOk', image: `${imageBase}/2024/03/Media-2.webp` },
-  { event: 'FIMMAC', client: 'FIMM', video: '3MuD-53D_Xc', image: `${imageBase}/2024/03/Media-1.webp` },
-  { event: 'ICIEF', client: 'IIUM', video: '-yxZWAMYnLA', image: `${imageBase}/2024/03/Media.webp` },
-  { event: 'Karnival Celik Kewangan', client: 'Bank Negara Malaysia', video: 'PSpocEUDQTY', image: '/portfolio/portfolio-KCK.webp' },
-  { event: 'BELANJAWANKU', client: 'KWSP / EPF', video: '7Q31LR1-Ox8', image: '/portfolio/portfolio-BELANJAWANKU2.webp' },
-  { event: 'World Bank Conference', client: 'Suruhanjaya Sekuriti Malaysia', video: 'fd-uTjOTve0', image: '/portfolio/portfolio-world-bank-conference.webp' },
+  { event: 'Sasana Symposium', client: 'Bank Negara Malaysia', video: 'VzNjiXNHwOk', image: `${imageBase}/2024/03/Media-2.webp`, width: 370, height: 370 },
+  { event: 'FIMMAC', client: 'FIMM', video: '3MuD-53D_Xc', image: `${imageBase}/2024/03/Media-1.webp`, width: 370, height: 370 },
+  { event: 'ICIEF', client: 'IIUM', video: '-yxZWAMYnLA', image: `${imageBase}/2024/03/Media.webp`, width: 370, height: 370 },
+  { event: 'Karnival Celik Kewangan', client: 'Bank Negara Malaysia', video: 'PSpocEUDQTY', image: '/opt/portfolio-KCK.webp', width: 640, height: 480 },
+  { event: 'BELANJAWANKU', client: 'KWSP / EPF', video: '7Q31LR1-Ox8', image: '/opt/portfolio-BELANJAWANKU2.webp', width: 640, height: 480 },
+  { event: 'World Bank Conference', client: 'Suruhanjaya Sekuriti Malaysia', video: 'fd-uTjOTve0', image: '/opt/portfolio-world-bank-conference.webp', width: 640, height: 480 },
 ];
 
 const gallery = [
-  { src: `${imageBase}/2025/01/20241115_101711-scaled.jpg`, alt: 'Camera crew setting up equipment for a live event.' },
-  { src: `${imageBase}/2025/01/DSC02235-scaled.jpg`, alt: 'Behind-the-scenes of a multi-camera production setup.' },
-  { src: `${imageBase}/2025/01/IMG_5279-scaled.jpg`, alt: 'Camera crew setting up equipment for a live event.' },
-  { src: `${imageBase}/2025/01/DSC09768-scaled.jpg`, alt: 'Close-up of a high-end camera used in event coverage.' },
-  { src: `${imageBase}/2025/01/DSC02241-scaled.jpg`, alt: 'Event production team monitoring video feeds.' },
-  { src: `${imageBase}/2025/01/DSC00768-scaled.jpg`, alt: 'Cameraman adjusting focus during a recording session.' },
+  { src: '/opt/gallery-setup-800.webp', width: 800, height: 450, alt: 'Camera crew setting up equipment for a live event.' },
+  { src: '/opt/hero-bg-800.webp', width: 800, height: 450, alt: 'Behind-the-scenes of a multi-camera production setup.' },
+  { src: '/opt/gallery-crew-800.webp', width: 800, height: 600, alt: 'Camera crew setting up equipment for a live event.' },
+  { src: '/opt/ribbon-camera-800.webp', width: 800, height: 533, alt: 'Close-up of a high-end camera used in event coverage.' },
+  { src: '/opt/hero-main-720.webp', width: 720, height: 405, alt: 'Event production team monitoring video feeds.' },
+  { src: '/opt/quote-bg-1000.webp', width: 1000, height: 667, alt: 'Cameraman adjusting focus during a recording session.' },
 ];
 
 const estimatorPackages = [
@@ -138,48 +144,13 @@ const faqSchema = {
 };
 ---
 
-<BaseLayout title="MyEventMCP | Multi-Camera Production Malaysia" description="Professional multi-camera production and event coverage across Malaysia. Based in Kuala Lumpur, serving events across Malaysia." image="/legacy-images/2025/01/DSC02241-scaled.jpg">
+<BaseLayout title="MyEventMCP | Multi-Camera Production Malaysia" description="Professional multi-camera production and event coverage across Malaysia. Based in Kuala Lumpur, serving events across Malaysia." image="/opt/hero-bg-1280.webp" whatsappMessage={whatsappMessage} preloadImage="/opt/hero-bg-800.webp" preloadSrcset="/opt/hero-bg-800.webp 800w, /opt/hero-bg-1280.webp 1280w" preloadSizes="100vw" loadDatePicker>
   <div class="site-shell">
-    <header class="site-header" data-header>
-      <div class="header-inner">
-        <a class="brand" href="#top" aria-label="MyEventMCP home">
-          <img src="/logo-color.webp" alt="MyEventMCP" />
-        </a>
-        <nav class="desktop-nav" aria-label="Primary navigation">
-          <a href="#about">About</a>
-          <a href="#packages">Packages</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#faq">FAQ</a>
-        </nav>
-        <div class="header-right">
-          <a class="button button--small header-cta" href="#quote">Get a quote NOW <span aria-hidden="true">↗︎</span></a>
-          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
-            <span></span><span></span>
-            <span class="sr-only">Open navigation</span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
-      <div class="mobile-menu__top">
-        <span class="mono-label">MENU / 01</span>
-        <button class="menu-close" type="button" data-menu-close aria-label="Close navigation">×</button>
-      </div>
-      <nav aria-label="Mobile navigation">
-        <a href="#about">About</a>
-        <a href="#packages">Packages</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#faq">FAQ</a>
-        <a class="button" href="#quote">Get a quote NOW <span aria-hidden="true">↗︎</span></a>
-      </nav>
-    </div>
+    <SiteHeader home nav="home" whatsappMessage={whatsappMessage} quoteHref="#quote" menuLabel="MENU / 01" />
 
     <main id="top">
       <section class="hero section-dark" aria-labelledby="hero-title">
-        <div class="hero__bg"><img src="/legacy-images/2025/01/DSC02235-scaled.jpg" alt="" aria-hidden="true" /></div>
+        <div class="hero__bg"><img src="/opt/hero-bg-800.webp" srcset="/opt/hero-bg-800.webp 800w, /opt/hero-bg-1280.webp 1280w" sizes="100vw" width="1280" height="720" alt="" aria-hidden="true" fetchpriority="high" decoding="async" /></div>
         <div class="hero__overlay"></div>
         <div class="hero__grain"></div>
         <div class="container hero__inner">
@@ -188,8 +159,9 @@ const faqSchema = {
             <h1 id="hero-title">Every angle covered.<br /><em>Every moment</em> delivered.</h1>
             <p class="hero__lead">Professional event coverage that keeps your audience in the room, your message in focus and your production moving.</p>
             <div class="hero__actions">
-              <a class="button button--primary" href="#quote">Get a quote NOW <span aria-hidden="true">↗︎</span></a>
-              <a class="text-link text-link--light" href="#packages">Explore packages <span aria-hidden="true">↓</span></a>
+              <a class="button button--whatsapp" href={whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp us <span aria-hidden="true">↗︎</span></a>
+              <a class="button button--call" href={`tel:${PHONE_TEL}`}>Call {PHONE_DISPLAY}</a>
+              <a class="text-link text-link--light" href="#quote">Get a quote <span aria-hidden="true">↓</span></a>
             </div>
             <div class="hero__meta">
               <span><b>01</b> Based in Kuala Lumpur</span>
@@ -198,8 +170,8 @@ const faqSchema = {
             </div>
           </div>
           <div class="hero__visual" aria-label="MyEventMCP event production in action">
-            <div class="hero__image hero__image--main"><img src={`${imageBase}/2025/01/DSC02241-scaled.jpg`} alt="Event production team monitoring multiple video feeds." /></div>
-            <div class="hero__image hero__image--float"><img src={`${imageBase}/2025/01/20241115_101711-scaled.jpg`} alt="Camera crew setting up equipment for a live event." /></div>
+            <div class="hero__image hero__image--main"><img src="/opt/hero-main-720.webp" srcset="/opt/hero-main-720.webp 720w, /opt/hero-main-1100.webp 1100w" sizes="(max-width: 760px) 82vw, 40vw" width="1100" height="619" alt="Event production team monitoring multiple video feeds." decoding="async" /></div>
+            <div class="hero__image hero__image--float"><img src="/opt/hero-float-480.webp" width="480" height="270" alt="Camera crew setting up equipment for a live event." loading="lazy" decoding="async" /></div>
             <div class="hero__stamp"><span>LIVE</span><strong>FEED</strong><i>↗︎</i></div>
             <div class="hero__number">01<span>/</span>05</div>
           </div>
@@ -212,7 +184,7 @@ const faqSchema = {
           <div class="marquee__track">
             {[0, 1, 2].map((group) => (
               <div class="marquee__group" aria-hidden={group > 0}>
-                {clients.map((client) => <div class="client-tile"><img src={client.src} alt={group > 0 ? '' : client.name} /></div>)}
+                {clients.map((client) => <div class="client-tile"><img src={client.src} alt={group > 0 ? '' : client.name} width="140" height="58" loading="lazy" decoding="async" /></div>)}
               </div>
             ))}
           </div>
@@ -232,9 +204,9 @@ const faqSchema = {
           </div>
         </div>
         <div class="container image-ribbon">
-          <div class="image-ribbon__item image-ribbon__item--wide"><img src={`${imageBase}/2025/01/DSC02235-scaled.jpg`} alt="Behind the scenes of a multi-camera production setup." /></div>
-          <div class="image-ribbon__item image-ribbon__item--tall"><img src={`${imageBase}/2025/01/DSC09768-scaled.jpg`} alt="Close-up of a professional event camera." /></div>
-          <div class="image-ribbon__item image-ribbon__item--wide"><img src={`${imageBase}/2025/01/20241115_102814_PIM-scaled.jpg`} alt="Live streaming setup with multiple camera angles." /></div>
+          <div class="image-ribbon__item image-ribbon__item--wide"><img src="/opt/hero-bg-800.webp" width="800" height="450" alt="Behind the scenes of a multi-camera production setup." loading="lazy" decoding="async" /></div>
+          <div class="image-ribbon__item image-ribbon__item--tall"><img src="/opt/ribbon-camera-800.webp" width="800" height="533" alt="Close-up of a professional event camera." loading="lazy" decoding="async" /></div>
+          <div class="image-ribbon__item image-ribbon__item--wide"><img src="/opt/ribbon-stream-800.webp" width="800" height="450" alt="Live streaming setup with multiple camera angles." loading="lazy" decoding="async" /></div>
         </div>
       </section>
 
@@ -274,7 +246,7 @@ const faqSchema = {
         <div class="container portfolio-grid" id="portfolio">
           {portfolio.map((item, index) => <article class={`portfolio-card portfolio-card--${index % 3}`}>
             <div class="portfolio-card__trigger" role="button" tabindex="0" data-lightbox-type="video" data-lightbox-group="portfolio" data-lightbox-video={item.video} data-lightbox-alt={item.event} data-lightbox-caption={`${item.client} — ${item.event}`} aria-label={`Watch ${item.event} portfolio video`}>
-              <div class="portfolio-card__image"><img src={item.image} alt={`${item.event} video preview`} /><span class="play-button">▶</span></div>
+              <div class="portfolio-card__image"><img src={item.image} alt={`${item.event} video preview`} width={item.width} height={item.height} loading="lazy" decoding="async" /><span class="play-button">▶</span></div>
             </div>
             <div class="portfolio-card__meta"><span>{item.client}</span><strong>{item.event}</strong><i>↗︎</i></div>
           </article>)}
@@ -284,7 +256,7 @@ const faqSchema = {
       <section class="section gallery-section" id="gallery" aria-labelledby="gallery-title">
         <div class="container gallery-heading"><div><p class="eyebrow">Behind the scenes</p><h2 id="gallery-title">The craft <em>in motion.</em></h2></div><p>Every clean cut, considered angle and seamless handover starts long before the audience arrives.</p></div>
         <div class="container gallery-grid">
-          {gallery.map((item, index) => <button class={`gallery-item gallery-item--${index % 3}`} type="button" data-lightbox-type="image" data-lightbox-group="gallery" data-lightbox-src={item.src} data-lightbox-alt={item.alt} data-lightbox-caption={item.alt}><img src={item.src} alt={item.alt} loading="lazy" /><span>View image ↗︎</span></button>)}
+          {gallery.map((item, index) => <button class={`gallery-item gallery-item--${index % 3}`} type="button" data-lightbox-type="image" data-lightbox-group="gallery" data-lightbox-src={item.src} data-lightbox-alt={item.alt} data-lightbox-caption={item.alt}><img src={item.src} alt={item.alt} width={item.width} height={item.height} loading="lazy" decoding="async" /><span>View image ↗︎</span></button>)}
         </div>
       </section>
 
@@ -294,7 +266,7 @@ const faqSchema = {
       </section>
 
       <section class="quote-section" id="quote" aria-labelledby="quote-title">
-        <div class="quote-section__backdrop"><img src={`${imageBase}/2025/01/DSC00768-scaled.jpg`} alt="Cameraman adjusting focus during a recording session." /></div>
+        <div class="quote-section__backdrop"><img src="/opt/quote-bg-1000.webp" width="1000" height="667" alt="" loading="lazy" decoding="async" /></div>
         <div class="container">
           <div class="section-heading quote-heading">
             <p class="eyebrow eyebrow--light">Plan your event</p>
@@ -454,52 +426,22 @@ const faqSchema = {
             <p class="eyebrow">Ready when you are</p>
             <h2 id="enquiry-title">Tell us about<br /><em>your event.</em></h2>
             <p>Share the basics and our team will recommend the right coverage, crew and setup. You can enquire even if you have not chosen a package.</p>
-            <a class="whatsapp-link whatsapp-link--light" href="https://wa.me/601133078724" target="_blank" rel="noreferrer"><span>Prefer to chat?</span><strong>WhatsApp us ↗︎</strong></a>
-          </div>
-          <form class="quote-form" action="/api/quote" method="post" data-quote-form>
-            <div class="form-heading"><p>Start with the basics.</p></div>
-            <label class="sr-only" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
-            <label>Name<input type="text" name="name" placeholder="Your name" required /></label>
-            <label>Email<input type="email" name="email" placeholder="you@company.com" required /></label>
-            <label>Phone number<input type="tel" name="phone" placeholder="+60 12 345 6789" autocomplete="tel" required /></label>
-            <label>Event type<select name="event-type" required><option value="" selected disabled>Select one</option><option value="conference">Conference</option><option value="corporate-gathering">Corporate gathering</option><option value="seminar">Seminar</option><option value="annual-dinner">Annual dinner</option><option value="launch">Launch</option><option value="other">Other</option></select></label>
-            <label>Tell us about the event<textarea name="message" rows="3" placeholder="Location, audience size, what you need..."></textarea></label>
-            <div class="form-actions">
-              <button class="button button--primary" type="submit" data-submit-method="email">Request via email <span aria-hidden="true">↗︎</span></button>
-              <button class="button button--whatsapp" type="submit" data-submit-method="whatsapp">Request via WhatsApp <span aria-hidden="true">↗︎</span></button>
+            <div class="contact-actions">
+              <a class="button button--whatsapp" href={whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp us <span aria-hidden="true">↗︎</span></a>
+              <a class="button button--call button--call-dark" href={`tel:${PHONE_TEL}`}>Call {PHONE_DISPLAY}</a>
             </div>
-            <p class="form-status" data-quote-form-status role="status" aria-live="polite"></p>
-            <p class="form-note">We will use your details only to respond to this enquiry.</p>
-          </form>
+          </div>
+          <EnquiryForm variant="full" formName="homepage-enquiry" source="/" whatsappMessage={whatsappMessage} />
         </div>
       </section>
     </main>
 
-    <SiteFooter home />
-    <a class="whatsapp-fab" href="https://wa.me/601133078724" target="_blank" rel="noreferrer" aria-label="Chat with MyEventMCP on WhatsApp">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-      </svg>
-    </a>
+    <SiteFooter home whatsappMessage={whatsappMessage} />
     <div class="lightbox" data-lightbox aria-hidden="true"><button type="button" class="lightbox__close" data-lightbox-close aria-label="Close">×</button><button type="button" class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous">‹</button><button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next">›</button><div class="lightbox__stage"><img data-lightbox-media-image alt="" /><div class="lightbox__video" data-lightbox-video-wrap aria-hidden="true"></div></div><p class="lightbox__caption" data-lightbox-caption></p><span class="lightbox__counter" data-lightbox-counter></span></div>
   </div>
 </BaseLayout>
 
 <script>
-  const header = document.querySelector('[data-header]');
-  const menu = document.querySelector('[data-mobile-menu]');
-  const menuToggle = document.querySelector('[data-menu-toggle]');
-  const menuClose = document.querySelector('[data-menu-close]');
-  const setMenu = (open) => {
-    menu?.classList.toggle('is-open', open);
-    menuToggle?.setAttribute('aria-expanded', String(open));
-    document.body.classList.toggle('menu-open', open);
-  };
-  menuToggle?.addEventListener('click', () => setMenu(true));
-  menuClose?.addEventListener('click', () => setMenu(false));
-  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
-  window.addEventListener('scroll', () => header?.classList.toggle('is-scrolled', window.scrollY > 20), { passive: true });
-
   const lightbox = document.querySelector('[data-lightbox]');
   const lightboxImage = lightbox?.querySelector('[data-lightbox-media-image]');
   const lightboxVideoWrap = lightbox?.querySelector('[data-lightbox-video-wrap]');
@@ -575,7 +517,7 @@ const faqSchema = {
   document.querySelector('[data-lightbox-next]')?.addEventListener('click', () => openLightbox(currentIndex + 1, currentGroup));
   lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') { closeLightbox(); setMenu(false); }
+    if (event.key === 'Escape') closeLightbox();
     if (lightbox?.classList.contains('is-open')) {
       if (event.key === 'ArrowLeft') openLightbox(currentIndex - 1, currentGroup);
       if (event.key === 'ArrowRight') openLightbox(currentIndex + 1, currentGroup);
@@ -588,81 +530,6 @@ const faqSchema = {
     const dx = e.changedTouches[0].clientX - touchStartX;
     if (Math.abs(dx) > 50) openLightbox(currentIndex + (dx < 0 ? 1 : -1), currentGroup);
   }, { passive: true });
-
-  const pushEvent = (name, params) => {
-    if (typeof window.dataLayer !== 'undefined') {
-      const payload = { event: name };
-      if (params) for (const key in params) payload[key] = params[key];
-      window.dataLayer.push(payload);
-    }
-  };
-
-  const WHATSAPP_NUMBER = '601133078724';
-
-  document.querySelector('.quote-form')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const method = event.submitter?.getAttribute('data-submit-method') || 'email';
-
-    if (method === 'whatsapp') {
-      const data = new FormData(form);
-      const eventType = String(data.get('event-type') || '');
-      const lines = [
-        'MyEventMCP - quote request',
-        '----------------------------------',
-        'Name: ' + String(data.get('name') || '-'),
-        'Email: ' + String(data.get('email') || '-'),
-        'Phone: ' + String(data.get('phone') || '-'),
-        'Event type: ' + (eventType ? eventType.replace(/-/g, ' ') : '-'),
-        'Message:',
-        String(data.get('message') || '-'),
-      ];
-      window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
-      pushEvent('quote_form_submit', { form_name: 'enquiry', method: 'whatsapp' });
-      const status = form.querySelector('[data-quote-form-status]');
-      if (status) status.textContent = 'Opening WhatsApp with your enquiry details...';
-      return;
-    }
-
-    const button = form.querySelector('button[type="submit"][data-submit-method="email"]');
-    const status = form.querySelector('[data-quote-form-status]');
-    if (!button || button.hasAttribute('disabled')) return;
-    const original = button.innerHTML;
-    button.disabled = true;
-    button.innerHTML = 'Sending...';
-    if (status) status.textContent = '';
-    pushEvent('quote_form_start', { form_name: 'enquiry' });
-    const payload = new URLSearchParams(new FormData(form));
-    fetch('/api/quote', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: payload })
-      .then((res) => res.json().catch(() => ({ success: false })))
-      .then((result) => {
-        if (result && result.success) {
-          button.innerHTML = 'Thanks - we will be in touch <span aria-hidden="true">↗︎</span>';
-          form.classList.add('is-sent');
-          if (status) status.textContent = result.message || 'Your enquiry has been received. We will be in touch shortly.';
-          pushEvent('quote_form_submit', { form_name: 'enquiry' });
-        } else {
-          button.innerHTML = original;
-          button.disabled = false;
-          if (status) status.textContent = 'Something went wrong sending your enquiry. Please try again or message us on WhatsApp.';
-          pushEvent('quote_form_error', { form_name: 'enquiry', reason: result?.message || 'unknown' });
-        }
-      })
-      .catch(() => {
-        button.innerHTML = original;
-        button.disabled = false;
-        if (status) status.textContent = 'Could not reach our server. Please try again or message us on WhatsApp.';
-        pushEvent('quote_form_error', { form_name: 'enquiry', reason: 'network' });
-      });
-  });
-
-  document.addEventListener('click', (event) => {
-    const target = event.target.closest('a');
-    if (!target) return;
-    const href = target.getAttribute('href') || '';
-    if (href.includes('wa.me')) pushEvent('whatsapp_click');
-    if (href.includes('#quote') || href.endsWith('/quote')) pushEvent('quote_cta_click');
-  });
 
   // ===== Event Estimator =====
   (function () {
@@ -896,6 +763,11 @@ const faqSchema = {
        if (!form) return;
        const ta = form.querySelector('textarea[name="message"]');
        if (ta && lastSummaryText) ta.value = lastSummaryText;
+       const dateField = form.querySelector('input[name="event-date"]');
+       const start = datePicker?.selectedDates?.[0];
+       if (dateField && start) {
+         dateField.value = start.getFullYear() + '-' + String(start.getMonth() + 1).padStart(2, '0') + '-' + String(start.getDate()).padStart(2, '0');
+       }
        focusQuoteForm();
      });
 

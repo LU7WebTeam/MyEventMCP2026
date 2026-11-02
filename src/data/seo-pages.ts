@@ -71,6 +71,8 @@ export const eventPages = [
   {
     slug: 'broadcast-video-production',
     name: 'Broadcast & Video Production',
+    headline: 'Broadcast & Livestream Video Production for Events in KL',
+    whatsappMessage: "Hi, I'm interested in livestreaming for my event.",
     shortDescription: 'A dependable multi-camera production partner for broadcast-ready event content.',
     intro: 'When your event is being streamed, recorded or distributed to a wider audience, every signal matters. MyEventMCP brings experienced crew, reliable switching and flexible camera coverage to your production.',
     scenarios: ['Live broadcasts', 'Hybrid events', 'Video productions', 'Online programmes'],
@@ -114,6 +116,7 @@ export const locationPages = [
   {
     slug: 'kuala-lumpur',
     name: 'Kuala Lumpur',
+    whatsappMessage: "Hi, I'm interested in event production in Kuala Lumpur.",
     shortDescription: 'Multi-camera event production for Kuala Lumpur venues, conferences and corporate functions.',
     intro: 'Based in Kuala Lumpur, MyEventMCP provides professional multi-camera production for events throughout the city. From hotel ballrooms to large convention spaces, our crew arrives prepared and works around your programme.',
     areas: ['KLCC', 'Bukit Bintang', 'Bangsar', 'Mont Kiara', 'Bangsar South', 'Damansara'],
