@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import StickyContact from '../components/StickyContact.astro';
+import { EMAIL_CONVERSION_SEND_TO } from '../lib/ads';
 import { DEFAULT_WHATSAPP_MESSAGE } from '../lib/contact';
 
 const {
@@ -49,6 +50,8 @@ const orgJsonLd = {
           if (params.get('gclid') || source === 'google') document.documentElement.classList.add('is-ad-landing');
         } catch (e) {}
         window.dataLayer = window.dataLayer || [];
+        // Stub only. GTM-525XZTSF loads gtag/js?id=AW-16949747149 once; a second snippet would duplicate it.
+        window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
       })();
     </script>
     <meta name="description" content={description} />
@@ -102,7 +105,7 @@ const orgJsonLd = {
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-525XZTSF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <slot />
     <StickyContact whatsappMessage={whatsappMessage} />
-    <script is:inline>
+    <script is:inline define:vars={{ emailConversionSendTo: EMAIL_CONVERSION_SEND_TO }}>
       (function () {
         var values = { whatsapp_click: 100, phone_click: 60, email_click: 20 };
         document.addEventListener('click', function (event) {
@@ -120,6 +123,15 @@ const orgJsonLd = {
           try { id = crypto.randomUUID(); } catch (e) { id = String(Date.now()); }
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({ event: name, value: values[name], currency: 'MYR', transaction_id: id });
+          // GTM records email_click in GA4 only. The Ads email conversion is sent here, on the click.
+          if (name === 'email_click' && typeof window.gtag === 'function') {
+            window.gtag('event', 'conversion', {
+              send_to: emailConversionSendTo,
+              value: values[name],
+              currency: 'MYR',
+              transaction_id: id,
+            });
+          }
         }, true);
       })();
     </script>

@@ -9,7 +9,10 @@
     "download:legacy-images": "node scripts/download-legacy-images.mjs",
     "start": "node server.js",
     "preview": "astro preview",
-    "test": "node --test test/quote.test.mjs"
+    "test": "npm run build && node --test test/quote.test.mjs test/conversions.browser.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.56.1"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

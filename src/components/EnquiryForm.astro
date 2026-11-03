@@ -1,4 +1,5 @@
 ---
+import { QUOTE_CONVERSION_SEND_TO } from '../lib/ads';
 import { PHONE_DISPLAY, PHONE_TEL, whatsappHref } from '../lib/contact';
 
 interface Props {
@@ -72,98 +73,108 @@ const wa = whatsappHref(whatsappMessage);
   </form>
 </div>
 
-<script>
-  const push = (eventName: string, params?: Record<string, string | number>) => {
-    const dataLayer = (window.dataLayer = window.dataLayer || []);
-    dataLayer.push({ event: eventName, ...params });
-  };
+<script is:inline define:vars={{ quoteConversionSendTo: QUOTE_CONVERSION_SEND_TO }}>
+  (function () {
+    var sendQuoteConversion = function (transactionId) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      window.gtag('event', 'conversion', {
+        send_to: quoteConversionSendTo,
+        value: 100,
+        currency: 'MYR',
+        transaction_id: transactionId,
+      });
+    };
+    var push = function (eventName, params) {
+      window.dataLayer = window.dataLayer || [];
+      var payload = { event: eventName };
+      if (params) Object.keys(params).forEach(function (key) { payload[key] = params[key]; });
+      window.dataLayer.push(payload);
+    };
+    var submissionId = function () {
+      try { return crypto.randomUUID(); } catch (e) { return 'quote-' + Date.now(); }
+    };
 
-  const submissionId = () => {
-    try {
-      return crypto.randomUUID();
-    } catch {
-      return `quote-${Date.now()}`;
-    }
-  };
+    document.querySelectorAll('[data-quote-form]').forEach(function (form) {
+      if (!form || form.tagName !== 'FORM' || form.dataset.quoteBound === '1') return;
+      form.dataset.quoteBound = '1';
+      var started = false;
+      form.addEventListener('focusin', function () {
+        if (started) return;
+        started = true;
+        push('quote_form_start', { form_name: form.getAttribute('data-form-name') || 'enquiry' });
+      });
 
-  document.querySelectorAll('[data-quote-form]').forEach((node) => {
-    if (!(node instanceof HTMLFormElement)) return;
-    const form = node;
-    let started = false;
-    form.addEventListener('focusin', () => {
-      if (started) return;
-      started = true;
-      push('quote_form_start', { form_name: form.getAttribute('data-form-name') || 'enquiry' });
-    });
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (form.dataset.sending === '1' || form.dataset.quoteTracked === '1') return;
+        var button = form.querySelector('[data-quote-submit]');
+        var status = form.querySelector('[data-quote-form-status]');
+        var fields = form.querySelector('[data-form-fields]');
+        var thanks = form.querySelector('[data-form-thanks]');
+        if (!button) return;
+        var original = button.innerHTML;
+        var transactionId = submissionId();
+        form.dataset.sending = '1';
+        button.disabled = true;
+        button.textContent = 'Sending…';
+        if (status) {
+          status.textContent = '';
+          status.classList.remove('is-error');
+        }
 
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      if (form.dataset.sending === '1' || form.dataset.quoteTracked === '1') return;
-      const button = form.querySelector('[data-quote-submit]');
-      const status = form.querySelector('[data-quote-form-status]');
-      const fields = form.querySelector('[data-form-fields]');
-      const thanks = form.querySelector('[data-form-thanks]');
-      if (!(button instanceof HTMLButtonElement)) return;
-      const original = button.innerHTML;
-      const transactionId = submissionId();
-      form.dataset.sending = '1';
-      button.disabled = true;
-      button.textContent = 'Sending…';
-      if (status) {
-        status.textContent = '';
-        status.classList.remove('is-error');
-      }
-
-      const payload = new URLSearchParams(new FormData(form));
-      fetch('/api/quote', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: payload,
-      })
-        .then(async (res) => ({ ok: res.ok, result: await res.json().catch(() => ({ success: false })) }))
-        .then(({ result }) => {
-          if (result && result.success) {
-            form.dataset.quoteTracked = '1';
-            form.classList.add('is-sent');
-            if (fields instanceof HTMLElement) fields.hidden = true;
-            if (thanks instanceof HTMLElement) {
-              thanks.hidden = false;
-              thanks.scrollIntoView({ block: 'center', behavior: 'instant' });
-              const heading = thanks.querySelector('h3');
-              if (heading instanceof HTMLElement) heading.focus({ preventScroll: true });
-            }
-            if (result.tracked !== false) {
-              push('quote_form_submit', {
-                form_name: form.getAttribute('data-form-name') || 'enquiry',
-                value: 100,
-                currency: 'MYR',
-                transaction_id: transactionId,
-              });
-            }
-            return;
-          }
-          form.dataset.sending = '0';
-          button.disabled = false;
-          button.innerHTML = original;
-          if (status) {
-            status.classList.add('is-error');
-            status.textContent = (result && result.message) || 'We could not send your enquiry. Please try again, or WhatsApp us.';
-          }
-          push('quote_form_error', {
-            form_name: form.getAttribute('data-form-name') || 'enquiry',
-            reason: (result && result.message) || 'unknown',
-          });
+        fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)),
         })
-        .catch(() => {
-          form.dataset.sending = '0';
-          button.disabled = false;
-          button.innerHTML = original;
-          if (status) {
-            status.classList.add('is-error');
-            status.textContent = 'We could not reach our server. Please try again, or WhatsApp us.';
-          }
-          push('quote_form_error', { form_name: form.getAttribute('data-form-name') || 'enquiry', reason: 'network' });
-        });
+          .then(function (res) { return res.json().catch(function () { return { success: false }; }); })
+          .then(function (result) {
+            if (result && result.success) {
+              form.dataset.quoteTracked = '1';
+              form.classList.add('is-sent');
+              if (fields) fields.hidden = true;
+              if (thanks) thanks.hidden = false;
+              if (result.tracked !== false) {
+                push('quote_form_submit', {
+                  form_name: form.getAttribute('data-form-name') || 'enquiry',
+                  value: 100,
+                  currency: 'MYR',
+                  transaction_id: transactionId,
+                });
+                // Server accepted the lead. GTM has no thank-you label, so ping Ads from here.
+                sendQuoteConversion(transactionId);
+              }
+              if (thanks) {
+                thanks.scrollIntoView({ block: 'center', behavior: 'instant' });
+                var heading = thanks.querySelector('h3');
+                if (heading) heading.focus({ preventScroll: true });
+              }
+              return;
+            }
+            form.dataset.sending = '0';
+            button.disabled = false;
+            button.innerHTML = original;
+            if (status) {
+              status.classList.add('is-error');
+              status.textContent = (result && result.message) || 'We could not send your enquiry. Please try again, or WhatsApp us.';
+            }
+            push('quote_form_error', {
+              form_name: form.getAttribute('data-form-name') || 'enquiry',
+              reason: (result && result.message) || 'unknown',
+            });
+          })
+          .catch(function () {
+            form.dataset.sending = '0';
+            button.disabled = false;
+            button.innerHTML = original;
+            if (status) {
+              status.classList.add('is-error');
+              status.textContent = 'We could not reach our server. Please try again, or WhatsApp us.';
+            }
+            push('quote_form_error', { form_name: form.getAttribute('data-form-name') || 'enquiry', reason: 'network' });
+          });
+      });
     });
-  });
+  })();
 </script>
